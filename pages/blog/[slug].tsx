@@ -34,7 +34,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 const BlogDetailPage = ({ post }) => {
   const jsonConvert = JSON.parse(post);
-  const [blog, setBlog] = useState(jsonConvert);
+  const [blog] = useState(jsonConvert);
 
   return (
     <Layout>

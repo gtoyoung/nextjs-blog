@@ -1,4 +1,4 @@
-import { ContentfulClientApi, createClient, Space } from "contentful";
+import { ContentfulClientApi, createClient } from "contentful";
 import {
   Author,
   HeroImage,

@@ -18,7 +18,7 @@ export default class PhotoPage extends Component<PhotoPageProps> {
       <Layout>
         <h1>Photo</h1>
         <div>
-          {entries.map((entry, i) => {
+          {entries.map((entry) => {
             return (
               <div className="row flex-center child-borders">
                 <div style={{ width: "10rem" }}>
