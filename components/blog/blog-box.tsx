@@ -1,15 +1,6 @@
 import React from "react";
 import "./style.css";
-import styled from "styled-components";
 import Link from "next/link";
-
-type ImageContainerProps = {
-  imageUrl: string;
-};
-
-const ImageContainer = styled.div<ImageContainerProps>`
-  background-image: ${(props) => `url(${props.imageUrl})`};
-`;
 
 const defaultProps = {
   author: "",
