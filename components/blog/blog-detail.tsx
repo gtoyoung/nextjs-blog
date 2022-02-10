@@ -5,12 +5,6 @@ import { Toc } from "components/util/toc";
 import { MarkDown } from "components/util/markdown";
 import "./style.css";
 
-const Image = styled.img`
-  width: 40%;
-  height: 150px;
-  object-fit: cover;
-`;
-
 const TocDiv = styled.div`
   position: fixed;
   top: 5em;

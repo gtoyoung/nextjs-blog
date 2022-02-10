@@ -12,13 +12,6 @@ export default class PhotoPage extends Component<PhotoPageProps> {
     const entries = await api.fetchPhotoEntries();
     return { entries };
   }
-
-  renderPhotoList = (entries) => {
-    entries.map((entry, i) => {
-      return <div></div>;
-    });
-  };
-
   render() {
     const { entries } = this.props;
     return (

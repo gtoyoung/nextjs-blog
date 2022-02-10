@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Layout } from "components/layout";
 import { BlogDetail } from "components/blog";
-import { ContentApi, BlogPost } from "services";
+import { ContentApi } from "services";
 import { NextSeo } from "next-seo";
 import { GetStaticPaths, GetStaticProps } from "next";
-
-type BlogDetailPageProps = {
-  post: BlogPost;
-};
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slug = params["slug"] as string;
