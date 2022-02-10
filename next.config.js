@@ -2,6 +2,7 @@ const withCss = require("@zeit/next-css");
 const withPlugins = require("next-compose-plugins");
 const TsConfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const withPWA = require("next-pwa");
+const runtimeCaching = require("next-pwa/cache");
 
 const nextConfig = {
   webpack: (config) => {
@@ -38,6 +39,7 @@ module.exports = withPlugins(
       {
         pwa: {
           dest: "public",
+          runtimeCaching,
         },
       },
     ],

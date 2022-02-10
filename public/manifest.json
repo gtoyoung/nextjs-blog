@@ -1,7 +1,8 @@
 {
   "theme_color": "#3594f6",
   "background_color": "#ffff",
-  "display": "browser",
+  "display": "fullscreen",
+  "orientation": "portrait",
   "scope": "/",
   "start_url": "/",
   "name": "dovb-blog",
