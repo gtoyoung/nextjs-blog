@@ -16,12 +16,15 @@ type BlogBoxProps = {
   imageUrl: string;
   title: string;
   tags?: Array<string>;
+  parentCallback: Function;
 } & typeof defaultProps;
 
 export const BlogBox = (props: BlogBoxProps) => {
-  // const state = {
-  //   tagList: props.tags,
-  // };
+  const onTrigger = (e) => {
+    props.parentCallback(e);
+    e.preventDefault();
+  };
+
   return (
     <div className="row flex-right child-borders">
       <div className="card">
@@ -48,7 +51,12 @@ export const BlogBox = (props: BlogBoxProps) => {
             {props.tags.map((tag, i) => {
               return (
                 <li>
-                  <button className="btn-small" key={i}>
+                  <button
+                    className="btn-small"
+                    key={i}
+                    value={tag}
+                    onClick={onTrigger}
+                  >
                     {tag}
                   </button>
                 </li>

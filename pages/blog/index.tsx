@@ -27,9 +27,24 @@ const BlogPage = ({ entries }) => {
   // 검색 필터 설정
   const filterSearch = (e) => {
     const search = e.target.value;
+    //console.log(search);
     const filterList = jsonConvert.filter(
       (d) =>
         search === "" || d.title.toLowerCase().includes(search.toLowerCase())
+    );
+    if (filterList.length === 0) {
+      setBlogList([]);
+    } else if (filterList.length > 0) {
+      setBlogList(filterList);
+    } else {
+      setBlogList(jsonConvert);
+    }
+  };
+
+  const filterSearchTag = (e) => {
+    const search = e.target.value;
+    const filterList = jsonConvert.filter(
+      (d) => search === "" || d.tags.includes(search)
     );
     if (filterList.length === 0) {
       setBlogList([]);
@@ -56,6 +71,7 @@ const BlogPage = ({ entries }) => {
           author={entry.author?.name}
           description={entry.description}
           tags={entry.tags}
+          parentCallback={filterSearchTag}
         />
       );
     });

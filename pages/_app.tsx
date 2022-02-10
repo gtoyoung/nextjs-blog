@@ -7,13 +7,13 @@ import useTheme from "hook/useTheme";
 
 const DEFAULT_SEO = {
   title: "Dovb`s Blog",
-  description: "Awesome blog tutorial website",
+  description: "개발 공부 중",
   openGraph: {
     type: "website",
     locale: "en",
     title: "Dovb`s Blog",
-    description: "Awesome blog tutorial website",
-    site_name: "BlogTutorial",
+    description: "개발 공부 중",
+    site_name: "Dovb`s Blog",
   },
 };
 

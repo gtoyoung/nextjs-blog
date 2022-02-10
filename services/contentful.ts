@@ -74,7 +74,7 @@ export class ContentApi {
       id: rawData.sys.id,
       body: rawPost.body,
       description: rawPost.description,
-      publishedDate: moment(rawPost.publishedDate).format("DD MMM YYYY"),
+      publishedDate: moment(rawPost.publishDate).format("DD MMM YYYY"),
       slug: rawPost.slug,
       tags: rawPost.tags,
       title: rawPost.title,
