@@ -44,11 +44,13 @@ export const BlogBox = (props: BlogBoxProps) => {
             by {props.author === "" ? "DOVB" : props.author}
           </h4>
           <p className="card-text">{props.description}</p>
-          <ul className="breadcrumb border">
+          <ul className="breadcrumb">
             {props.tags.map((tag, i) => {
               return (
                 <li>
-                  <a key={i}>{tag}</a>
+                  <button className="btn-small" key={i}>
+                    {tag}
+                  </button>
                 </li>
               );
             })}

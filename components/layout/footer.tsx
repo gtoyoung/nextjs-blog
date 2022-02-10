@@ -18,9 +18,6 @@ export const Footer = () => {
           &#169;
           {`${new Date().getFullYear()} Company Inc. All Rights Reserved`}
         </span>
-        <div className="float-right">
-          <a>Github</a>
-        </div>
       </div>
     </CustomFooter>
   );

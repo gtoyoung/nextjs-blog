@@ -1,8 +1,10 @@
-import App from "next/app";
 import Router from "next/router";
 import NProgress from "nprogress";
 import { DefaultSeo } from "next-seo";
 import "papercss/dist/paper.min.css";
+import { useEffect } from "react";
+import useTheme from "hook/useTheme";
+
 const DEFAULT_SEO = {
   title: "Dovb`s Blog",
   description: "Awesome blog tutorial website",
@@ -15,33 +17,73 @@ const DEFAULT_SEO = {
   },
 };
 
-export default class CustomApp extends App {
-  componentDidMount() {
+const CustomApp = ({ Component, pageProps }) => {
+  const [theme, themeToggler] = useTheme();
+
+  useEffect(() => {
+    var root = document.getElementsByTagName("html")[0];
+    if (theme === "light" && typeof window !== "undefined") {
+      root.classList.remove("dark");
+      document.body.style.backgroundColor = "#fff";
+      document.getElementById("themeBtn").setAttribute("aria-pressed", "false");
+    } else {
+      root.classList.add("dark");
+      document.body.style.background = "#41403e";
+      document.getElementById("themeBtn").setAttribute("aria-pressed", "true");
+    }
+
     Router.events.on("routeChangeComplete", () => {
       NProgress.start();
     });
-
     Router.events.on("routeChangeComplete", () => {
       NProgress.done();
     });
     Router.events.on("routeChangeError", () => {
       NProgress.done();
     });
-  }
+  });
+  return (
+    <>
+      <DefaultSeo {...DEFAULT_SEO} />
+      <Component {...pageProps} />
+      <button
+        id="themeBtn"
+        className="btn_theme"
+        onClick={themeToggler}
+      ></button>
+    </>
+  );
+};
 
-  componentDidCatch(error: any, errorInfo: any) {
-    console.log(error);
-    super.componentDidCatch(error, errorInfo);
-  }
+export default CustomApp;
 
-  render() {
-    const { Component, pageProps } = this.props;
+// export default class CustomApp extends App {
+//   componentDidMount() {
+//     Router.events.on("routeChangeComplete", () => {
+//       NProgress.start();
+//     });
 
-    return (
-      <>
-        <DefaultSeo {...DEFAULT_SEO} />
-        <Component {...pageProps} />;
-      </>
-    );
-  }
-}
+//     Router.events.on("routeChangeComplete", () => {
+//       NProgress.done();
+//     });
+//     Router.events.on("routeChangeError", () => {
+//       NProgress.done();
+//     });
+//   }
+
+//   componentDidCatch(error: any, errorInfo: any) {
+//     console.log(error);
+//     super.componentDidCatch(error, errorInfo);
+//   }
+
+//   render() {
+//     const { Component, pageProps } = this.props;
+
+//     return (
+//       <>
+//         <DefaultSeo {...DEFAULT_SEO} />
+//         <Component {...pageProps} />;
+//       </>
+//     );
+//   }
+// }

@@ -12,15 +12,7 @@ html {
 }
 
 body {
-  font-family: "Muli", sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  background-color: #ffffff;
-  color: #292929;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  -moz-osx-font-smoothing: grayscale;
-  margin-bottom: 60px;
+  background-color: none;
 }
 
 .btn-tomato,
@@ -236,6 +228,42 @@ body {
         var(--color-bug) 55%,
         transparent 55%
       );
+}
+
+.btn_theme {
+  position: fixed;
+  right: 78px;
+  bottom: 19px;
+  display: inline-block;
+  width: 136px;
+  height: 53px;
+  background-position: -270px -110px;
+  background-repeat: no-repeat;
+  vertical-align: top;
+  cursor: pointer;
+  z-index: 100;
+  background-image: url(https://s.pstatic.net/static/www/img/uit/2021/sp_main_16ad06.png);
+  -webkit-background-size: 433px 409px;
+  background-size: 433px 409px;
+  background-repeat: no-repeat;
+}
+
+.btn_theme[aria-pressed="true"] {
+  display: inline-block;
+  width: 148px;
+  height: 53px;
+  background-position: -270px 0;
+  background-repeat: no-repeat;
+  vertical-align: top;
+}
+
+.btn_theme[aria-pressed="false"] {
+  display: inline-block;
+  width: 136px;
+  height: 53px;
+  background-position: -270px -55px;
+  background-repeat: no-repeat;
+  vertical-align: top;
 }
 
 @keyframes skitter {

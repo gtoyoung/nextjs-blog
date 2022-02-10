@@ -1,3 +1,7 @@
+.row {
+  margin-left: initial;
+}
+
 .card {
   --primary: none;
 }
@@ -8,6 +12,17 @@
 
 .card a {
   background-image: none;
+}
+
+.card img {
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+}
+
+.card .card-body {
+  padding: 0.25rem;
 }
 
 .card-body h3 {
@@ -30,7 +45,39 @@
   font-size: 0.8rem;
 }
 
+ul.breadcrumb li {
+  display: inline;
+  font-size: 13px;
+}
+
 ul.breadcrumb li + li:before {
   content: "\A0\A0\A0,";
   /* padding: 8px; */
+}
+
+.paper-btn.btn-small,
+[type="button"].btn-small,
+button.btn-small {
+  padding: 0.25rem;
+}
+
+@media screen and (max-width: 767px) {
+  article .article-title {
+    font-size: 2rem;
+  }
+  article h2 {
+    font-size: 1.5rem;
+  }
+
+  article h3 {
+    font-size: 1.2rem;
+  }
+
+  article ol li {
+    font-size: 1rem;
+  }
+
+  article .text-lead p {
+    font-size: 1rem;
+  }
 }
