@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 const useCurrentLocation = (options = {}) => {
   // location 정보 저장
-  const [location, setLocation] = useState({});
+  const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
   // 에러 메세지 저장
   const [error, setError] = useState("");
 

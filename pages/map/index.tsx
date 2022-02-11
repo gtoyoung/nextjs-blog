@@ -1,6 +1,7 @@
 import { Layout } from "components/layout";
 import { HospitalBox } from "components/map";
 import Map from "components/map/map";
+import useCurrentLocation from "hook/useCurrentLocation";
 import { GetStaticProps } from "next";
 import React, { useState } from "react";
 import { NaraApi } from "services/nara";
@@ -20,8 +21,8 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const MapPage = ({ hospitals }) => {
-  const lat = 34.450701;
-  const lng = 126.570667;
+  const { location } = useCurrentLocation();
+  const { latitude, longitude } = location;
   const [hospital, setHospital] = useState<Hospital>();
   const findHospital = (hospitalInfo) => {
     setHospital(hospitalInfo);
@@ -30,7 +31,7 @@ const MapPage = ({ hospitals }) => {
   const jsonConvert = JSON.parse(hospitals);
   return (
     <Layout>
-      <Map latitude={lat} longitude={lng} hospitalInfo={hospital} />
+      <Map latitude={latitude} longitude={longitude} hospitalInfo={hospital} />
       <HospitalBox hospitals={jsonConvert} findHospital={findHospital} />
     </Layout>
   );

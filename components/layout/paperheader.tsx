@@ -13,9 +13,9 @@ export const CustomHeader = () => {
         <input id="collapsible1" type="checkbox" name="collapsible1" />
         <label htmlFor="collapsible1" style={{}}>
           <h4>Menu</h4>
-          {/* <div className="bar1"></div>
+          <div className="bar1"></div>
           <div className="bar2"></div>
-          <div className="bar3"></div> */}
+          <div className="bar3"></div>
         </label>
         <input type="text" placeholder="Nice input" id="paperInputs1" />
         <div className="collapsible-body">
@@ -36,8 +36,8 @@ export const CustomHeader = () => {
               </Link>
             </li>
             <li>
-              <Link href="/map">
-                <a>Map</a>
+              <Link href="/experiment">
+                <a>Exp</a>
               </Link>
             </li>
           </ul>

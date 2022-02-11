@@ -1,0 +1,5 @@
+.tabs label:hover {
+  color: #41403e;
+  color: var(--muted);
+  cursor: grabbing;
+}

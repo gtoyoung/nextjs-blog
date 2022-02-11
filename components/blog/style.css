@@ -1,7 +1,6 @@
-.row {
-  margin-left: initial;
+.row .child-borders {
+  margin-left: auto;
 }
-
 .card {
   --primary: none;
 }
