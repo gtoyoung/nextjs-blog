@@ -1,0 +1,22 @@
+img {
+  border: none;
+  border-bottom-left-radius: 0px 0px;
+  border-bottom-right-radius: 0px 0px;
+  border-top-left-radius: 0px 0px;
+  border-top-right-radius: 0px 0px;
+}
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+
+.custom {
+  border: 1px solid black;
+  padding: 5px;
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+}

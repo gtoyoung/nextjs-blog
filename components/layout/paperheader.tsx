@@ -35,6 +35,11 @@ export const CustomHeader = () => {
                 <a>Photo</a>
               </Link>
             </li>
+            <li>
+              <Link href="/map">
+                <a>Map</a>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
