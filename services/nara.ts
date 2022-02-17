@@ -19,6 +19,7 @@ export class NaraApi {
 
   convertHospital = (hospital): Hospital => {
     const rawHospital = hospital;
+    console.log(hospital.telno);
     return {
       yadmNm: rawHospital.yadmNm,
       sidoNm: rawHospital.sidoCdNm,

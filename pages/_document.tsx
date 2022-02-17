@@ -48,7 +48,22 @@ export default class CustomDocument extends Document {
           <meta name="description" content="Description" />
           <meta name="keywords" content="Keywords" />
           <title>Next.js PWA Example</title>
-
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+                  page_path: window.location.pathname,
+                });
+              `,
+            }}
+          />
           <link rel="manifest" href="/manifest.json" />
           <link
             href="/icon/favicon-16x16.png"

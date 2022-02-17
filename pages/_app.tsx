@@ -4,6 +4,7 @@ import { DefaultSeo } from "next-seo";
 import "papercss/dist/paper.min.css";
 import { useEffect } from "react";
 import useTheme from "hook/useTheme";
+import * as ga from "../services/ga";
 
 const DEFAULT_SEO = {
   title: "Dovb`s Blog",
@@ -42,6 +43,15 @@ const CustomApp = ({ Component, pageProps }) => {
       NProgress.done();
     });
   });
+
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      ga.pageview(url);
+    };
+
+    Router.events.on("routeChangeComplete", handleRouteChange);
+    Router.events.off("routeChangeComplete", handleRouteChange);
+  }, [Router.events]);
   return (
     <>
       <DefaultSeo {...DEFAULT_SEO} />
