@@ -48,6 +48,11 @@ export default class CustomDocument extends Document {
           <meta name="description" content="Description" />
           <meta name="keywords" content="Keywords" />
           <title>Next.js PWA Example</title>
+
+          <script
+            type="text/javascript"
+            src="//wcs.naver.net/wcslog.js"
+          ></script>
           <script
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
@@ -61,6 +66,17 @@ export default class CustomDocument extends Document {
               gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
                 page_path: window.location.pathname,
               });
+            `,
+            }}
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+              if(!wcs_add) var wcs_add = {};
+              wcs_add["wa"] = "12864c3367708c0";
+              if(window.wcs) {
+              wcs_do();
+              }
             `,
             }}
           />
