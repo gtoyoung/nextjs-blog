@@ -18,7 +18,22 @@ const Experiment = () => {
             정보 표시 Devel 중
             <ol>
               <LinkPreview
-                url="https://nextjs-blog-chi-nine-23.vercel.app/map"
+                url="https://dovb.vercel.app/map"
+                backgroundColor="black"
+                primaryTextColor="white"
+                secondaryTextColor="#ccc"
+                borderColor="black"
+                width="40vw"
+                margin="30px auto"
+                openInNewTab={false}
+              />
+            </ol>
+          </li>
+          <li>
+            나무 생성기 - velog 참조
+            <ol>
+              <LinkPreview
+                url="https://dovb.vercel.app/trees/index.html"
                 backgroundColor="black"
                 primaryTextColor="white"
                 secondaryTextColor="#ccc"

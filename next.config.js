@@ -30,6 +30,15 @@ const nextConfig = {
     CONTENTFUL_SPACE_ID: process.env.CONTENTFUL_SPACE_ID,
     CONTENTFUL_ACCESS_TOKEN: process.env.CONTENTFUL_ACCESS_TOKEN,
   },
+
+  rewrites: async () => {
+    return [
+      {
+        source: "/:trees",
+        destination: "/trees/index.html",
+      },
+    ];
+  },
 };
 
 // next.config.js

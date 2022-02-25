@@ -23,8 +23,11 @@ const NasaGallery = (props: NasaGalleryProps) => {
 
   // img 태그 자체를 콜백형태로 useImgIObserver로 전달한다.
   const [target, setTarget] = useState(null);
+  // 이미지 라이트박스 열림 여부
   const [isOpen, setIsOpen] = useState(false);
+  // 현재 선택된 이미지 객체
   const [clickPhoto, setClickPhoto] = useState(null as NasaPhoto | null);
+  // 이미지 리스트
   const [photos, setPhotos] = useState([] as Array<NasaPhoto>);
 
   // 페칭된 데이터를 NasaPhoto 타입으로 변환한다.
@@ -44,6 +47,8 @@ const NasaGallery = (props: NasaGalleryProps) => {
     return photos;
   };
 
+  // 스크롤이 로딩된 데이터 끝일에 도달했을때 실행되는 비동기 함수
+  // 추가로 10개의 데이터를 가져오도록 한다.
   const getMorePhotos = async () => {
     const api = new NasaApi();
     const result = await api.getNasaPicture(10);
@@ -51,6 +56,7 @@ const NasaGallery = (props: NasaGalleryProps) => {
     setPhotos((photo) => [...photo, ...convertDatas]);
   };
 
+  // 처음 페이지 로드시 실행
   useEffect(() => {
     const temp = [];
     props.pictures.map((pic, i) => {
@@ -68,10 +74,14 @@ const NasaGallery = (props: NasaGalleryProps) => {
     setPhotos(temp);
   }, []);
 
+  // url로 가져온 이미지중에서 유효하지 않은 url을 가졌을 경우 숨기도록 한다.
   const imgLoadError = (e) => {
     e.target.style.display = "none";
   };
 
+  // 이미지가 고화질이기 때문에 img의 data-src데이터를 사용하여 Observer로 인식하며 src로 값을 셋팅해준다.
+  // ref로 현재의 img 객체를 참조하여 콜백형태로 hook에 전달한다.
+  // 일반 NasaPhoto객체로 전달할 경우에는 Observer가 동작하지 않으므로 실제 img 참조를 넘겨야 한다.
   useImgIObserver(target);
 
   return (
