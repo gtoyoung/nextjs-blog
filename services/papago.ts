@@ -8,7 +8,7 @@ export class PapagoApi {
 
   constructor() {
     this.client = axios.create({
-      baseURL: `https://openapi.naver.com/v1/papago`,
+      baseURL: `https://dovb-api.vercel.app`,
       method: "POST",
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -21,10 +21,8 @@ export class PapagoApi {
 
   async translate(text: string): Promise<string> {
     return await this.client
-      .post("/n2mt", {
-        source: "en",
-        target: "ko",
-        text,
+      .post("/api/translate", {
+        query: text,
       })
       .then((res) => {
         if (res.status === 200) {
