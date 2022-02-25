@@ -20,7 +20,6 @@ export class Tree {
     this.isPressed = false;
     this.interval = null;
     this.color = COLOR_ARR[Math.floor(Math.random() * COLOR_ARR.length)];
-    // }
 
     this.cntDepth = 0;
     this.animation = null;

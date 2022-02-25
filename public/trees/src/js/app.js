@@ -11,10 +11,30 @@ class App {
 
     window.addEventListener("resize", this.resize.bind(this), false);
     window.addEventListener("click", this.click.bind(this), false);
-    window.addEventListener("mousedown", this.mouseDown.bind(this), false);
-    window.addEventListener("mouseup", this.mouseUp.bind(this), false);
+    if (this.isMobile()) {
+      window.addEventListener("touchstart", this.mouseDown.bind(this), false);
+      window.addEventListener("touchend", this.mouseUp.bind(this), false);
+    } else {
+      window.addEventListener("mousedown", this.mouseDown.bind(this), false);
+      window.addEventListener("mouseup", this.mouseUp.bind(this), false);
+    }
     this.resize();
     // this.setBtn();
+  }
+
+  isMobile() {
+    var userAgent = navigator.userAgent;
+
+    if (
+      userAgent.match(
+        /iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i
+      ) != null ||
+      userAgent.match(/LG|SAMSUNG|Samsung/) != null
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   setDepth() {
