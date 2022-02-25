@@ -2,13 +2,14 @@ import axios, { AxiosInstance } from "axios";
 
 const clientId = process.env.NEXT_PUBLIC_PAPAGO_CLIENT_ID;
 const clientSecret = process.env.NEXT_PUBLIC_PAPAGO_CLIENT_SECRET;
+const proxyUrl = process.env.NEXT_PUBLIC_PROXY_SERVER;
 
 export class PapagoApi {
   client: AxiosInstance;
 
   constructor() {
     this.client = axios.create({
-      baseURL: `https://dovb-api.vercel.app`,
+      baseURL: "",
       method: "POST",
       headers: {
         "Access-Control-Allow-Origin": "*",
