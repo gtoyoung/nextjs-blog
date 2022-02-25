@@ -10,6 +10,7 @@
     "@dhaiwat10/react-link-preview": "^1.12.2",
     "@emotion/react": "^11.7.1",
     "@material-ui/core": "^4.12.3",
+    "@types/jquery": "^3.5.14",
     "@types/react-image-gallery": "^1.0.5",
     "@zeit/next-css": "1.0.1",
     "apisauce": "^2.0.1",

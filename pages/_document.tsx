@@ -48,7 +48,6 @@ export default class CustomDocument extends Document {
           <meta name="description" content="Description" />
           <meta name="keywords" content="Keywords" />
           <title>Next.js PWA Example</title>
-
           <script
             type="text/javascript"
             src="//wcs.naver.net/wcslog.js"
@@ -80,6 +79,7 @@ export default class CustomDocument extends Document {
             `,
             }}
           />
+
           <link rel="manifest" href="/manifest.json" />
           <link
             href="/icon/favicon-16x16.png"

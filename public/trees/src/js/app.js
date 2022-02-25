@@ -50,9 +50,14 @@ class App {
   }
 
   setDepth() {
-    document.body.getElementsByClassName("treeCnt")[0].textContent =
-      this.depth + "반복되는 나무가 생성될 예정입니다.";
-    this.depth = this.depth + 1;
+    if (this.depth < 18) {
+      document.body.getElementsByClassName("treeCnt")[0].textContent =
+        this.depth + "반복되는 나무가 생성될 예정입니다.";
+      this.depth = this.depth + 1;
+    } else {
+      document.body.getElementsByClassName("treeCnt")[0].textContent =
+        this.depth + "초과는 생성되지 않습니다.";
+    }
   }
 
   mouseDown(e) {

@@ -33,6 +33,9 @@ export class Tree {
     //뿌리 생성
     this.createBranch(this.posX, this.posY, -90, 0);
     this.draw();
+
+    document.body.getElementsByClassName("treeCnt")[0].textContent =
+      "생성되었습니다.";
   }
 
   createBranch(startX, startY, angle, depth) {

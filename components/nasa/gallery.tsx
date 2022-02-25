@@ -6,12 +6,16 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import "react-image-lightbox/style.css";
 import "./style.css";
 import { NasaApi } from "services/nasa";
+import { PapagoApi } from "services/papago";
 
 interface NasaPhoto {
   index: number;
   original: string;
+  thumbnail: string;
   width: number;
   height: number;
+  description: string;
+  caption: string;
 }
 
 type NasaGalleryProps = {
@@ -42,6 +46,9 @@ const NasaGallery = (props: NasaGalleryProps) => {
         original: photo.hdurl,
         width: 1000,
         height: 1000,
+        thumbnail: photo.url,
+        description: photo.title,
+        caption: photo.explanation,
       });
     });
     return photos;
@@ -66,6 +73,9 @@ const NasaGallery = (props: NasaGalleryProps) => {
           original: pic.hdurl,
           width: 1000,
           height: 1000,
+          thumbnail: pic.url,
+          description: pic.title,
+          caption: pic.explanation,
         };
 
         temp.push(photo);
@@ -83,6 +93,12 @@ const NasaGallery = (props: NasaGalleryProps) => {
   // ref로 현재의 img 객체를 참조하여 콜백형태로 hook에 전달한다.
   // 일반 NasaPhoto객체로 전달할 경우에는 Observer가 동작하지 않으므로 실제 img 참조를 넘겨야 한다.
   useImgIObserver(target);
+
+  const setClass = () => {
+    const api = new PapagoApi();
+    const result = api.translate(clickPhoto.caption);
+    console.log(result);
+  };
 
   return (
     <>
@@ -126,6 +142,23 @@ const NasaGallery = (props: NasaGalleryProps) => {
               photos[(clickPhoto.index + photos.length - 1) % photos.length]
                 .original
             }
+            prevSrcThumbnail={
+              photos[(clickPhoto.index + photos.length - 1) % photos.length]
+                .thumbnail
+            }
+            nextSrcThumbnail={
+              photos[(clickPhoto.index + 1) % photos.length].thumbnail
+            }
+            prevLabel={
+              photos[(clickPhoto.index + photos.length - 1) % photos.length]
+                .description
+            }
+            nextLabel={
+              photos[(clickPhoto.index + 1) % photos.length].description
+            }
+            mainSrcThumbnail={clickPhoto.thumbnail}
+            imageCaption={clickPhoto.caption}
+            imageTitle={clickPhoto.description}
             onCloseRequest={() => setIsOpen(false)}
             onMovePrevRequest={() => {
               setClickPhoto(
@@ -135,6 +168,7 @@ const NasaGallery = (props: NasaGalleryProps) => {
             onMoveNextRequest={() => {
               setClickPhoto(photos[(clickPhoto.index + 1) % photos.length]);
             }}
+            onAfterOpen={setClass}
           />
         )}
       </div>
