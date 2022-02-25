@@ -7,12 +7,29 @@ class App {
 
     this.ctx = this.canvas.getContext("2d");
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
+    this.depth = 0;
 
     window.addEventListener("resize", this.resize.bind(this), false);
     window.addEventListener("click", this.click.bind(this), false);
-
+    window.addEventListener("mousedown", this.mouseDown.bind(this), false);
+    window.addEventListener("mouseup", this.mouseUp.bind(this), false);
     this.resize();
-    this.setBtn();
+    // this.setBtn();
+  }
+
+  setDepth() {
+    document.body.getElementsByClassName("treeCnt")[0].textContent =
+      this.depth + "반복되는 나무가 생성될 예정입니다.";
+    this.depth = this.depth + 1;
+  }
+
+  mouseDown(e) {
+    this.depth = 0;
+    this.interval = setInterval(this.setDepth.bind(this), 200);
+  }
+
+  mouseUp(e) {
+    clearInterval(this.interval);
   }
 
   setBtn() {
@@ -59,7 +76,7 @@ class App {
   click(event) {
     const { clientX } = event;
     if (event.target.className !== "material-icons")
-      new Tree(this.ctx, clientX, this.stageHeight, this.day);
+      new Tree(this.ctx, clientX, this.stageHeight, this.day, this.depth);
   }
 }
 

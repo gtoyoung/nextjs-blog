@@ -10,23 +10,20 @@ const COLOR_ARR = [
 ];
 
 export class Tree {
-  constructor(ctx, posX, posY, day) {
+  constructor(ctx, posX, posY, day, depth) {
     this.ctx = ctx;
     this.posX = posX;
     this.posY = posY;
     this.branches = [];
-    this.depth = 8;
+    this.depth = depth;
     this.day = day;
-
-    if (this.day) {
-      this.color = "#000000";
-    } else {
-      this.color = COLOR_ARR[Math.floor(Math.random() * COLOR_ARR.length)];
-    }
+    this.isPressed = false;
+    this.interval = null;
+    this.color = COLOR_ARR[Math.floor(Math.random() * COLOR_ARR.length)];
+    // }
 
     this.cntDepth = 0;
     this.animation = null;
-
     this.init();
   }
 
@@ -34,7 +31,7 @@ export class Tree {
     for (let i = 0; i < this.depth; i++) {
       this.branches.push([]);
     }
-
+    //뿌리 생성
     this.createBranch(this.posX, this.posY, -90, 0);
     this.draw();
   }
