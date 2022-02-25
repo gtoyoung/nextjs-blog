@@ -94,9 +94,9 @@ const NasaGallery = (props: NasaGalleryProps) => {
   // 일반 NasaPhoto객체로 전달할 경우에는 Observer가 동작하지 않으므로 실제 img 참조를 넘겨야 한다.
   useImgIObserver(target);
 
-  const setClass = () => {
+  const setClass = async () => {
     const api = new PapagoApi();
-    const result = api.translate(clickPhoto.caption);
+    const result = await api.translate("hello my friend");
     console.log(result);
   };
 
@@ -115,6 +115,7 @@ const NasaGallery = (props: NasaGalleryProps) => {
               return (
                 <>
                   <img
+                    key={photo.index}
                     ref={setTarget}
                     className="lazy"
                     data-src={photo.original}

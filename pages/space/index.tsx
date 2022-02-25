@@ -20,7 +20,11 @@ const Space = ({ nasa }) => {
   const jsonConvert = JSON.parse(nasa);
   return (
     <Layout>
-      {nasa ? <NasaGallery pictures={jsonConvert} /> : <div>Loading...</div>}
+      {nasa ? (
+        <NasaGallery key={"t"} pictures={jsonConvert} />
+      ) : (
+        <div>Loading...</div>
+      )}
     </Layout>
   );
 };
