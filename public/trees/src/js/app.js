@@ -45,7 +45,7 @@ class App {
   touchEnd(event) {
     clearInterval(this.interval);
 
-    const { clientX } = event;
+    const { clientX } = event.changedTouches[0];
     new Tree(this.ctx, clientX, this.stageHeight, this.day, this.depth);
   }
 

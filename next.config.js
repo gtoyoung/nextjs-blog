@@ -31,6 +31,7 @@ const nextConfig = {
     CONTENTFUL_ACCESS_TOKEN: process.env.CONTENTFUL_ACCESS_TOKEN,
   },
 
+  // staic html 페이지를 직접 경로 지정하여 표현할수있도록 설정
   rewrites: async () => {
     return [
       {
