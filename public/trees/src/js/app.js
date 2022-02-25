@@ -8,13 +8,13 @@ class App {
     this.ctx = this.canvas.getContext("2d");
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
     this.depth = 0;
-
     window.addEventListener("resize", this.resize.bind(this), false);
-    window.addEventListener("click", this.click.bind(this), false);
+
     if (this.isMobile()) {
       window.addEventListener("touchstart", this.touchStart.bind(this), false);
       window.addEventListener("touchend", this.touchEnd.bind(this), false);
     } else {
+      window.addEventListener("click", this.click.bind(this), false);
       window.addEventListener("mousedown", this.mouseDown.bind(this), false);
       window.addEventListener("mouseup", this.mouseUp.bind(this), false);
     }
@@ -37,12 +37,6 @@ class App {
     }
   }
 
-  setDepth() {
-    document.body.getElementsByClassName("treeCnt")[0].textContent =
-      this.depth + "반복되는 나무가 생성될 예정입니다.";
-    this.depth = this.depth + 1;
-  }
-
   touchStart(event) {
     this.depth = 0;
     this.interval = setInterval(this.setDepth.bind(this), 200);
@@ -50,6 +44,15 @@ class App {
 
   touchEnd(event) {
     clearInterval(this.interval);
+
+    const { clientX } = event;
+    new Tree(this.ctx, clientX, this.stageHeight, this.day, this.depth);
+  }
+
+  setDepth() {
+    document.body.getElementsByClassName("treeCnt")[0].textContent =
+      this.depth + "반복되는 나무가 생성될 예정입니다.";
+    this.depth = this.depth + 1;
   }
 
   mouseDown(e) {
@@ -104,8 +107,9 @@ class App {
 
   click(event) {
     const { clientX } = event;
-    if (event.target.className !== "material-icons")
+    if (event.target.className !== "material-icons") {
       new Tree(this.ctx, clientX, this.stageHeight, this.day, this.depth);
+    }
   }
 }
 
