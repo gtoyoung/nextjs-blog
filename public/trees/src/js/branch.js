@@ -51,6 +51,7 @@ export class Branch {
   }
 
   setColor() {
+    console.log("setColor");
     if (this.color !== "#000000") {
       if (this.lineWidth >= 10) {
         this.color = "#FFFFFF";

@@ -12,8 +12,8 @@ class App {
     window.addEventListener("resize", this.resize.bind(this), false);
     window.addEventListener("click", this.click.bind(this), false);
     if (this.isMobile()) {
-      window.addEventListener("touchstart", this.mouseDown.bind(this), false);
-      window.addEventListener("touchend", this.mouseUp.bind(this), false);
+      window.addEventListener("touchstart", this.touchStart.bind(this), false);
+      window.addEventListener("touchend", this.touchEnd.bind(this), false);
     } else {
       window.addEventListener("mousedown", this.mouseDown.bind(this), false);
       window.addEventListener("mouseup", this.mouseUp.bind(this), false);
@@ -41,6 +41,15 @@ class App {
     document.body.getElementsByClassName("treeCnt")[0].textContent =
       this.depth + "반복되는 나무가 생성될 예정입니다.";
     this.depth = this.depth + 1;
+  }
+
+  touchStart(event) {
+    this.depth = 0;
+    this.interval = setInterval(this.setDepth.bind(this), 200);
+  }
+
+  touchEnd(event) {
+    clearInterval(this.interval);
   }
 
   mouseDown(e) {
