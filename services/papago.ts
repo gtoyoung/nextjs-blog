@@ -9,7 +9,11 @@ export class PapagoApi {
 
   constructor() {
     this.client = axios.create({
+<<<<<<< HEAD
+      baseURL: "https://dovb-api.vercel.app",
+=======
       baseURL: "",
+>>>>>>> 124da203544dc31a752aab1b520b0fd87554251e
       method: "POST",
       headers: {
         "Access-Control-Allow-Origin": "*",
