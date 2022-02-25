@@ -31,8 +31,8 @@ export const CustomHeader = () => {
               </Link>
             </li>
             <li>
-              <Link href="/photo">
-                <a>Photo</a>
+              <Link href="/space">
+                <a>Space</a>
               </Link>
             </li>
             <li>

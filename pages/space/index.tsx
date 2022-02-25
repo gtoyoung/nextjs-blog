@@ -6,7 +6,7 @@ import NasaGallery from "components/nasa/gallery";
 
 export const getStaticProps: GetStaticProps = async () => {
   const api = new NasaApi();
-  const viewCnt: number = 50;
+  const viewCnt: number = 10;
   const reulst = await api.getNasaPicture(viewCnt);
   const nasa = JSON.stringify(reulst);
   return {
@@ -20,7 +20,7 @@ const Space = ({ nasa }) => {
   const jsonConvert = JSON.parse(nasa);
   return (
     <Layout>
-      <NasaGallery pictures={jsonConvert} />
+      {nasa ? <NasaGallery pictures={jsonConvert} /> : <div>Loading...</div>}
     </Layout>
   );
 };

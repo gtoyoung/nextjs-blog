@@ -42,7 +42,6 @@ export class NasaApi {
           });
           return nasaPictures;
         }
-        console.log(res.status);
         return [];
       });
   }

@@ -3,6 +3,7 @@ const withPlugins = require("next-compose-plugins");
 const TsConfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const withPWA = require("next-pwa");
 const runtimeCaching = require("next-pwa/cache");
+const withImages = require("next-images");
 
 const nextConfig = {
   webpack: (config) => {
@@ -44,6 +45,7 @@ module.exports = withPlugins(
       },
     ],
     withCss,
+    withImages,
   ],
   nextConfig
 );
