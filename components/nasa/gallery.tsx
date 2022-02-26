@@ -94,10 +94,15 @@ const NasaGallery = (props: NasaGalleryProps) => {
   // 일반 NasaPhoto객체로 전달할 경우에는 Observer가 동작하지 않으므로 실제 img 참조를 넘겨야 한다.
   useImgIObserver(target);
 
+  // 사진 오픈시 영어로 되어있는 설명을 PAPAGO API를 이용하여 한글로 번역한다.
   const setClass = async () => {
+    const text = clickPhoto.caption;
     const api = new PapagoApi();
-    const result = await api.translate("hello my friend");
-    console.log(result);
+    const result = await api.translate(text);
+
+    const captionElement = document.activeElement.querySelector(".ril-caption");
+    captionElement.textContent = result;
+    captionElement.setAttribute("style", "color:aliceblue");
   };
 
   return (

@@ -5,8 +5,11 @@ export class PapagoApi {
 
   constructor() {
     this.client = axios.create({
-      baseURL: `https://dovb-api.vercel.app`,
+      baseURL: process.env.NEXT_PUBLIC_PROXY_SERVER,
       method: "POST",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
     });
   }
 
