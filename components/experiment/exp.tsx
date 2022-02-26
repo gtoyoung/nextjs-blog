@@ -13,7 +13,7 @@ const Experiment = () => {
 
       <div className="content" id="content1">
         <ol>
-          <li>
+          {/* <li>
             공공데이터포털에서 제공되는 API로 지도위에 코로나 검사 가능 병원
             정보 표시 Devel 중
             <ol>
@@ -28,7 +28,7 @@ const Experiment = () => {
                 openInNewTab={false}
               />
             </ol>
-          </li>
+          </li> */}
           <li>
             나무 생성기 - velog 참조
             <ol>
