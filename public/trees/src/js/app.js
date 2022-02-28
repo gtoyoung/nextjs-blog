@@ -26,7 +26,7 @@ class App {
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
     this.depth = 0;
     this.angle = 0;
-    this.mp = 50;
+    this.mp = 1000;
     this.particles = [];
     // snowflake paritcles
     for (var i = 0; i < this.mp; i++) {
@@ -66,7 +66,7 @@ class App {
       window.addEventListener("mouseup", this.mouseUp.bind(this), false);
     }
 
-    setInterval(this.snowDraw.bind(this), 33);
+    setInterval(this.snowDraw.bind(this), 20);
     setInterval(this.rainDraw.bind(this), 30);
     this.resize();
     // this.setBtn();
