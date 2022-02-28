@@ -6,13 +6,48 @@
       rel="stylesheet"
       href="https://unpkg.com/papercss@1.8.3/dist/paper.min.css"
     />
+
+    <script>
+      function backgroundChange(type) {
+        if (type === "G") {
+          document.getElementsByClassName("snowBack")[0].style = "display:none";
+          document.getElementsByClassName("rainBack")[0].style = "display:none";
+        } else if (type === "R") {
+          document.getElementsByClassName("snowBack")[0].style = "display:none";
+          document.getElementsByClassName("rainBack")[0].style =
+            "display:block";
+        } else if (type === "S") {
+          document.getElementsByClassName("snowBack")[0].style =
+            "display:block";
+          document.getElementsByClassName("rainBack")[0].style = "display:none";
+        }
+      }
+    </script>
   </head>
   <body>
     <script src="./src/js/app.js" type="module"></script>
-    <div class="row flex-spaces">
-      <div class="alert alert-primary treeCnt">
-        화면을 지속적으로 클릭해주세요.
+    <nav class="border fixed split-nav">
+      <div class="nav-brand">
+        <h3><a href="#" class="treeCnt">화면을 지속적으로 클릭해주세요.</a></h3>
       </div>
+      <div class="collapsible">
+        <input id="collapsible1" type="checkbox" name="collapsible1" />
+        <label for="collapsible1">
+          <div class="bar1"></div>
+          <div class="bar2"></div>
+          <div class="bar3"></div>
+        </label>
+        <div class="collapsible-body">
+          <ul class="inline">
+            <li><a href="#" onclick="backgroundChange('G')">GENERAL</a></li>
+            <li><a href="#" onclick="backgroundChange('S')">SNOW</a></li>
+            <li><a href="#" onclick="backgroundChange('R')">RAIN</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="row flex-spaces">
+      <div class="alert alert-primary treeCnt"></div>
     </div>
   </body>
 </html>
