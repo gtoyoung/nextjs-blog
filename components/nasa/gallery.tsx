@@ -97,10 +97,26 @@ const NasaGallery = (props: NasaGalleryProps) => {
   // 사진 오픈시 영어로 되어있는 설명을 PAPAGO API를 이용하여 한글로 번역한다.
   const setClass = async () => {
     const text = clickPhoto.caption;
+    let result = clickPhoto.caption;
     const api = new PapagoApi();
-    const result = await api.translate(text);
+
+    await api.translateKakao(text).catch((err) => {
+      api
+        .translate(text)
+        .then((data) => {
+          result = data;
+        })
+        .catch((err) => {
+          console.log(err);
+          return;
+        });
+    });
 
     const captionElement = document.activeElement.querySelector(".ril-caption");
+    if (captionElement == null) {
+      // alert("존재안합니다.");
+      return;
+    }
     captionElement.textContent = result;
     captionElement.setAttribute("style", "color:aliceblue");
   };
@@ -174,7 +190,9 @@ const NasaGallery = (props: NasaGalleryProps) => {
             onMoveNextRequest={() => {
               setClickPhoto(photos[(clickPhoto.index + 1) % photos.length]);
             }}
-            onAfterOpen={setClass}
+            onImageLoad={() => {
+              setClass();
+            }}
           />
         )}
       </div>

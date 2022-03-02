@@ -25,4 +25,17 @@ export class PapagoApi {
         return "";
       });
   }
+
+  async translateKakao(text: string): Promise<string> {
+    return await this.client
+      .post("/api/kakaoi", {
+        text: text,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          return res.data.result;
+        }
+        return "";
+      });
+  }
 }
