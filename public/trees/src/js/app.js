@@ -77,7 +77,7 @@ class App {
     this.container = document.getElementById("container");
     for (var i = 0; i < 10; i++) {
       var cloud_gif = new Image();
-      var top = "20px";
+      var top = "20" - (i % 2) * 18 + "px";
       var left = -70 + i * 230 + "px";
       cloud_gif.style = `position: absolute; top: ${top}; left: ${left};`;
       cloud_gif.src = "./src/img/cloud.gif";
