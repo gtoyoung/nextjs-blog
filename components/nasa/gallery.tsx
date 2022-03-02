@@ -101,6 +101,7 @@ const NasaGallery = (props: NasaGalleryProps) => {
     const api = new PapagoApi();
 
     await api.translateKakao(text).catch((err) => {
+      console.log(err);
       api
         .translate(text)
         .then((data) => {
