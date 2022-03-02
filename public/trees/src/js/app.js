@@ -68,8 +68,21 @@ class App {
 
     setInterval(this.snowDraw.bind(this), 20);
     setInterval(this.rainDraw.bind(this), 30);
+    this.drawCloud();
     this.resize();
     // this.setBtn();
+  }
+
+  drawCloud() {
+    this.container = document.getElementById("container");
+    for (var i = 0; i < 10; i++) {
+      var cloud_gif = new Image();
+      var top = "20px";
+      var left = -70 + i * 230 + "px";
+      cloud_gif.style = `position: absolute; top: ${top}; left: ${left};`;
+      cloud_gif.src = "./src/img/cloud.gif";
+      this.container.appendChild(cloud_gif);
+    }
   }
 
   isMobile() {

@@ -56,5 +56,9 @@ canvas {
   background-color: #000000;
 }
 
+#container img {
+  border: none;
+}
+
 @media screen and (max-width: 768px) {
 }
