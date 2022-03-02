@@ -97,29 +97,39 @@ const NasaGallery = (props: NasaGalleryProps) => {
   // 사진 오픈시 영어로 되어있는 설명을 PAPAGO API를 이용하여 한글로 번역한다.
   const setClass = async () => {
     const text = clickPhoto.caption;
-    let result = clickPhoto.caption;
     const api = new PapagoApi();
 
-    await api.translateKakao(text).catch((err) => {
-      console.log(err);
-      api
-        .translate(text)
-        .then((data) => {
-          result = data;
-        })
-        .catch((err) => {
-          console.log(err);
+    await api
+      .translateKakao(text)
+      .then((data) => {
+        const captionElement =
+          document.activeElement.querySelector(".ril-caption");
+        if (captionElement == null) {
+          // alert("존재안합니다.");
           return;
-        });
-    });
-
-    const captionElement = document.activeElement.querySelector(".ril-caption");
-    if (captionElement == null) {
-      // alert("존재안합니다.");
-      return;
-    }
-    captionElement.textContent = result;
-    captionElement.setAttribute("style", "color:aliceblue");
+        }
+        captionElement.textContent = data;
+        captionElement.setAttribute("style", "color:aliceblue");
+      })
+      .catch((err) => {
+        console.log(err);
+        api
+          .translate(text)
+          .then((data) => {
+            const captionElement =
+              document.activeElement.querySelector(".ril-caption");
+            if (captionElement == null) {
+              // alert("존재안합니다.");
+              return;
+            }
+            captionElement.textContent = data;
+            captionElement.setAttribute("style", "color:aliceblue");
+          })
+          .catch((err) => {
+            console.log(err);
+            return;
+          });
+      });
   };
 
   return (
