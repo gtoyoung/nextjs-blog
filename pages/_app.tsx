@@ -5,6 +5,9 @@ import "papercss/dist/paper.min.css";
 import { useEffect } from "react";
 import useTheme from "hook/useTheme";
 import * as ga from "../services/ga";
+import { initializeApp } from "firebase/app";
+import { getMessaging, getToken } from "firebase/messaging";
+import { GoogleApi } from "services/google";
 
 const DEFAULT_SEO = {
   title: "Dovb`s Blog",
@@ -18,8 +21,48 @@ const DEFAULT_SEO = {
   },
 };
 
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FB_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FB_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FB_PROJECTID,
+  storageBucket: process.env.NEXT_PUBLIC_FB_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FB_SENDERID,
+  appId: process.env.NEXT_PUBLIC_FB_APPID,
+  measurementId: process.env.NEXT_PUBLIC_FB_MEASUREID,
+};
+
 const CustomApp = ({ Component, pageProps }) => {
   const [theme, themeToggler] = useTheme();
+
+  // 구글 firebase 초기화
+  useEffect(() => {
+    initializeApp(firebaseConfig);
+    const googleApi = new GoogleApi();
+    const messaging = getMessaging();
+
+    getToken(messaging, {
+      vapidKey:
+        "BCMn72joP8jU9cKNSTRJ3IB4VYYFDVpDn_FGEe10jfxLA1SBtz91lTL6vDjiA9A7rJYHinrxKaRpMpFz44VtEu4",
+    })
+      .then((currentToken) => {
+        if (currentToken) {
+          // 토큰 저장
+          if (googleApi.insertToken(currentToken)) {
+            console.log("토큰 저장 성공");
+          }
+        } else {
+          // Show permission request UI
+          console.log(
+            "No registration token available. Request permission to generate one."
+          );
+          // ...
+        }
+      })
+      .catch((err) => {
+        console.log("An error occurred while retrieving token. ", err);
+        // ...
+      });
+  });
 
   useEffect(() => {
     var root = document.getElementsByTagName("html")[0];
