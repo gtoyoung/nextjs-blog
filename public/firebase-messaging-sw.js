@@ -6,13 +6,13 @@ importScripts(
 );
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FB_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FB_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FB_PROJECTID,
-  storageBucket: process.env.NEXT_PUBLIC_FB_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FB_SENDERID,
-  appId: process.env.NEXT_PUBLIC_FB_APPID,
-  measurementId: process.env.NEXT_PUBLIC_FB_MEASUREID,
+  apiKey: "AIzaSyDYq7pxlORqd7Pi7ruHzZEmn8yOWAGThZM",
+  authDomain: "dovb-blog.firebaseapp.com",
+  projectId: "dovb-blog",
+  storageBucket: "dovb-blog.appspot.com",
+  messagingSenderId: "487590574701",
+  appId: "1:487590574701:web:69f4df7f78b5bf9ad31d64",
+  measurementId: "G-G7XTBGWJ9C",
 };
 
 firebase.initializeApp(firebaseConfig);
