@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import { FcmToken } from "./google.types";
 
 export class GoogleApi {
   client: AxiosInstance;
@@ -13,14 +14,38 @@ export class GoogleApi {
     });
   }
 
-  async insertToken(text: string): Promise<boolean> {
+  convertFcmToken = (fcmToken): FcmToken => {
+    const rawFcmToken = fcmToken;
+    return {
+      token: rawFcmToken.token,
+      notification: rawFcmToken.notification,
+      _id: rawFcmToken._id,
+    };
+  };
+
+  async insertToken(text: string): Promise<FcmToken> {
     return await this.client
       .post("/api/google/insertToken", {
         token: text,
       })
       .then((res) => {
         if (res.status === 200) {
-          return true;
+          const convert = this.convertFcmToken(res.data);
+          return convert;
+        }
+        return null;
+      });
+  }
+
+  async updateToken(token: string, notification: boolean): Promise<boolean> {
+    return await this.client
+      .post("/api/google/updateToken", {
+        token: token,
+        notification: notification,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          return res.data;
         }
         return false;
       });
