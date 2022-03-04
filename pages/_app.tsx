@@ -64,7 +64,6 @@ const CustomApp = ({ Component, pageProps }) => {
           googleApi
             .insertToken(currentToken)
             .then((res) => {
-              alert("Insert");
               setToken(currentToken);
               // 알림 토클 설정
               useNotification(res.notification, currentToken);
