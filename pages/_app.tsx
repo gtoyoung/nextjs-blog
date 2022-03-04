@@ -64,6 +64,7 @@ const CustomApp = ({ Component, pageProps }) => {
           googleApi
             .insertToken(currentToken)
             .then((res) => {
+              alert("Insert");
               setToken(currentToken);
               // 알림 토클 설정
               useNotification(res.notification, currentToken);
@@ -83,7 +84,7 @@ const CustomApp = ({ Component, pageProps }) => {
         console.log("An error occurred while retrieving token. ", err);
         // ...
       });
-  });
+  }, []);
 
   useEffect(() => {
     var root = document.getElementsByTagName("html")[0];
@@ -106,7 +107,7 @@ const CustomApp = ({ Component, pageProps }) => {
     Router.events.on("routeChangeError", () => {
       NProgress.done();
     });
-  });
+  }, []);
 
   useEffect(() => {
     const handleRouteChange = (url) => {
