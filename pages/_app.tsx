@@ -66,7 +66,8 @@ const CustomApp = ({ Component, pageProps }) => {
             .then((res) => {
               setToken(currentToken);
               // 알림 토클 설정
-              useNotification(res.notification, currentToken);
+              if (currentToken !== res._id)
+                useNotification(res.notification, currentToken);
             })
             .catch((err) => {
               console.log(err);
