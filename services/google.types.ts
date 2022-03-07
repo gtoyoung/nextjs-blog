@@ -11,3 +11,12 @@ export type GoogleUser = {
   photoURL: string;
   uid: string;
 };
+
+export type Post = {
+  postId: number;
+  title: string;
+  content: string;
+  created: Date;
+  modified: Date;
+  status: string;
+};

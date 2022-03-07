@@ -12,15 +12,25 @@ const Index = () => {
 
   // 우선 임시방편
   useEffect(() => {
-    googleApi.getToken(token).then((data) => {
-      toggleHandler(data.notification);
-    });
+    googleApi
+      .getToken(token)
+      .then((data) => {
+        toggleHandler(data.notification);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const toggle = () => {
-    googleApi.updateToken(token, !notification).then(() => {
-      toggleHandler(!notification);
-    });
+    googleApi
+      .updateToken(token, !notification)
+      .then(() => {
+        toggleHandler(!notification);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
   return (
     <Layout>
