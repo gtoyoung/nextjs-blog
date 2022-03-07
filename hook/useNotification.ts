@@ -1,30 +1,42 @@
+import { AppContext } from "pages/_app";
+import { useContext, useState } from "react";
 import { GoogleApi } from "services/google";
 
-export const useNotification = (notification: boolean, token: string) => {
-  var toggle = document.getElementsByClassName("switch-label")[0];
-  var ball = document.getElementsByClassName("ball")[0];
-
+export const useNotification = () => {
+  const appContext = useContext(AppContext);
   const tokenApi = new GoogleApi();
-  tokenApi
-    .updateToken(token, notification)
-    .then((res) => {
-      if (res) {
-        // 알림이 설정되어있을 경우
-        if (notification) {
-          toggle.setAttribute("style", "background-color: black");
-          ball.setAttribute("style", "left: 5px; background-color: aquamarine");
-          ball.setAttribute("data-ball", "on");
-        } // 알림이 설정되어있지 않은 경우
-        else {
-          toggle.setAttribute("style", "background-color: white");
-          ball.setAttribute("style", "left: -20px; background-color: red");
-          ball.removeAttribute("data-ball");
-        }
-      }
-    })
-    .catch(() => {
-      alert("알림서버와 통신이 되지 않습니다.\n관리자에게 문의하세요.");
-    });
 
-  return [notification];
+  let notification = null;
+  if (typeof window !== "undefined") {
+    // 세션에 저장된 알림 설정 값을 가져온다.
+    notification = localStorage.getItem("notification");
+
+    // 세션에 저장된 알림 설정값이 없을 경우 초기값을 설정한다.
+    if (notification === null) {
+      notification = appContext.notification;
+    }
+  }
+
+  const [noti, setNoti] = useState(notification);
+
+  const setMode = (value) => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("notification", value);
+    }
+
+    tokenApi
+      .updateToken(appContext.token, value)
+      .then(() => {
+        setNoti(value);
+      })
+      .catch(() => {
+        alert("알림서버와 통신이 되지 않습니다.\n관리자에게 문의하세요.");
+      });
+  };
+
+  const toggleMode = () => {
+    noti ? setMode(false) : setMode(true);
+  };
+
+  return [noti, toggleMode];
 };

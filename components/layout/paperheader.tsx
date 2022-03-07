@@ -1,22 +1,7 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { Toggle } from "components/util/toggle";
-import { useNotification } from "hook/useNotification";
-import { AppContext } from "pages/_app";
 
 export const CustomHeader = () => {
-  const [isChecked, setIsChecked] = useState(false);
-  const token = useContext(AppContext);
-  const toggleHandler = () => {
-    var ball = document.getElementsByClassName("ball")[0];
-    if (ball.getAttribute("data-ball") === "on") {
-      useNotification(false, token);
-      setIsChecked(false);
-    } else {
-      useNotification(true, token);
-      setIsChecked(true);
-    }
-  };
   return (
     <nav className="border split-nav">
       <div className="nav-brand">
@@ -36,9 +21,6 @@ export const CustomHeader = () => {
         <div className="collapsible-body">
           <ul className="inline">
             <li>
-              <Toggle isChecked={isChecked} handleToggle={toggleHandler} />
-            </li>
-            <li>
               <Link href="/">
                 <a>Home</a>
               </Link>
@@ -51,6 +33,11 @@ export const CustomHeader = () => {
             <li>
               <Link href="/space">
                 <a>Space</a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/todo">
+                <a>Todo</a>
               </Link>
             </li>
             <li>

@@ -2,15 +2,14 @@ import Router from "next/router";
 import NProgress from "nprogress";
 import { DefaultSeo } from "next-seo";
 import "papercss/dist/paper.min.css";
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useTheme from "hook/useTheme";
 import * as ga from "../services/ga";
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
 import { GoogleApi } from "services/google";
-import { useNotification } from "hook/useNotification";
-
-export const AppContext = createContext("");
+import { FakeComponent } from "components/util/fake";
+import { RecoilRoot } from "recoil";
 
 const DEFAULT_SEO = {
   title: "Dovb`s Blog",
@@ -36,18 +35,20 @@ const firebaseConfig = {
 };*/
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDYq7pxlORqd7Pi7ruHzZEmn8yOWAGThZM",
-  authDomain: "dovb-blog.firebaseapp.com",
-  projectId: "dovb-blog",
-  storageBucket: "dovb-blog.appspot.com",
-  messagingSenderId: "487590574701",
-  appId: "1:487590574701:web:69f4df7f78b5bf9ad31d64",
-  measurementId: "G-G7XTBGWJ9C",
+  apiKey: process.env.NEXT_PUBLIC_FB_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FB_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FB_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FB_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FB_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FB_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FB_MEASURE_ID,
 };
 
 const CustomApp = ({ Component, pageProps }) => {
   const [theme, themeToggler] = useTheme();
   const [token, setToken] = useState("");
+  const [noti, setNoti] = useState(false);
+
   // 구글 firebase 초기화
   useEffect(() => {
     initializeApp(firebaseConfig);
@@ -55,8 +56,7 @@ const CustomApp = ({ Component, pageProps }) => {
     const messaging = getMessaging();
 
     getToken(messaging, {
-      vapidKey:
-        "BCMn72joP8jU9cKNSTRJ3IB4VYYFDVpDn_FGEe10jfxLA1SBtz91lTL6vDjiA9A7rJYHinrxKaRpMpFz44VtEu4",
+      vapidKey: process.env.NEXT_PUBLIC_FB_VAPID_KEY,
     })
       .then((currentToken) => {
         if (currentToken) {
@@ -64,10 +64,9 @@ const CustomApp = ({ Component, pageProps }) => {
           googleApi
             .insertToken(currentToken)
             .then((res) => {
+              // 전역 상태값 업데이트
               setToken(currentToken);
-              // 알림 토클 설정
-              if (currentToken !== res._id)
-                useNotification(res.notification, currentToken);
+              setNoti(res.notification);
             })
             .catch((err) => {
               console.log(err);
@@ -119,15 +118,16 @@ const CustomApp = ({ Component, pageProps }) => {
   }, [Router.events]);
   return (
     <>
-      <AppContext.Provider value={token}>
+      <RecoilRoot>
         <DefaultSeo {...DEFAULT_SEO} />
         <Component {...pageProps} />
+        <FakeComponent token={token} notification={noti} />
         <button
           id="themeBtn"
           className="btn_theme"
           onClick={themeToggler}
         ></button>
-      </AppContext.Provider>
+      </RecoilRoot>
     </>
   );
 };

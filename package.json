@@ -38,8 +38,10 @@
     "react-palette": "^1.0.2",
     "react-paper-css": "^0.0.4",
     "react-photo-gallery": "^8.0.0",
+    "react-switch": "^6.0.0",
     "react-xml-parser": "^1.1.8",
     "reactstrap": "^8.8.1",
+    "recoil": "^0.6.1",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {

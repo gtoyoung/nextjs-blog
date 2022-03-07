@@ -50,4 +50,18 @@ export class GoogleApi {
         return false;
       });
   }
+
+  async getToken(token: string): Promise<FcmToken> {
+    return await this.client
+      .post("/api/google/get", {
+        token: token,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          const convert = this.convertFcmToken(res.data);
+          return convert;
+        }
+        return null;
+      });
+  }
 }
