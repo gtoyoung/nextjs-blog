@@ -13,7 +13,12 @@ export type GoogleUser = {
 };
 
 export type Post = {
-  postId: number;
+  postId: string;
+  post: PostDetail;
+};
+
+export type PostDetail = {
+  postId: string;
   title: string;
   content: string;
   created: Date;

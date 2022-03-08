@@ -38,9 +38,14 @@ class AuthService {
 
     //현재의 세션이나 탭에서만 상태를 유지하도록 우선 설정
     //('local'로 변경할 경우에는 로그아웃을 하기전까지는 로그인 상태가 지속됨)
-    setPersistence(auth, browserLocalPersistence).then(() => {
+    return setPersistence(auth, browserLocalPersistence).then(() => {
       return signInWithRedirect(auth, provider);
     });
+  }
+
+  logout() {
+    const auth = getAuth();
+    return auth.signOut();
   }
 
   auth() {

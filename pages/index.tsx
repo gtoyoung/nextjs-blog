@@ -1,32 +1,31 @@
 import { Layout } from "components/layout";
 import { Switch } from "@material-ui/core";
 import { GoogleApi } from "services/google";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { notificationState, tokenState } from "components/state/atom";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 const Index = () => {
-  const token = useRecoilValue(tokenState);
-  const notification = useRecoilValue(notificationState);
-  const toggleHandler = useSetRecoilState(notificationState);
+  const [token, setToken] = useState("");
+  const [noti, setNoti] = useState(false);
+  // const token = useRecoilValue(tokenState);
+  // const notification = useRecoilValue(notificationState);
+  // const toggleHandler = useSetRecoilState(notificationState);
   const googleApi = new GoogleApi();
 
   // 우선 임시방편
   useEffect(() => {
-    googleApi
-      .getToken(token)
-      .then((data) => {
-        toggleHandler(data.notification);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    localStorage.getItem("token") && setToken(localStorage.getItem("token"));
+    if (localStorage.getItem("noti") === "true") {
+      setNoti(true);
+    } else {
+      setNoti(false);
+    }
   }, []);
 
   const toggle = () => {
     googleApi
-      .updateToken(token, !notification)
+      .updateToken(token, !noti)
       .then(() => {
-        toggleHandler(!notification);
+        setNoti(!noti);
+        localStorage.setItem("noti", !noti + "");
       })
       .catch((e) => {
         console.log(e);
@@ -40,7 +39,7 @@ const Index = () => {
           <div className="paper container margin-bottom-large">
             <h4>Dovb`s Blog Notice</h4>
             <label>
-              <Switch onChange={toggle} checked={notification} />
+              <Switch onChange={toggle} checked={noti} />
             </label>
             <p>블로그 개편 진행중</p>
             <p>

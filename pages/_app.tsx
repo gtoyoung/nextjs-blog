@@ -65,6 +65,8 @@ const CustomApp = ({ Component, pageProps }) => {
             .insertToken(currentToken)
             .then((res) => {
               // 전역 상태값 업데이트
+              localStorage.setItem("token", currentToken);
+              localStorage.setItem("noti", res.notification + "");
               setToken(currentToken);
               setNoti(res.notification);
             })

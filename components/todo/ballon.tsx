@@ -26,7 +26,7 @@ export const Balloon = ({ position, title, clickPost }) => {
         style={{
           left: `${left}%`,
           background: `radial-gradient(circle at 100px 100px, ${color}, #000)`,
-          WebkitAnimationDelay: `${delay}s`,
+          WebkitAnimationDelay: `${delay - 10}s`,
           WebkitAnimationDuration: `${delay - 30}s`,
         }}
         href="#javascript"
@@ -34,6 +34,14 @@ export const Balloon = ({ position, title, clickPost }) => {
       >
         {title}
       </a>
+      {/* <div
+        style={{
+          left: `${left}%`,
+          WebkitAnimationDelay: `${delay}s`,
+          WebkitAnimationDuration: `${delay - 30}s`,
+        }}
+        className="stick"
+      ></div> */}
     </>
   );
 };

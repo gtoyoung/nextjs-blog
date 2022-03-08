@@ -15,13 +15,14 @@ export default function FormDialog({
   defaultContent,
   closeHandler,
   created,
+  isAdmin,
+  status,
 }) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [status] = useState("draft");
   const [isNew, setIsNew] = useState(true);
-  const db = new FbDatabase();
+  const db = new FbDatabase(isAdmin);
   useEffect(() => {
     // 기존에 등록된 내용이 있을 경우 셋팅
     if (postId) {
@@ -53,14 +54,17 @@ export default function FormDialog({
           if (result) {
             alert("저장되었습니다.");
             setOpen(false);
+            closeHandler();
           } else {
             alert("저장에 실패하였습니다.");
+            closeHandler();
           }
           setTitle("");
           setContent("");
         })
         .catch(() => {
           alert("저장에 실패하였습니다.");
+          closeHandler();
         });
     } else {
       db.updatePost(uId, postId, title, content, created, status)
@@ -68,22 +72,47 @@ export default function FormDialog({
           if (result) {
             alert("저장되었습니다.");
             setOpen(false);
+            closeHandler();
           } else {
             alert("저장에 실패하였습니다.");
+            closeHandler();
           }
           setTitle("");
           setContent("");
         })
         .catch(() => {
           alert("수정에 실패했습니다.");
+          closeHandler();
         });
     }
   };
 
-  // // 관리자일 경우만 동작가능
-  // const completeRequirement = () => {
-  //   setStatus("complete");
-  // };
+  // 관리자일 경우만 동작가능
+  const completeRequirement = () => {
+    db.updatePost(uId, postId, title, content, created, "complete")
+      .then(() => {
+        alert("완료되었습니다.");
+        setOpen(false);
+        closeHandler();
+      })
+      .catch(() => {
+        alert("완료에 실패했습니다.");
+        closeHandler();
+      });
+  };
+
+  const reverComplete = () => {
+    db.updatePost(uId, postId, title, content, created, "draft")
+      .then(() => {
+        alert("되돌리었습니다.");
+        setOpen(false);
+        closeHandler();
+      })
+      .catch(() => {
+        alert("되돌리기에 실패했습니다.");
+        closeHandler();
+      });
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -92,6 +121,26 @@ export default function FormDialog({
   const handleClose = () => {
     setOpen(false);
     closeHandler();
+  };
+
+  const handleDelete = () => {
+    if (confirm("삭제하시겠습니까?")) {
+      db.deletePost(uId, postId)
+        .then((result) => {
+          if (result) {
+            alert("삭제되었습니다.");
+            setOpen(false);
+            closeHandler();
+          } else {
+            alert("삭제에 실패했습니다.");
+          }
+          setTitle("");
+          setContent("");
+        })
+        .catch(() => {
+          alert("삭제에 실패했습니다.");
+        });
+    }
   };
 
   return (
@@ -136,7 +185,16 @@ export default function FormDialog({
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          {isAdmin && !isNew && (
+            <>
+              {status === "draft" || status === undefined ? (
+                <Button onClick={completeRequirement}>Complete</Button>
+              ) : (
+                <Button onClick={reverComplete}>Draft</Button>
+              )}
+            </>
+          )}
+          {!isNew && <Button onClick={handleDelete}>Delete</Button>}
           <Button onClick={handleSubmit}>{isNew ? "Create" : "Update"}</Button>
         </DialogActions>
       </Dialog>

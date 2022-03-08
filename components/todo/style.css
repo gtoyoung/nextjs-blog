@@ -3,15 +3,27 @@
   left: 0;
   bottom: -120px;
   height: 120px;
-  width: 120px;
+  width: 100px;
 
   line-height: 115px;
   text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   font-family: Arial, sans-serif;
   font-weight: bold;
-  border-radius: 60px;
+  border-radius: 80%;
   animation: move 6s infinite linear;
   display: block;
+}
+.stick {
+  content: "";
+  width: 0.1rem;
+  height: 50%;
+  background: rgba(50, 50, 50, 0.8);
+  display: inline-block;
+  position: absolute;
+  overflow: visible;
 }
 /* .balloon:nth-child(even) {
   left: 120px;
