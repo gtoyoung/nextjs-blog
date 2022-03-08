@@ -173,7 +173,8 @@ class FbDatabase {
           token.forEach((t: DataSnapshot) => {
             resultList.push(t.val().token);
           });
-          return [...new Set(resultList)];
+          const result = [...new Set(resultList)];
+          return result;
         }
       }
     );

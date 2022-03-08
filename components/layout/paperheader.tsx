@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { onAuthStateChanged } from "firebase/auth";
 import AuthService from "services/auth";
+import { GoogleUser } from "services/google.types";
 
 export const CustomHeader = () => {
-  // const [user, setUser] = useState(null as User);
+  const [user, setUser] = useState(null as GoogleUser);
   const [isAdmin, setIsAdmin] = useState(false);
   const authService = new AuthService();
 
   useEffect(() => {
     onAuthStateChanged(authService.auth(), (gUser) => {
       if (gUser) {
-        // setUser(gUser);
+        setUser(gUser);
 
         gUser.getIdTokenResult().then((result) => {
           if (result.claims.admin) {
@@ -39,6 +40,7 @@ export const CustomHeader = () => {
         <input type="text" placeholder="Nice input" id="paperInputs1" />
         <div className="collapsible-body">
           <ul className="inline">
+            {user && <li>{user.displayName}님 환영합니다.</li>}
             <li>
               <Link href="/">
                 <a>Home</a>

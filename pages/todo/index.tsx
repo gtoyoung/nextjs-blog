@@ -16,8 +16,7 @@ const Todo = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [type, setType] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  //관리자 기능에서 사용자에게 알림을 보내기 위한 토큰 셋팅
-  const [, setUserToken] = useState([] as string[]);
+
   const authService = new AuthService();
   let db = new FbDatabase(isAdmin);
 
@@ -67,23 +66,6 @@ const Todo = () => {
       }
     });
   }, [posts]);
-
-  //
-  useEffect(() => {
-    const current = authService.auth().currentUser;
-
-    if (current === null) return;
-    //추후 관리자일 경우에는 모든 포스트를 다 볼수 있도록 설정
-    if (current) {
-      db.getTokens(current.uid)
-        .then((result) => {
-          setUserToken(result);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, []);
 
   const handleLogout = () => {
     if (confirm("로그아웃 하시겠습니까?")) {

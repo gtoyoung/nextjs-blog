@@ -5,9 +5,6 @@ import React, { useEffect, useState } from "react";
 const Index = () => {
   const [token, setToken] = useState("");
   const [noti, setNoti] = useState(false);
-  // const token = useRecoilValue(tokenState);
-  // const notification = useRecoilValue(notificationState);
-  // const toggleHandler = useSetRecoilState(notificationState);
   const googleApi = new GoogleApi();
 
   // 우선 임시방편

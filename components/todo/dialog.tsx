@@ -7,6 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FbDatabase from "services/database";
+import { GoogleApi } from "services/google";
 
 export default function FormDialog({
   uId,
@@ -22,6 +23,7 @@ export default function FormDialog({
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isNew, setIsNew] = useState(true);
+  const googleApi = new GoogleApi();
   const db = new FbDatabase(isAdmin);
   useEffect(() => {
     // 기존에 등록된 내용이 있을 경우 셋팅
@@ -87,6 +89,16 @@ export default function FormDialog({
     }
   };
 
+  const pushMsg = () => {
+    // 사용자의 토큰 리스트를 가져온다.
+    db.getTokens(uId).then((tokens) => {
+      const message = `'${title}'에 대한 요구사항이 완료 되었습니다.`;
+      googleApi.pushMsg(tokens, message).then((result) => {
+        console.log(result);
+      });
+    });
+  };
+
   // 관리자일 경우만 동작가능
   const completeRequirement = () => {
     db.updatePost(uId, postId, title, content, created, "complete")
@@ -94,6 +106,7 @@ export default function FormDialog({
         alert("완료되었습니다.");
         setOpen(false);
         closeHandler();
+        pushMsg();
       })
       .catch(() => {
         alert("완료에 실패했습니다.");

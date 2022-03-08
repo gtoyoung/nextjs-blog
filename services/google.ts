@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { FcmToken } from "./google.types";
+import { FcmToken, GoogleUser } from "./google.types";
 
 export class GoogleApi {
   client: AxiosInstance;
@@ -20,6 +20,17 @@ export class GoogleApi {
       token: rawFcmToken.token,
       notification: rawFcmToken.notification,
       _id: rawFcmToken._id,
+    };
+  };
+
+  convertUser = (user): GoogleUser => {
+    const rawUser = user;
+    return {
+      uid: rawUser.uid,
+      displayName: rawUser.displayName,
+      email: rawUser.email,
+      photoURL: rawUser.photoURL,
+      emailVerified: rawUser.emailVerified,
     };
   };
 
@@ -62,6 +73,51 @@ export class GoogleApi {
           return convert;
         }
         return null;
+      });
+  }
+
+  async getUsers(uid: string): Promise<GoogleUser[]> {
+    return await this.client
+      .post("/api/google/getUsers", {
+        uid: uid,
+      })
+      .then((res) => {
+        const results = new Array<GoogleUser>();
+        if (res.status === 200) {
+          res.data.map((user) => {
+            results.push(this.convertUser(user));
+          });
+          return results;
+        }
+        return [];
+      });
+  }
+
+  async getUserInfo(uid: string): Promise<GoogleUser> {
+    return await this.client
+      .post("/api/google/getUserInfo", {
+        uid: uid,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          const convert = this.convertUser(res.data);
+          return convert;
+        }
+        return null;
+      });
+  }
+
+  async pushMsg(tokens: string[], msg: string): Promise<boolean> {
+    return await this.client
+      .post("/api/google/pushForUser", {
+        tokens: tokens,
+        msg: msg,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          return res.data;
+        }
+        return false;
       });
   }
 }

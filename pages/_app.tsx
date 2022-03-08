@@ -2,14 +2,12 @@ import Router from "next/router";
 import NProgress from "nprogress";
 import { DefaultSeo } from "next-seo";
 import "papercss/dist/paper.min.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useTheme from "hook/useTheme";
 import * as ga from "../services/ga";
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
 import { GoogleApi } from "services/google";
-import { FakeComponent } from "components/util/fake";
-import { RecoilRoot } from "recoil";
 
 const DEFAULT_SEO = {
   title: "Dovb`s Blog",
@@ -46,8 +44,6 @@ const firebaseConfig = {
 
 const CustomApp = ({ Component, pageProps }) => {
   const [theme, themeToggler] = useTheme();
-  const [token, setToken] = useState("");
-  const [noti, setNoti] = useState(false);
 
   // 구글 firebase 초기화
   useEffect(() => {
@@ -67,8 +63,6 @@ const CustomApp = ({ Component, pageProps }) => {
               // 전역 상태값 업데이트
               localStorage.setItem("token", currentToken);
               localStorage.setItem("noti", res.notification + "");
-              setToken(currentToken);
-              setNoti(res.notification);
             })
             .catch((err) => {
               console.log(err);
@@ -120,16 +114,13 @@ const CustomApp = ({ Component, pageProps }) => {
   }, [Router.events]);
   return (
     <>
-      <RecoilRoot>
-        <DefaultSeo {...DEFAULT_SEO} />
-        <Component {...pageProps} />
-        <FakeComponent token={token} notification={noti} />
-        <button
-          id="themeBtn"
-          className="btn_theme"
-          onClick={themeToggler}
-        ></button>
-      </RecoilRoot>
+      <DefaultSeo {...DEFAULT_SEO} />
+      <Component {...pageProps} />
+      <button
+        id="themeBtn"
+        className="btn_theme"
+        onClick={themeToggler}
+      ></button>
     </>
   );
 };
