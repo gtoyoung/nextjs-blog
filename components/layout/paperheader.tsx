@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { onAuthStateChanged } from "firebase/auth";
+import AuthService from "services/auth";
 
 export const CustomHeader = () => {
+  // const [user, setUser] = useState(null as User);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const authService = new AuthService();
+
+  useEffect(() => {
+    onAuthStateChanged(authService.auth(), (gUser) => {
+      if (gUser) {
+        // setUser(gUser);
+
+        gUser.getIdTokenResult().then((result) => {
+          if (result.claims.admin) {
+            setIsAdmin(true);
+          }
+        });
+      }
+    });
+  }, []);
   return (
     <nav className="border split-nav">
       <div className="nav-brand">
@@ -45,6 +64,13 @@ export const CustomHeader = () => {
                 <a>Exp</a>
               </Link>
             </li>
+            {isAdmin && (
+              <li>
+                <Link href="/admin">
+                  <a>Admin</a>
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>
