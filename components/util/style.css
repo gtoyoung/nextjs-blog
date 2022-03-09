@@ -14,3 +14,21 @@
   font-size: 15pt;
   line-height: 50px;
 }
+
+.giphyDiv {
+  height: 400px;
+  overflow: scroll;
+}
+
+.giphyDiv::-webkit-scrollbar {
+  display: none;
+}
+
+.imgDiv {
+  border-style: dotted;
+  text-align: center;
+}
+
+.imageListDiv::-webkit-scrollbar {
+  display: none;
+}

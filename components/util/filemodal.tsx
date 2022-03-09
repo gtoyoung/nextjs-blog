@@ -4,6 +4,11 @@ import { useDropzone } from "react-dropzone";
 import Box from "@mui/material/Box";
 import FbStorage from "services/firebase/storage";
 import ImgList from "./imglist";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import GiphyGrid from "./giphy";
 
 const style = {
   position: "absolute" as "absolute",
@@ -21,6 +26,7 @@ const style = {
 };
 
 const FileModal = ({ uid, onClose }) => {
+  const [value, setValue] = useState(1);
   const [open, setOpen] = useState(true);
   const [pictures, setPictures] = useState([] as any[]);
   const storage = new FbStorage();
@@ -44,6 +50,7 @@ const FileModal = ({ uid, onClose }) => {
     });
     // Do something with the files
   }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: "image/jpeg,image/png,image/jpg,image/gif",
@@ -54,21 +61,43 @@ const FileModal = ({ uid, onClose }) => {
     onClose();
   };
 
+  const handleChange = (_event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={{ ...style, width: 450 }}>
-        <div style={{ borderBlock: "5px solid red", textAlign: "center" }}>
-          <div {...getRootProps()}>
-            <input {...getInputProps()} />
-            {isDragActive ? (
-              <p>등록합니다.</p>
-            ) : (
-              <p>이미지 파일만 올려주세요(ex).jpg, .gif etc...)</p>
-            )}
-          </div>
-        </div>
-
-        <ImgList items={pictures} uid={uid} />
+        <TabContext value={value + ""}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <TabList
+              onChange={handleChange}
+              aria-label="lab API tabs example"
+              centered
+            >
+              <Tab label="이미지 직접 선택" value="1" />
+              <Tab label="GIPHY" value="2" />
+            </TabList>
+          </Box>
+          <TabPanel value="1">
+            <div className="imgDiv">
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                {isDragActive ? (
+                  <p>등록합니다.</p>
+                ) : (
+                  <p>이미지 파일만 올려주세요(ex).jpg, .gif etc...)</p>
+                )}
+              </div>
+            </div>
+            <ImgList items={pictures} uid={uid} />
+          </TabPanel>
+          <TabPanel value="2">
+            <div className="giphyDiv">
+              <GiphyGrid uid={uid} />
+            </div>
+          </TabPanel>
+        </TabContext>
       </Box>
     </Modal>
   );

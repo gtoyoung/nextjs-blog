@@ -14,11 +14,12 @@ const ImgList = ({ items, uid }: { items: any[]; uid: string }) => {
       {items && items.length > 0 && (
         <ImageList
           sx={{
-            width: 400,
-            height: 400,
+            height: 300,
+            WebkitOverflowScrolling: "touch",
           }}
           cols={3}
           rowHeight={180}
+          className="imageListDiv"
         >
           {items.map((item, index) => (
             <ImageListItem key={index} id={item.fileName}>
