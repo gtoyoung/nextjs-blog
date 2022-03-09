@@ -32,18 +32,22 @@ const FileModal = ({ uid, onClose }) => {
   }, []);
 
   const onDrop = useCallback((acceptedFiles) => {
+    console.log(acceptedFiles);
     acceptedFiles.forEach((file) => {
       storage.upload(file, uid).then((file) => {
         const fileMetaData = {
           fileName: file.name,
           url: URL.createObjectURL(file),
         };
-        setPictures([...pictures, fileMetaData]);
+        setPictures((prev) => [...prev, fileMetaData]);
       });
     });
     // Do something with the files
   }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: "image/jpeg,image/png,image/jpg,image/gif",
+  });
 
   const handleClose = () => {
     setOpen(false);
@@ -56,7 +60,11 @@ const FileModal = ({ uid, onClose }) => {
         <div style={{ borderBlock: "5px solid red", textAlign: "center" }}>
           <div {...getRootProps()}>
             <input {...getInputProps()} />
-            {isDragActive ? <p>등록합니다.</p> : <p>이미지 파일 올려주쇼</p>}
+            {isDragActive ? (
+              <p>등록합니다.</p>
+            ) : (
+              <p>이미지 파일만 올려주세요(ex).jpg, .gif etc...)</p>
+            )}
           </div>
         </div>
 

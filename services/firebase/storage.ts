@@ -28,12 +28,14 @@ class FbStorage {
 
   // 파일 업로드
   upload(file: File, uid: string): Promise<File> {
+    // 파일 이름 중복 방지를 위한 이름 커스텀
+    const fileName = file.name + "_" + Date.now();
     // 파일 메타데이터
     const metadata = {
       contentType: file.type,
       size: file.size,
     };
-    const storageRef = ref(this.storage, `/images/${uid}/${file.name}`);
+    const storageRef = ref(this.storage, `/images/${uid}/${fileName}`);
     return uploadBytes(storageRef, file, metadata)
       .then(() => {
         return file;
