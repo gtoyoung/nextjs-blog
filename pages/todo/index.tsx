@@ -3,11 +3,13 @@ import { Balloon } from "components/todo";
 import FormDialog from "components/todo/dialog";
 import { getRedirectResult, onAuthStateChanged } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import AuthService from "services/auth";
-import FbDatabase from "services/database";
+import AuthService from "services/firebase/auth";
+import FbDatabase from "services/firebase/database";
 import { GoogleUser, Post, PostDetail } from "services/google.types";
 import { Board } from "components/todo/board";
 import { StorageToggle } from "components/util/storagetoggle";
+import FileModal from "components/util/filemodal";
+import { Box, CircularProgress } from "@mui/material";
 
 const Todo = () => {
   const [user, setUser] = useState(null as GoogleUser);
@@ -16,7 +18,8 @@ const Todo = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [type, setType] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-
+  const [isAdd, setIsAdd] = useState(false);
+  const [profile, setProfile] = useState("");
   const authService = new AuthService();
   let db = new FbDatabase(isAdmin);
 
@@ -39,6 +42,14 @@ const Todo = () => {
           if (result.claims.admin) {
             db = new FbDatabase(true);
             setIsAdmin(true);
+          }
+        });
+
+        db.getProfileImg(user.uid).then((result) => {
+          if (result === "") {
+            setProfile(user.photoURL);
+          } else {
+            setProfile(result);
           }
         });
 
@@ -67,16 +78,6 @@ const Todo = () => {
     });
   }, [posts]);
 
-  const handleLogout = () => {
-    if (confirm("로그아웃 하시겠습니까?")) {
-      authService.logout().then(() => {
-        alert("로그아웃 되었습니다.");
-        setUser(null);
-        setPosts([]);
-      });
-    }
-  };
-
   const handleLogin = () => {
     authService.login("google");
   };
@@ -89,12 +90,41 @@ const Todo = () => {
     setType(!type);
   };
 
+  const handleAdd = () => {
+    setIsAdd(true);
+  };
+
+  const handleAddClose = () => {
+    setIsAdd(false);
+  };
+
   return (
     <Layout>
       {user ? (
         <div>
           <div style={{ display: "flex", marginTop: "10px" }}>
-            <img src={user.photoURL} onClick={handleLogout} />
+            {profile === "" ? (
+              <>
+                <Box sx={{ display: "flex" }}>
+                  <CircularProgress />
+                </Box>
+              </>
+            ) : (
+              <>
+                <img
+                  src={profile}
+                  loading="lazy"
+                  alt="profile"
+                  style={{
+                    width: "80px",
+                    height: "80px",
+                    borderRadius: "50%",
+                  }}
+                  onClick={handleAdd}
+                />
+              </>
+            )}
+
             <h3 style={{ margin: "20px" }}>
               {user.displayName} 님 환영합니다!{" "}
             </h3>
@@ -171,6 +201,8 @@ const Todo = () => {
               status={post.status}
             />
           )}
+
+          {isAdd && <FileModal uid={user.uid} onClose={handleAddClose} />}
         </div>
       ) : (
         <>

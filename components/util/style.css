@@ -1,0 +1,16 @@
+.close {
+  position: absolute;
+  float: left;
+  display: inline-block;
+  *display: inline;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  margin-right: 20px;
+}
+
+.close:after {
+  content: "\00d7";
+  font-size: 15pt;
+  line-height: 50px;
+}

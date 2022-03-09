@@ -10,7 +10,7 @@ import {
   remove,
   push,
 } from "firebase/database";
-import { Post } from "./google.types";
+import { Post } from "../google.types";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FB_API_KEY,
@@ -178,6 +178,31 @@ class FbDatabase {
         }
       }
     );
+  }
+
+  saveProfileImg(userId: string, imgUrl: string): Promise<boolean> {
+    return set(ref(this.db, `/users/${userId}/profileImg`), {
+      url: imgUrl,
+    })
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
+  }
+
+  getProfileImg(userId: string): Promise<string> {
+    return get(ref(this.db, `/users/${userId}/profileImg`))
+      .then((data: DataSnapshot) => {
+        if (data.size === 0) {
+          return "";
+        }
+        return data.val().url;
+      })
+      .catch(() => {
+        return "";
+      });
   }
 }
 

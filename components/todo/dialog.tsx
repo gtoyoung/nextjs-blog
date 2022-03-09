@@ -6,7 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import FbDatabase from "services/database";
+import FbDatabase from "services/firebase/database";
 import { GoogleApi } from "services/google";
 
 export default function FormDialog({

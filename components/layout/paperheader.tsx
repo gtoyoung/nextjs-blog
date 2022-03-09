@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { onAuthStateChanged } from "firebase/auth";
-import AuthService from "services/auth";
+import AuthService from "services/firebase/auth";
 import { GoogleUser } from "services/google.types";
 
 export const CustomHeader = () => {
@@ -22,6 +22,16 @@ export const CustomHeader = () => {
       }
     });
   }, []);
+
+  const handleLogout = () => {
+    if (confirm("로그아웃 하시겠습니까?")) {
+      authService.logout().then(() => {
+        alert("로그아웃 되었습니다.");
+        window.location.href = "/";
+      });
+    }
+  };
+
   return (
     <nav className="border split-nav">
       <div className="nav-brand">
@@ -40,7 +50,14 @@ export const CustomHeader = () => {
         <input type="text" placeholder="Nice input" id="paperInputs1" />
         <div className="collapsible-body">
           <ul className="inline">
-            {user && <li>{user.displayName}님 환영합니다.</li>}
+            {user && (
+              <li>
+                {user.displayName}님 환영합니다.
+                <a href="#javascript" onClick={handleLogout}>
+                  logout
+                </a>
+              </li>
+            )}
             <li>
               <Link href="/">
                 <a>Home</a>

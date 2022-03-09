@@ -4,8 +4,8 @@ import { Board } from "components/todo/board";
 import FormDialog from "components/todo/dialog";
 import { onAuthStateChanged } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import AuthService from "services/auth";
-import FbDatabase from "services/database";
+import AuthService from "services/firebase/auth";
+import FbDatabase from "services/firebase/database";
 import { GoogleApi } from "services/google";
 import { GoogleUser, Post, PostDetail } from "services/google.types";
 
