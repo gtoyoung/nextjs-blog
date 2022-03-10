@@ -3,7 +3,6 @@ import NProgress from "nprogress";
 import { DefaultSeo } from "next-seo";
 import "papercss/dist/paper.min.css";
 import { useEffect } from "react";
-import useTheme from "hook/useTheme";
 import * as ga from "../services/ga";
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
@@ -44,8 +43,6 @@ const firebaseConfig = {
 };
 
 const CustomApp = ({ Component, pageProps }) => {
-  const [theme, themeToggler] = useTheme();
-
   // 구글 firebase 초기화
   useEffect(() => {
     initializeApp(firebaseConfig);
@@ -83,17 +80,6 @@ const CustomApp = ({ Component, pageProps }) => {
   }, []);
 
   useEffect(() => {
-    var root = document.getElementsByTagName("html")[0];
-    if (theme === "light" && typeof window !== "undefined") {
-      root.classList.remove("dark");
-      document.body.style.backgroundColor = "#fff";
-      document.getElementById("themeBtn").setAttribute("aria-pressed", "false");
-    } else {
-      root.classList.add("dark");
-      document.body.style.background = "#41403e";
-      document.getElementById("themeBtn").setAttribute("aria-pressed", "true");
-    }
-
     Router.events.on("routeChangeComplete", () => {
       NProgress.start();
     });
@@ -119,11 +105,6 @@ const CustomApp = ({ Component, pageProps }) => {
       <AuthProvider>
         <Component {...pageProps} />
       </AuthProvider>
-      <button
-        id="themeBtn"
-        className="btn_theme"
-        onClick={themeToggler}
-      ></button>
     </>
   );
 };

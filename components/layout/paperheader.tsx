@@ -2,14 +2,25 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import AuthService from "services/firebase/auth";
 import { useAuth } from "components/util/authprovider";
+import useTheme from "hook/useTheme";
 
 export const CustomHeader = () => {
   // const [user, setUser] = useState(null as GoogleUser);
   const { user } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
   const authService = new AuthService();
-
+  const [theme, themeToggler] = useTheme();
   useEffect(() => {
+    var root = document.getElementsByTagName("html")[0];
+    if (theme === "light" && typeof window !== "undefined") {
+      root.classList.remove("dark");
+      document.body.style.backgroundColor = "#fff";
+      document.getElementById("themeChanger").textContent = "🌙";
+    } else {
+      root.classList.add("dark");
+      document.body.style.background = "#41403e";
+      document.getElementById("themeChanger").textContent = "🌞";
+    }
     if (user) {
       user.getIdTokenResult().then((result) => {
         if (result.claims.admin) {
@@ -63,6 +74,11 @@ export const CustomHeader = () => {
                 )
               </li>
             )}
+            <li>
+              <a href="#javascript" id="themeChanger" onClick={themeToggler}>
+                테마변경
+              </a>
+            </li>
             <li>
               <Link href="/">
                 <a>Home</a>

@@ -44,7 +44,7 @@
 
 .postMain {
   height: 100px;
-  width: 20rem;
+  width: 21rem !important;
 }
 
 .postCard {

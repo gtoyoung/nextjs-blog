@@ -22,11 +22,11 @@ const useTheme = () => {
     if (mode === "dark" && typeof window !== "undefined") {
       root.classList.add("dark");
       document.body.style.background = "#41403e";
-      document.getElementById("themeBtn").setAttribute("aria-pressed", "true");
+      document.getElementById("themeChanger").textContent = "🌞";
     } else if (mode === "light" && typeof window !== "undefined") {
       root.classList.remove("dark");
       document.body.style.backgroundColor = "#fff";
-      document.getElementById("themeBtn").setAttribute("aria-pressed", "false");
+      document.getElementById("themeChanger").textContent = "🌙";
     }
     setTheme(mode);
   };
