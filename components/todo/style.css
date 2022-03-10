@@ -41,3 +41,22 @@
     bottom: 100%;
   }
 }
+
+.postMain {
+  height: 100px;
+  width: 20rem;
+}
+
+.postCard {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block;
+}
+
+.postContent {
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

@@ -5,32 +5,14 @@ import { getRedirectResult, onAuthStateChanged } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import AuthService from "services/firebase/auth";
 import FbDatabase from "services/firebase/database";
-import { GoogleUser, Post, PostDetail } from "services/google.types";
+import { Post, PostDetail } from "services/google.types";
 import { Board } from "components/todo/board";
 import { StorageToggle } from "components/util/storagetoggle";
 import FileModal from "components/util/filemodal";
 import { Box, CircularProgress } from "@mui/material";
-
-// export const getServerSideProps: GetServerSideProps = async (_context) => {
-//   // TODO: https://colinhacks.com/essays/nextjs-firebase-authentication 페이지 참조해서 Provider를 만들어서 해보자
-//   let currentUser = null;
-//   authService.auth().onAuthStateChanged((user) => {
-//     if (user) {
-//       currentUser = user;
-//     } else {
-//       currentUser = null;
-//     }
-//   });
-
-//   return {
-//     props: {
-//       currentUser,
-//     },
-//   };
-// };
-
+import { useAuth } from "components/util/authprovider";
 const Todo = () => {
-  const [user, setUser] = useState(null as GoogleUser);
+  const { user } = useAuth();
   const [post, setPost] = useState(null as PostDetail);
   const [posts, setPosts] = useState([] as Post[]);
   const [isEdit, setIsEdit] = useState(false);
@@ -54,7 +36,7 @@ const Todo = () => {
   useEffect(() => {
     onAuthStateChanged(authService.auth(), (user) => {
       if (user) {
-        setUser(authService.getProfile(user));
+        // setUser(authService.getProfile(user));
 
         user.getIdTokenResult().then((result) => {
           if (result.claims.admin) {
@@ -190,7 +172,7 @@ const Todo = () => {
               })}
             </div>
           ) : (
-            <>
+            <div className="row flex-left child-borders">
               {posts.map((post) => {
                 return (
                   <Board
@@ -204,7 +186,7 @@ const Todo = () => {
                   />
                 );
               })}
-            </>
+            </div>
           )}
 
           {isEdit && (

@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { onAuthStateChanged } from "firebase/auth";
 import AuthService from "services/firebase/auth";
-import { GoogleUser } from "services/google.types";
+import { useAuth } from "components/util/authprovider";
 
 export const CustomHeader = () => {
-  const [user, setUser] = useState(null as GoogleUser);
+  // const [user, setUser] = useState(null as GoogleUser);
+  const { user } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
   const authService = new AuthService();
 
   useEffect(() => {
-    onAuthStateChanged(authService.auth(), (gUser) => {
-      if (gUser) {
-        setUser(gUser);
-
-        gUser.getIdTokenResult().then((result) => {
-          if (result.claims.admin) {
-            setIsAdmin(true);
-          }
-        });
-      }
-    });
+    if (user) {
+      user.getIdTokenResult().then((result) => {
+        if (result.claims.admin) {
+          setIsAdmin(true);
+        }
+      });
+    }
   }, []);
 
   const handleLogout = () => {
@@ -52,7 +48,7 @@ export const CustomHeader = () => {
           <ul className="inline">
             {user && (
               <li>
-                {user.displayName}님 환영합니다(
+                {user.displayName} (
                 <a
                   style={{
                     fontSize: "0.7rem",

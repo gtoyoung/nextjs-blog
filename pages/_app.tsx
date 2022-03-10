@@ -8,6 +8,7 @@ import * as ga from "../services/ga";
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
 import { GoogleApi } from "services/google";
+import { AuthProvider } from "components/util/authprovider";
 
 const DEFAULT_SEO = {
   title: "Dovb`s Blog",
@@ -115,7 +116,9 @@ const CustomApp = ({ Component, pageProps }) => {
   return (
     <>
       <DefaultSeo {...DEFAULT_SEO} />
-      <Component {...pageProps} />
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
       <button
         id="themeBtn"
         className="btn_theme"

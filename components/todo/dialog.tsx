@@ -182,7 +182,7 @@ export default function FormDialog({
             label="Title"
             type="text"
             fullWidth
-            variant="standard"
+            variant="filled"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -192,7 +192,9 @@ export default function FormDialog({
             label="Content"
             type="text"
             fullWidth
-            variant="standard"
+            multiline
+            maxRows={5}
+            variant="filled"
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
