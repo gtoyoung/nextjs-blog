@@ -11,6 +11,24 @@ import { StorageToggle } from "components/util/storagetoggle";
 import FileModal from "components/util/filemodal";
 import { Box, CircularProgress } from "@mui/material";
 
+// export const getServerSideProps: GetServerSideProps = async (_context) => {
+//   // TODO: https://colinhacks.com/essays/nextjs-firebase-authentication 페이지 참조해서 Provider를 만들어서 해보자
+//   let currentUser = null;
+//   authService.auth().onAuthStateChanged((user) => {
+//     if (user) {
+//       currentUser = user;
+//     } else {
+//       currentUser = null;
+//     }
+//   });
+
+//   return {
+//     props: {
+//       currentUser,
+//     },
+//   };
+// };
+
 const Todo = () => {
   const [user, setUser] = useState(null as GoogleUser);
   const [post, setPost] = useState(null as PostDetail);

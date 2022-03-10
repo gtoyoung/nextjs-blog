@@ -4,6 +4,7 @@ import ImageListItem from "@mui/material/ImageListItem";
 import "./style.css";
 import FbStorage from "services/firebase/storage";
 import FbDatabase from "services/firebase/database";
+import { CircularProgress } from "@material-ui/core";
 
 const ImgList = ({ items, uid }: { items: any[]; uid: string }) => {
   const storage = new FbStorage();
@@ -11,7 +12,7 @@ const ImgList = ({ items, uid }: { items: any[]; uid: string }) => {
 
   return (
     <>
-      {items && items.length > 0 && (
+      {items && items.length > 0 ? (
         <ImageList
           sx={{
             height: 300,
@@ -23,10 +24,21 @@ const ImgList = ({ items, uid }: { items: any[]; uid: string }) => {
         >
           {items.map((item, index) => (
             <ImageListItem key={index} id={item.fileName}>
+              {item.status === "loading" && (
+                <>
+                  <div>
+                    <CircularProgress color="secondary" />
+                  </div>
+                </>
+              )}
               <img
                 src={item.url}
                 id={item.fileName}
+                className={item.fileName}
                 loading="lazy"
+                onLoad={() => {
+                  item.status = "loaded";
+                }}
                 onClick={() => {
                   if (confirm("프로필 사진을 변경하시겠습니까?"))
                     db.saveProfileImg(uid, item.url)
@@ -52,6 +64,12 @@ const ImgList = ({ items, uid }: { items: any[]; uid: string }) => {
             </ImageListItem>
           ))}
         </ImageList>
+      ) : (
+        <>
+          <div className="imgLoadingDiv">
+            <h4>Loading....</h4>
+          </div>
+        </>
       )}
     </>
   );

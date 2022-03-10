@@ -68,6 +68,7 @@ class FbStorage {
             fileList.push({
               url: url,
               fileName: item.name,
+              status: "loading",
             });
           });
         });

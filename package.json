@@ -24,6 +24,7 @@
     "contentful": "^8.1.6",
     "firebase": "^9.6.7",
     "isomorphic-unfetch": "^3.1.0",
+    "lodash.debounce": "^4.0.8",
     "moment": "^2.29.1",
     "next": "^10.0.4",
     "next-images": "^1.8.4",

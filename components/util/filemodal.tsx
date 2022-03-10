@@ -44,6 +44,7 @@ const FileModal = ({ uid, onClose }) => {
         const fileMetaData = {
           fileName: file.name,
           url: URL.createObjectURL(file),
+          status: "loading",
         };
         setPictures((prev) => [...prev, fileMetaData]);
       });
@@ -96,6 +97,7 @@ const FileModal = ({ uid, onClose }) => {
             <div className="giphyDiv">
               <GiphyGrid uid={uid} />
             </div>
+            powered by <span style={{ fontWeight: "bold" }}>Giphy</span>
           </TabPanel>
         </TabContext>
       </Box>

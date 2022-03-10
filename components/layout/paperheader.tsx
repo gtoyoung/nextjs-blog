@@ -52,10 +52,19 @@ export const CustomHeader = () => {
           <ul className="inline">
             {user && (
               <li>
-                {user.displayName}님 환영합니다.
-                <a href="#javascript" onClick={handleLogout}>
+                {user.displayName}님 환영합니다(
+                <a
+                  style={{
+                    fontSize: "0.7rem",
+                    borderBottom: "none",
+                    fontFamily: "fantasy",
+                  }}
+                  href="#javascript"
+                  onClick={handleLogout}
+                >
                   logout
                 </a>
+                )
               </li>
             )}
             <li>

@@ -16,7 +16,7 @@
 }
 
 .giphyDiv {
-  height: 400px;
+  height: 380px;
   overflow: scroll;
 }
 
@@ -29,6 +29,22 @@
   text-align: center;
 }
 
+.imageListDiv {
+  height: 380px;
+}
+
 .imageListDiv::-webkit-scrollbar {
   display: none;
+}
+
+div #searchInput {
+  width: 100%;
+}
+
+div .imgLoadingDiv {
+  text-align: center;
+}
+
+.imgLoadingDiv h4 {
+  margin-top: 150px;
 }

@@ -1,5 +1,6 @@
 import { GiphyFetch } from "@giphy/js-fetch-api";
 import * as reactComponents from "@giphy/react-components";
+import _ from "lodash";
 import React, { useState } from "react";
 import ResizeObserver from "react-resize-observer";
 import FbDatabase from "services/firebase/database";
@@ -10,6 +11,10 @@ const GiphyGrid = ({ uid }) => {
   const fetchGifs = (offset: number) =>
     giphyFetch.trending({ offset, limit: 10 });
   const [width, setWidth] = useState(window.innerWidth);
+  const [search, setSearch] = useState("");
+
+  //검색창 debounce 처리
+
   const db = new FbDatabase(false);
 
   const gifClickhandler = (gif: any, e) => {
@@ -25,11 +30,34 @@ const GiphyGrid = ({ uid }) => {
         });
     }
   };
+  const debounceSerach = _.debounce((search) => {
+    setSearch(search);
+  }, 1000);
+
+  const onDebounceChange = (e) => {
+    const search = e.target.value;
+    debounceSerach(search);
+  };
+
   return (
     <>
+      <div className="form-group">
+        <input
+          type="text"
+          placeholder="검색어를 입력하세요."
+          id="searchInput"
+          onChange={onDebounceChange}
+        />
+      </div>
       <reactComponents.Grid
+        key={search}
         onGifClick={gifClickhandler}
-        fetchGifs={fetchGifs}
+        fetchGifs={
+          search === ""
+            ? fetchGifs
+            : (offset: number) =>
+                giphyFetch.search(search, { offset, limit: 10 })
+        }
         width={width}
         columns={3}
         gutter={6}

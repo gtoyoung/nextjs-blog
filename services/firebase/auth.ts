@@ -52,6 +52,10 @@ class AuthService {
     return getAuth();
   }
 
+  getCurrentUser() {
+    return getAuth().currentUser;
+  }
+
   // 현재 사용자의 프로필 정보를 가져옴
   getProfile(user: User): GoogleUser {
     if (user) {
