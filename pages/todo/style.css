@@ -1,0 +1,12 @@
+.MuiPagination-ul li:before {
+  content: "" !important;
+}
+
+.MuiPagination-ul li button {
+  border-radius: 50px;
+}
+
+.MuiPagination-root {
+  display: flex;
+  justify-content: center;
+}

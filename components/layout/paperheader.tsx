@@ -21,13 +21,15 @@ export const CustomHeader = () => {
       document.body.style.background = "#41403e";
       document.getElementById("themeChanger").textContent = "🌞";
     }
-    if (user) {
-      user.getIdTokenResult().then((result) => {
-        if (result.claims.admin) {
-          setIsAdmin(true);
-        }
-      });
-    }
+    authService.auth().onAuthStateChanged((user) => {
+      if (user) {
+        user.getIdTokenResult().then((result) => {
+          if (result.claims.admin) {
+            setIsAdmin(true);
+          }
+        });
+      }
+    });
   }, []);
 
   const handleLogout = () => {

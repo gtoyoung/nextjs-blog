@@ -93,9 +93,14 @@ export default function FormDialog({
     // 사용자의 토큰 리스트를 가져온다.
     db.getTokens(uId).then((tokens) => {
       const message = `'${title}'에 대한 요구사항이 완료 되었습니다.`;
-      googleApi.pushMsg(tokens, message).then((result) => {
-        console.log(result);
-      });
+      googleApi
+        .pushMsg(tokens, message)
+        .then((result) => {
+          console.log(result);
+        })
+        .catch(() => {
+          console.log("pushMsg error");
+        });
     });
   };
 
@@ -184,6 +189,7 @@ export default function FormDialog({
             fullWidth
             variant="filled"
             value={title}
+            disabled={!isNew && status === "complete" && !isAdmin}
             onChange={(e) => setTitle(e.target.value)}
           />
           <TextField
@@ -196,6 +202,7 @@ export default function FormDialog({
             maxRows={5}
             variant="filled"
             value={content}
+            disabled={!isNew && status === "complete" && !isAdmin}
             onChange={(e) => setContent(e.target.value)}
           />
         </DialogContent>
@@ -209,8 +216,13 @@ export default function FormDialog({
               )}
             </>
           )}
-          {!isNew && <Button onClick={handleDelete}>Delete</Button>}
-          <Button onClick={handleSubmit}>{isNew ? "Create" : "Update"}</Button>
+          {!isNew && (status === "draft" || isAdmin) && (
+            <>
+              <Button onClick={handleDelete}>Delete</Button>
+              <Button onClick={handleSubmit}>Update</Button>
+            </>
+          )}
+          {isNew && <Button onClick={handleSubmit}>Create</Button>}
         </DialogActions>
       </Dialog>
     </div>

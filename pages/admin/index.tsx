@@ -103,6 +103,7 @@ const AdminPage = () => {
                     });
                     setIsEdit(true);
                   }}
+                  status={post.post.status}
                 />
               );
             })}

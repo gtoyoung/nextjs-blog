@@ -9,8 +9,12 @@ import { Post, PostDetail } from "services/google.types";
 import { Board } from "components/todo/board";
 import { StorageToggle } from "components/util/storagetoggle";
 import FileModal from "components/util/filemodal";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Stack } from "@mui/material";
 import { useAuth } from "components/util/authprovider";
+import Pagination from "@mui/material/Pagination";
+import usePagination from "components/util/pagination";
+import "./style.css";
+
 const Todo = () => {
   const { user } = useAuth();
   const [post, setPost] = useState(null as PostDetail);
@@ -20,8 +24,16 @@ const Todo = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isAdd, setIsAdd] = useState(false);
   const [profile, setProfile] = useState("");
+  const [count, setCount] = useState(0);
   const authService = new AuthService();
   let db = new FbDatabase(isAdmin);
+
+  // 페이지 상태
+  let [page, setPage] = useState(1);
+  // 한페이지당 보여지는 게시물 수
+  const PER_PAGE = 5;
+
+  const _DATA = usePagination(posts, PER_PAGE);
 
   useEffect(() => {
     var token = localStorage.getItem("token");
@@ -33,6 +45,7 @@ const Todo = () => {
     });
   }, []);
 
+  // 실시간 포스트 정보 갱신 및 관리자 여부 확인
   useEffect(() => {
     onAuthStateChanged(authService.auth(), (user) => {
       if (user) {
@@ -76,7 +89,14 @@ const Todo = () => {
           });
       }
     });
+
+    setCount(Math.ceil(posts.length / PER_PAGE));
   }, [posts]);
+
+  const handleChange = (_e, p) => {
+    setPage(p);
+    _DATA.jump(p);
+  };
 
   const handleLogin = () => {
     authService.login("google");
@@ -172,21 +192,34 @@ const Todo = () => {
               })}
             </div>
           ) : (
-            <div className="row flex-left child-borders">
-              {posts.map((post) => {
-                return (
-                  <Board
-                    key={post.postId}
-                    title={post.post.title}
-                    content={post.post.content}
-                    clickPost={() => {
-                      setPost(post.post);
-                      setIsEdit(true);
-                    }}
-                  />
-                );
-              })}
-            </div>
+            <Box p="5">
+              <div className="row flex-left child-borders">
+                {_DATA.currentData().map((post) => {
+                  return (
+                    <Board
+                      key={post.postId}
+                      title={post.post.title}
+                      content={post.post.content}
+                      clickPost={() => {
+                        setPost(post.post);
+                        setIsEdit(true);
+                      }}
+                      status={post.post.status}
+                    />
+                  );
+                })}
+              </div>
+              <Stack spacing={2}>
+                <Pagination
+                  count={count}
+                  size="large"
+                  page={page}
+                  shape="rounded"
+                  onChange={handleChange}
+                  color="secondary"
+                />
+              </Stack>
+            </Box>
           )}
 
           {isEdit && (

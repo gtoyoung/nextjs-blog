@@ -9,6 +9,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import GiphyGrid from "./giphy";
+import useTheme from "hook/useTheme";
 
 const style = {
   position: "absolute" as "absolute",
@@ -26,6 +27,7 @@ const style = {
 };
 
 const FileModal = ({ uid, onClose }) => {
+  const [theme] = useTheme();
   const [value, setValue] = useState(1);
   const [open, setOpen] = useState(true);
   const [pictures, setPictures] = useState([] as any[]);
@@ -36,6 +38,14 @@ const FileModal = ({ uid, onClose }) => {
       setPictures(result);
     });
   }, []);
+
+  useEffect(() => {
+    if (theme === "dark") {
+      style.bgcolor = "#41403e";
+    } else {
+      style.bgcolor = "#fff";
+    }
+  }, [theme]);
 
   const onDrop = useCallback((acceptedFiles) => {
     console.log(acceptedFiles);
@@ -76,8 +86,20 @@ const FileModal = ({ uid, onClose }) => {
               aria-label="lab API tabs example"
               centered
             >
-              <Tab label="이미지 직접 선택" value="1" />
-              <Tab label="GIPHY" value="2" />
+              <Tab
+                label="이미지 직접 선택"
+                value="1"
+                style={
+                  theme === "dark" ? { color: "white" } : { color: "black" }
+                }
+              />
+              <Tab
+                label="GIPHY"
+                value="2"
+                style={
+                  theme === "dark" ? { color: "white" } : { color: "black" }
+                }
+              />
             </TabList>
           </Box>
           <TabPanel value="1">
