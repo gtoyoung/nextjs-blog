@@ -69,7 +69,7 @@ export default function FormDialog({
           closeHandler();
         });
     } else {
-      db.updatePost(uId, postId, title, content, created, status)
+      db.updatePost(uId, postId, title, content, status)
         .then((result) => {
           if (result) {
             alert("저장되었습니다.");
@@ -106,7 +106,7 @@ export default function FormDialog({
 
   // 관리자일 경우만 동작가능
   const completeRequirement = () => {
-    db.updatePost(uId, postId, title, content, created, "complete")
+    db.updatePost(uId, postId, title, content, "complete")
       .then(() => {
         alert("완료되었습니다.");
         setOpen(false);
@@ -120,7 +120,7 @@ export default function FormDialog({
   };
 
   const reverComplete = () => {
-    db.updatePost(uId, postId, title, content, created, "draft")
+    db.updatePost(uId, postId, title, content, "draft")
       .then(() => {
         alert("되돌리었습니다.");
         setOpen(false);

@@ -7,7 +7,7 @@ import * as ga from "../services/ga";
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
 import { GoogleApi } from "services/google";
-import { AuthProvider } from "components/util/authprovider";
+import { AuthProvider } from "services/authprovider";
 
 const DEFAULT_SEO = {
   title: "Dovb`s Blog",

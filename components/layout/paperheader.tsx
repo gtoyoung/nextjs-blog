@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import AuthService from "services/firebase/auth";
-import { useAuth } from "components/util/authprovider";
+import { useAuth } from "services/authprovider";
 import useTheme from "hook/useTheme";
 
 export const CustomHeader = () => {

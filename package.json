@@ -51,6 +51,7 @@
     "react-xml-parser": "^1.1.8",
     "reactstrap": "^8.8.1",
     "recoil": "^0.6.1",
+    "socket.io-client": "^4.4.1",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {

@@ -10,9 +10,9 @@ import { Board } from "components/todo/board";
 import { StorageToggle } from "components/util/storagetoggle";
 import FileModal from "components/util/filemodal";
 import { Box, CircularProgress, Stack } from "@mui/material";
-import { useAuth } from "components/util/authprovider";
+import { useAuth } from "services/authprovider";
 import Pagination from "@mui/material/Pagination";
-import usePagination from "components/util/pagination";
+import usePagination from "services/pagination";
 import "./style.css";
 
 const Todo = () => {
@@ -45,7 +45,7 @@ const Todo = () => {
     });
   }, []);
 
-  // 실시간 포스트 정보 갱신 및 관리자 여부 확인
+  // 실시간 포스트 정보 갱신 및 관리자 여부 확인(추후에 onValue 함수로 이관하도록 해야할듯하다)
   useEffect(() => {
     onAuthStateChanged(authService.auth(), (user) => {
       if (user) {
@@ -93,31 +93,6 @@ const Todo = () => {
     setCount(Math.ceil(posts.length / PER_PAGE));
   }, [posts]);
 
-  const handleChange = (_e, p) => {
-    setPage(p);
-    _DATA.jump(p);
-  };
-
-  const handleLogin = () => {
-    authService.login("google");
-  };
-
-  const handleClose = () => {
-    setIsEdit(false);
-  };
-
-  const showToggle = () => {
-    setType(!type);
-  };
-
-  const handleAdd = () => {
-    setIsAdd(true);
-  };
-
-  const handleAddClose = () => {
-    setIsAdd(false);
-  };
-
   return (
     <Layout>
       {user ? (
@@ -140,7 +115,9 @@ const Todo = () => {
                     height: "80px",
                     borderRadius: "50%",
                   }}
-                  onClick={handleAdd}
+                  onClick={() => {
+                    setIsAdd(true);
+                  }}
                 />
               </>
             )}
@@ -157,13 +134,17 @@ const Todo = () => {
               defaultTitle={""}
               created={""}
               postId={null}
-              closeHandler={handleClose}
+              closeHandler={() => {
+                setIsEdit(false);
+              }}
               isAdmin={isAdmin}
               status={""}
             />
           </div>
           <StorageToggle
-            toggle={showToggle}
+            toggle={() => {
+              setType(!type);
+            }}
             falseText={"board"}
             trueText={"balloon"}
             name={"typeToggle"}
@@ -215,7 +196,10 @@ const Todo = () => {
                   size="large"
                   page={page}
                   shape="rounded"
-                  onChange={handleChange}
+                  onChange={(_e, p) => {
+                    setPage(p);
+                    _DATA.jump(p);
+                  }}
                   color="secondary"
                 />
               </Stack>
@@ -229,18 +213,33 @@ const Todo = () => {
               defaultTitle={post.title}
               postId={post.postId}
               created={post.created}
-              closeHandler={handleClose}
+              closeHandler={() => {
+                setIsEdit(false);
+              }}
               isAdmin={isAdmin}
               status={post.status}
             />
           )}
 
-          {isAdd && <FileModal uid={user.uid} onClose={handleAddClose} />}
+          {isAdd && (
+            <FileModal
+              uid={user.uid}
+              onClose={() => {
+                setIsAdd(false);
+              }}
+            />
+          )}
         </div>
       ) : (
         <>
           <h3>로그인이 필요한 페이지 입니다.</h3>
-          <button onClick={handleLogin}>로그인하기</button>
+          <button
+            onClick={() => {
+              authService.login("google");
+            }}
+          >
+            로그인하기
+          </button>
         </>
       )}
     </Layout>
