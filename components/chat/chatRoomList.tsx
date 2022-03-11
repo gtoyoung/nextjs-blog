@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import { onValue } from "firebase/database";
 import ChatRoom from "./chatRoom";
+import { socket, SocketContext, SOCKET_EVENT } from "services/socket";
 
 const db = new FbDatabase(false);
 
@@ -46,11 +47,21 @@ const ChatRoomList = () => {
         setChatRooms(rooms);
       });
     });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   // user가 있을 경우 방 목록을 가져온다.
   useEffect(() => {
     if (user) {
+      // 해당 유저가 방에 이미 참가해 있는지 여부에 따라 소켓에 전송한다.
+      socket.emit(SOCKET_EVENT.JOIN_ROOM, { nickName: user.displayName });
+
+      // 해당 유저가 방에 이미 참가해있었으면 이전 대화 목록을 가져온다.
+
+      //
       db.getChatRooms().then((rooms) => {
         setChatRooms(rooms);
       });

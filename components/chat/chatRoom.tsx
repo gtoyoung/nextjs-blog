@@ -3,7 +3,15 @@ import { useAuth } from "services/authprovider";
 import { SocketContext, SOCKET_EVENT, makeMessage } from "services/socket";
 import MessageForm from "./messageForm";
 
-const ChatRoom = ({ room }) => {
+type ChatRoomType = {
+  roomName: string;
+  roomId: string;
+  created: Date;
+  participants: string[];
+  owner: string;
+};
+
+const ChatRoom = ({ room }: { room: ChatRoomType }) => {
   const { user } = useAuth();
   const [messages, setMessages] = useState([] as any[]);
   const chatWindow = useRef(null);
