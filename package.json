@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@dhaiwat10/react-link-preview": "^1.12.2",
+    "@emotion/css": "^11.7.1",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.8.1",
     "@giphy/js-fetch-api": "^4.1.2",
@@ -22,6 +23,7 @@
     "axios": "^0.25.0",
     "clsx": "^1.1.1",
     "contentful": "^8.1.6",
+    "emotion": "^11.0.0",
     "firebase": "^9.6.7",
     "isomorphic-unfetch": "^3.1.0",
     "lodash.debounce": "^4.0.8",
@@ -37,6 +39,7 @@
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "17.0.1",
     "react-dropzone": "^12.0.4",
+    "react-flexible-sliding-menu": "^0.1.9",
     "react-image-gallery": "^1.2.7",
     "react-image-lightbox": "^5.1.4",
     "react-images": "^1.2.0-beta.7",

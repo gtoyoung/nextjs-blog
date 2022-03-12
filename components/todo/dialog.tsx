@@ -15,7 +15,6 @@ export default function FormDialog({
   defaultTitle,
   defaultContent,
   closeHandler,
-  created,
   isAdmin,
   status,
 }) {

@@ -1,7 +1,7 @@
 import { useCallback, useContext, useState } from "react";
 import { SocketContext, SOCKET_EVENT } from "services/socket";
 
-const MessageForm = ({ nickName }) => {
+const MessageForm = ({ nickName, roomId }) => {
   const [typingMessage, setTypingMessage] = useState("");
   const socket = useContext(SocketContext);
 
@@ -21,6 +21,7 @@ const MessageForm = ({ nickName }) => {
     socket.emit(SOCKET_EVENT.SEND_MESSAGE, {
       nickName,
       content: typingMessage,
+      roomId,
     });
 
     setTypingMessage("");
@@ -29,19 +30,19 @@ const MessageForm = ({ nickName }) => {
     <form className="card">
       <div className="d-flex align-items-center">
         <textarea
-          className="form-control"
+          className="large-input"
           maxLength={400}
+          style={{ width: "100%" }}
           autoFocus
           value={typingMessage}
           onChange={handleChangeTypingMessage}
+          onKeyDown={(e) => {
+            if (e.keyCode == 13 && e.shiftKey == false) {
+              e.preventDefault();
+              handleSendMesssage();
+            }
+          }}
         />
-        <button
-          type="button"
-          className="btn btn-primary send-btn"
-          onClick={handleSendMesssage}
-        >
-          전송
-        </button>
       </div>
     </form>
   );

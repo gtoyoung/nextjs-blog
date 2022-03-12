@@ -132,7 +132,6 @@ const Todo = () => {
               uId={user.uid}
               defaultContent={""}
               defaultTitle={""}
-              created={""}
               postId={null}
               closeHandler={() => {
                 setIsEdit(false);
@@ -212,7 +211,6 @@ const Todo = () => {
               defaultContent={post.content}
               defaultTitle={post.title}
               postId={post.postId}
-              created={post.created}
               closeHandler={() => {
                 setIsEdit(false);
               }}

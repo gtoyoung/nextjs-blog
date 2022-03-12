@@ -114,7 +114,6 @@ const AdminPage = () => {
               defaultContent={post.post.content}
               defaultTitle={post.post.title}
               postId={post.post.postId}
-              created={post.post.created}
               closeHandler={handleClose}
               isAdmin={true}
               status={post.post.status}

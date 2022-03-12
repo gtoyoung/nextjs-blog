@@ -41,6 +41,7 @@ button.with-icon {
   overflow-y: auto;
 }
 
-.other {
-  float: right;
+.otherUser {
+  margin-left: auto;
+  margin-right: 0;
 }
