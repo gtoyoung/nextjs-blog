@@ -9,7 +9,7 @@ export const SOCKET_EVENT = {
 };
 
 export const socket = socketIo(String(process.env.NEXT_PUBLIC_SOKET_URL), {
-  withCredentials: true,
+  transports: ["websocket"],
 });
 export const SocketContext = createContext(socket);
 
