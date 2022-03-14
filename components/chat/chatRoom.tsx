@@ -1,3 +1,4 @@
+import FileModal from "components/util/filemodal";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useAuth } from "services/authprovider";
 import { SocketContext, SOCKET_EVENT, makeMessage } from "services/socket";
@@ -19,6 +20,7 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
   const socket = useContext(SocketContext);
   const [prevRoom, setPrevRoom] = useState(null as ChatRoomType);
   const [messageTyping, setMessageTyping] = useState([] as any[]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const moveScrollToReceiveMessage = useCallback(() => {
     if (chatWindow.current) {
@@ -118,7 +120,7 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
                       className="message-content"
                       style={{ background: "yellow", color: "black" }}
                     >
-                      {content}
+                      <div dangerouslySetInnerHTML={{ __html: content }}></div>
                     </div>
                     <div className="message-time">
                       {new Date(time).toLocaleString()}
@@ -136,7 +138,7 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
                       className="message-content"
                       style={{ background: "gray", color: "white" }}
                     >
-                      {content}
+                      <div dangerouslySetInnerHTML={{ __html: content }}></div>
                     </div>
                     <br />
                     <div className="message-time">
@@ -166,10 +168,41 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
           })}
         </div>
         {user && (
-          <MessageForm
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <MessageForm
+              uid={user.uid}
+              nickName={user.displayName}
+              roomId={room.roomId}
+            />
+            <button
+              onClick={() => {
+                setIsOpen(true);
+              }}
+            >
+              gif
+              <br />
+              첨부
+            </button>
+          </div>
+        )}
+        {isOpen && (
+          <FileModal
             uid={user.uid}
-            nickName={user.displayName}
-            roomId={room.roomId}
+            onClose={() => {
+              setIsOpen(false);
+            }}
+            customClick={(url) => {
+              console.log(url);
+              // 소켓서버에 메시지를 전송
+              socket.emit(SOCKET_EVENT.SEND_MESSAGE, {
+                uid: user.uid,
+                nickName: user.displayName,
+                content: `<img src="${url}" width="60px" style="border-radius:50px"/>`,
+                roomId: room.roomId,
+              });
+
+              setIsOpen(false);
+            }}
           />
         )}
       </div>

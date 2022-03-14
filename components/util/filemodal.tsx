@@ -26,9 +26,9 @@ const style = {
   pb: 3,
 };
 
-const FileModal = ({ uid, onClose }) => {
+const FileModal = ({ uid, onClose, customClick }) => {
   const [theme] = useTheme();
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(customClick ? 2 : 1);
   const [open, setOpen] = useState(true);
   const [pictures, setPictures] = useState([] as any[]);
   const storage = new FbStorage();
@@ -92,6 +92,7 @@ const FileModal = ({ uid, onClose }) => {
                 style={
                   theme === "dark" ? { color: "white" } : { color: "black" }
                 }
+                disabled={customClick}
               />
               <Tab
                 label="GIPHY"
@@ -117,7 +118,7 @@ const FileModal = ({ uid, onClose }) => {
           </TabPanel>
           <TabPanel value="2">
             <div className="giphyDiv">
-              <GiphyGrid uid={uid} />
+              <GiphyGrid uid={uid} customClick={customClick} />
             </div>
             powered by <span style={{ fontWeight: "bold" }}>Giphy</span>
           </TabPanel>

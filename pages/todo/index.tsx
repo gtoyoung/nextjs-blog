@@ -225,6 +225,7 @@ const Todo = () => {
               onClose={() => {
                 setIsAdd(false);
               }}
+              customClick={null}
             />
           )}
         </div>

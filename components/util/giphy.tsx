@@ -7,7 +7,7 @@ import FbDatabase from "services/firebase/database";
 
 const giphyFetch = new GiphyFetch(`${process.env.NEXT_PUBLIC_GIPHY_API_KEY}`);
 
-const GiphyGrid = ({ uid }) => {
+const GiphyGrid = ({ uid, customClick }) => {
   const fetchGifs = (offset: number) =>
     giphyFetch.trending({ offset, limit: 10 });
   const [width, setWidth] = useState(window.innerWidth);
@@ -30,6 +30,12 @@ const GiphyGrid = ({ uid }) => {
         });
     }
   };
+
+  const callbackCustom = (gif: any, e) => {
+    e.preventDefault();
+    customClick("https://i.giphy.com/media/" + gif.id + "/giphy.gif");
+  };
+
   const debounceSerach = _.debounce((search) => {
     setSearch(search);
   }, 1000);
@@ -51,7 +57,7 @@ const GiphyGrid = ({ uid }) => {
       </div>
       <reactComponents.Grid
         key={search}
-        onGifClick={gifClickhandler}
+        onGifClick={customClick ? callbackCustom : gifClickhandler}
         fetchGifs={
           search === ""
             ? fetchGifs
