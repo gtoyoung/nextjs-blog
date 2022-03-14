@@ -23,7 +23,7 @@ button.with-icon {
   border: 1px solid black;
   margin: 5px;
   padding: 10px;
-  width: max-content;
+  width: fit-content;
 }
 
 .send-btn {
