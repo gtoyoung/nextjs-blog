@@ -197,7 +197,7 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
               socket.emit(SOCKET_EVENT.SEND_MESSAGE, {
                 uid: user.uid,
                 nickName: user.displayName,
-                content: `<img src="${url}" width="60px" style="border-radius:50px"/>`,
+                content: `<img src="${url}" width="100px" style="border-radius:50px"/>`,
                 roomId: room.roomId,
               });
 
