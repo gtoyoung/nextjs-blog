@@ -12,8 +12,18 @@ button.with-icon {
 }
 
 .message-nickname {
+  display: flex;
   font-weight: bold;
   margin-right: 4px;
+}
+
+.message-content {
+  border-radius: 50px;
+  border-style: 1px solid;
+  border: 1px solid black;
+  margin: 5px;
+  padding: 10px;
+  width: max-content;
 }
 
 .send-btn {
@@ -23,13 +33,14 @@ button.with-icon {
 
 .card {
   padding: 14px;
+  width: 100%;
 }
 
 .text-box {
   padding: 6px;
 }
 
-.time {
+.message-time {
   margin-left: 4px;
   color: #aaa;
   font-size: 13px;
@@ -38,10 +49,30 @@ button.with-icon {
 
 .chat-window {
   height: 400px;
+  width: 100%;
   overflow-y: auto;
+}
+.chat-window::-webkit-scrollbar {
+  display: none;
 }
 
 .otherUser {
   margin-left: auto;
   margin-right: 0;
+}
+
+.otherUser .message-nickname {
+  float: right;
+}
+
+.otherUser .message-content {
+  float: right;
+}
+
+.otherUser .message-time {
+  margin-left: 4px;
+  color: #aaa;
+  font-size: 13px;
+  line-height: 2;
+  float: right;
 }

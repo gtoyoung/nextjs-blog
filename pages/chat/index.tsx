@@ -24,7 +24,7 @@ const ChatPage = () => {
           </SocketContext.Provider>
         </>
       ) : (
-        <>로그인이 필요한 페이지 입니다.</>
+        <h3>로그인이 필요한 페이지 입니다.</h3>
       )}
     </Layout>
   );

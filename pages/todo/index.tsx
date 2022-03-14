@@ -31,7 +31,7 @@ const Todo = () => {
   // 페이지 상태
   let [page, setPage] = useState(1);
   // 한페이지당 보여지는 게시물 수
-  const PER_PAGE = 5;
+  const PER_PAGE = 4;
 
   const _DATA = usePagination(posts, PER_PAGE);
 

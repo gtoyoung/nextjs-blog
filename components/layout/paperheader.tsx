@@ -3,13 +3,19 @@ import Link from "next/link";
 import AuthService from "services/firebase/auth";
 import { useAuth } from "services/authprovider";
 import useTheme from "hook/useTheme";
+import { getRedirectResult } from "firebase/auth";
+import FbDatabase from "services/firebase/database";
+
+const authService = new AuthService();
+const db = new FbDatabase(false);
 
 export const CustomHeader = () => {
   // const [user, setUser] = useState(null as GoogleUser);
   const { user } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
-  const authService = new AuthService();
+
   const [theme, themeToggler] = useTheme();
+
   useEffect(() => {
     var root = document.getElementsByTagName("html")[0];
     if (theme === "light" && typeof window !== "undefined") {
@@ -21,25 +27,25 @@ export const CustomHeader = () => {
       document.body.style.background = "#41403e";
       document.getElementById("themeChanger").textContent = "🌞";
     }
-    authService.auth().onAuthStateChanged((user) => {
-      if (user) {
-        user.getIdTokenResult().then((result) => {
-          if (result.claims.admin) {
-            setIsAdmin(true);
-          }
-        });
+
+    var token = localStorage.getItem("token");
+    // 로그인 직후만 동작하는 토큰 저장 함수
+    getRedirectResult(authService.auth()).then((result) => {
+      if (result && result.user) {
+        db.writeToken(result.user.uid, token);
       }
     });
   }, []);
 
-  const handleLogout = () => {
-    if (confirm("로그아웃 하시겠습니까?")) {
-      authService.logout().then(() => {
-        alert("로그아웃 되었습니다.");
-        window.location.href = "/";
+  useEffect(() => {
+    if (user) {
+      user.getIdTokenResult().then((result) => {
+        if (result.claims.admin) {
+          setIsAdmin(true);
+        }
       });
     }
-  };
+  }, [user]);
 
   return (
     <nav className="border split-nav">
@@ -59,7 +65,7 @@ export const CustomHeader = () => {
         <input type="text" placeholder="Nice input" id="paperInputs1" />
         <div className="collapsible-body">
           <ul className="inline">
-            {user && (
+            {user ? (
               <li>
                 {user.displayName} (
                 <a
@@ -69,11 +75,36 @@ export const CustomHeader = () => {
                     fontFamily: "fantasy",
                   }}
                   href="#javascript"
-                  onClick={handleLogout}
+                  onClick={() => {
+                    if (confirm("로그아웃 하시겠습니까?")) {
+                      authService.logout().then(() => {
+                        alert("로그아웃 되었습니다.");
+                        window.location.href = "/";
+                      });
+                    }
+                  }}
                 >
-                  logout
+                  LOGOUT
                 </a>
                 )
+              </li>
+            ) : (
+              <li>
+                <a
+                  style={{
+                    fontSize: "0.7rem",
+                    borderBottom: "none",
+                    fontFamily: "fantasy",
+                  }}
+                  href="#javascript"
+                  onClick={() => {
+                    if (confirm("로그인 하시겠습니까?")) {
+                      authService.login("google");
+                    }
+                  }}
+                >
+                  LOGIN
+                </a>
               </li>
             )}
             <li>
@@ -96,11 +127,20 @@ export const CustomHeader = () => {
                 <a>Space</a>
               </Link>
             </li>
-            <li>
-              <Link href="/todo">
-                <a>Todo</a>
-              </Link>
-            </li>
+            {user && (
+              <>
+                <li>
+                  <Link href="/todo">
+                    <a>Todo</a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/chat">
+                    <a>Chat</a>
+                  </Link>
+                </li>
+              </>
+            )}
             <li>
               <Link href="/experiment">
                 <a>Exp</a>

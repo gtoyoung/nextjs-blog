@@ -44,19 +44,6 @@ const Experiment = () => {
               />
             </ol>
           </li>
-          <li>채팅룸 - socket을 이용한 인스턴스 채팅</li>
-          <ol>
-            <LinkPreview
-              url="https://dovb.vercel.app/chat"
-              backgroundColor="black"
-              primaryTextColor="white"
-              secondaryTextColor="#ccc"
-              borderColor="black"
-              width="40vw"
-              margin="30px auto"
-              openInNewTab={false}
-            />
-          </ol>
         </ol>
       </div>
       <div className="content" id="content2">

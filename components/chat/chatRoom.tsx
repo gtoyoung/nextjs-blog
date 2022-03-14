@@ -13,10 +13,12 @@ type ChatRoomType = {
 
 const ChatRoom = ({ room }: { room: ChatRoomType }) => {
   const { user } = useAuth();
+
   const [messages, setMessages] = useState([] as any[]);
   const chatWindow = useRef(null);
   const socket = useContext(SocketContext);
   const [prevRoom, setPrevRoom] = useState(null as ChatRoomType);
+  const [messageTyping, setMessageTyping] = useState([] as any[]);
 
   const moveScrollToReceiveMessage = useCallback(() => {
     if (chatWindow.current) {
@@ -36,8 +38,18 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
         newMessage.nickName === user.displayName
       ) {
         return;
+        // 채팅을 typing 중인 상태일 경우 처리
+      } else if (newMessage.type === SOCKET_EVENT.TYPING_MESSAGE) {
+        if (!newMessage.typingFlag) {
+          setMessageTyping([]); // 입력중인 메시지가 없을 경우에는 표시하지 않도록 처리
+        } else {
+          setMessageTyping([]);
+          setMessageTyping((messages) => [...messages, newMessage]);
+        }
       } else {
+        //채팅이 입력되었을 경우에는 typing 입력창은 비워주도록 한다.
         setMessages((messages) => [...messages, newMessage]);
+        setMessageTyping([]);
       }
       moveScrollToReceiveMessage();
     },
@@ -50,6 +62,7 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
     // 채팅방을 떠났을 경우 소켓에 메세지를 보내기 위해 이전 방정보기준으로 비교함
     if (prevRoom && prevRoom.roomId !== room.roomId) {
       socket.emit(SOCKET_EVENT.LEAVE_ROOM, {
+        uid: user.uid,
         nickName: user.displayName,
         roomId: prevRoom.roomId,
       });
@@ -61,6 +74,7 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
       setPrevRoom(room);
     }
     socket.emit(SOCKET_EVENT.JOIN_ROOM, {
+      uid: user.uid,
       nickName: user.displayName,
       roomId: room.roomId,
     });
@@ -69,9 +83,12 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
   useEffect(() => {
     socket.on(SOCKET_EVENT.RECEIVE_MESSAGE, handleChangeMessage);
     socket.on(SOCKET_EVENT.LEAVE_ROOM, handleChangeMessage);
+    socket.on(SOCKET_EVENT.TYPING_MESSAGE, handleChangeMessage);
     return () => {
+      //TODO: 페이지 이동이나 새로고침 페이지가 꺼졌을 때 방을 떠났다는 메시지를 보내도록 해야한다.(해당 시점을 찾는게 중요)
       socket.on(SOCKET_EVENT.RECEIVE_MESSAGE, handleChangeMessage);
       socket.on(SOCKET_EVENT.LEAVE_ROOM, handleChangeMessage);
+      socket.on(SOCKET_EVENT.TYPING_MESSAGE, handleChangeMessage);
     };
   }, [socket, handleChangeMessage]);
 
@@ -84,46 +101,76 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
       <div className="d-flex flex-column">
         <div className="chat-window card" ref={chatWindow}>
           {messages.map((message, index) => {
-            const { nickName, content, time, roomId } = message;
+            const { uid, nickName, content, time, roomId } = message;
             // messages 배열을 map함수로 돌려 각 원소마다 item을 렌더링 해줍니다.
             return (
               <div
                 key={index}
                 className={
-                  nickName && user.displayName !== nickName
-                    ? "otherUser"
-                    : "d-flex flex-row"
+                  uid && user.uid !== uid ? "otherUser" : "d-flex flex-row"
                 }
               >
-                {!nickName && (
-                  <>
-                    <div>{content}</div>
-                    <div className="time">{time}</div>
-                  </>
-                )}
-                {nickName && user.displayName === nickName && (
+                {uid && user.uid === uid && (
+                  //본인 채팅
                   <>
                     <div className="message-nickname">{nickName}</div>
-                    <div>{content}</div>
-                    <div className="time">{time}</div>
+                    <div
+                      className="message-content"
+                      style={{ background: "yellow", color: "black" }}
+                    >
+                      {content}
+                    </div>
+                    <div className="message-time">
+                      {new Date(time).toLocaleString()}
+                    </div>
                   </>
                 )}
 
-                {room.roomId === roomId &&
-                nickName &&
-                user.displayName !== nickName && ( //소켓의 roomId가 현재의 roomId와 같지 않다면 상대방의 채팅을 표시하지 않는다.
-                    <>
-                      <div className="message-nickname">{nickName}</div>
-                      <div>{content}</div>
-                      <div className="time">{time}</div>
-                    </>
-                  )}
+                {room.roomId === roomId && uid && user.uid !== uid && (
+                  //상대방채팅
+                  //소켓의 roomId가 현재의 roomId와 같지 않다면 상대방의 채팅을 표시하지 않는다.
+                  <>
+                    <div className="message-nickname">{nickName}</div>
+                    <br />
+                    <div
+                      className="message-content"
+                      style={{ background: "gray", color: "white" }}
+                    >
+                      {content}
+                    </div>
+                    <br />
+                    <div className="message-time">
+                      {new Date(time).toLocaleString()}
+                    </div>
+                  </>
+                )}
               </div>
+            );
+          })}
+          {messageTyping.map((message, index) => {
+            const { uid, nickName } = message;
+            return (
+              <>
+                {user.uid !== uid && (
+                  <div
+                    key={index}
+                    className={"otherUser"}
+                    style={{ width: "20%" }}
+                  >
+                    <div className="message-nickname">{nickName}</div>
+                    <img src="./img/keyboard.gif" />
+                  </div>
+                )}
+              </>
             );
           })}
         </div>
         {user && (
-          <MessageForm nickName={user.displayName} roomId={room.roomId} />
+          <MessageForm
+            uid={user.uid}
+            nickName={user.displayName}
+            roomId={room.roomId}
+          />
         )}
       </div>
     </>

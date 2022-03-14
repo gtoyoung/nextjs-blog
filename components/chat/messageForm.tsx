@@ -1,12 +1,30 @@
 import { useCallback, useContext, useState } from "react";
 import { SocketContext, SOCKET_EVENT } from "services/socket";
+import _ from "lodash";
 
-const MessageForm = ({ nickName, roomId }) => {
+const MessageForm = ({ uid, nickName, roomId }) => {
   const [typingMessage, setTypingMessage] = useState("");
   const socket = useContext(SocketContext);
 
   // 텍스트를 입력하면 typingMessage state를 변경
   const handleChangeTypingMessage = useCallback((event) => {
+    if (event.target.value === "") {
+      socket.emit(SOCKET_EVENT.TYPING_MESSAGE, {
+        uid,
+        nickName,
+        content: event.target.value,
+        roomId,
+        typing: false,
+      });
+    } else {
+      socket.emit(SOCKET_EVENT.TYPING_MESSAGE, {
+        uid,
+        nickName,
+        content: event.target.value,
+        roomId,
+        typing: true,
+      });
+    }
     setTypingMessage(event.target.value);
   }, []);
 
@@ -17,8 +35,9 @@ const MessageForm = ({ nickName, roomId }) => {
     if (noContent) {
       return;
     }
-    // 닉네임과 함께 소켓서버에 메시지를 전송
+    // 소켓서버에 메시지를 전송
     socket.emit(SOCKET_EVENT.SEND_MESSAGE, {
+      uid,
       nickName,
       content: typingMessage,
       roomId,
@@ -26,6 +45,7 @@ const MessageForm = ({ nickName, roomId }) => {
 
     setTypingMessage("");
   }, [socket, typingMessage]);
+
   return (
     <form className="card">
       <div className="d-flex align-items-center">

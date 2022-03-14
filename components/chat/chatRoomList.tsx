@@ -164,13 +164,16 @@ const ChatRoomList = () => {
       var convertRooms = [] as ChatRoomType[];
       db.getChatRooms().then((rooms) => {
         rooms.forEach((room) => {
-          convertRooms.push({
-            roomName: room.roomName,
-            roomId: room.roomId,
-            created: room.created,
-            participants: room.participants,
-            displayNames: convertName(room.participants),
-            owner: room.owner,
+          // 닉네임 가져오기
+          convertName(room.participants).then((displayNames) => {
+            convertRooms.push({
+              roomName: room.roomName,
+              roomId: room.roomId,
+              created: room.created,
+              participants: room.participants,
+              displayNames: displayNames,
+              owner: room.owner,
+            });
           });
         });
         setChatRooms(convertRooms);
@@ -184,13 +187,16 @@ const ChatRoomList = () => {
       var convertRooms = [] as ChatRoomType[];
       db.getChatRooms().then((rooms) => {
         rooms.forEach((room) => {
-          convertRooms.push({
-            roomName: room.roomName,
-            roomId: room.roomId,
-            created: room.created,
-            participants: room.participants,
-            displayNames: convertName(room.participants),
-            owner: room.owner,
+          // 닉네임 가져오기
+          convertName(room.participants).then((displayNames) => {
+            convertRooms.push({
+              roomName: room.roomName,
+              roomId: room.roomId,
+              created: room.created,
+              participants: room.participants,
+              displayNames: displayNames,
+              owner: room.owner,
+            });
           });
         });
         setChatRooms(convertRooms);
@@ -198,9 +204,9 @@ const ChatRoomList = () => {
     }
   }, [user]);
 
-  const convertName = (participants: string[]) => {
+  const convertName = async (participants: string[]) => {
     var converts = [] as string[];
-    participants.forEach(async (participant) => {
+    await participants.forEach(async (participant) => {
       googleApi.getUserInfo(participant).then((userInfo) => {
         converts.push(userInfo.displayName);
       });
@@ -332,9 +338,7 @@ const ChatRoomList = () => {
                               color={"text.secondary"}
                               fontSize={"0.6rem"}
                             >
-                              {room.displayNames.map((displayName) => {
-                                return displayName + ",";
-                              })}
+                              {room.displayNames.join(",")}
                             </Typography>
                           </React.Fragment>
                         }
