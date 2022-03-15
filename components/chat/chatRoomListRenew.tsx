@@ -20,6 +20,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useAuth } from "services/authprovider";
 import FbDatabase from "services/firebase/database";
 import { GoogleApi } from "services/google";
+import "./style.css";
 
 const db = new FbDatabase(false);
 const googleApi = new GoogleApi();

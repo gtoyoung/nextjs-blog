@@ -1,6 +1,7 @@
 import { useCallback, useContext, useState } from "react";
 import { SocketContext, SOCKET_EVENT } from "services/socket";
 import _ from "lodash";
+import "./style.css";
 
 const MessageForm = ({ uid, nickName, roomId, children }) => {
   const [typingMessage, setTypingMessage] = useState("");

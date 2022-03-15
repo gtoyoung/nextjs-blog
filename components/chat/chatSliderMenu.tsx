@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import CheeseburgerMenu from "cheeseburger-menu";
 import HamburgerMenu from "react-hamburger-menu";
 import ChatRoomListRenew from "./chatRoomListRenew";
+import "./style.css";
 
-const ChatSliderMenu = ({ selectedRoom }) => {
+const ChatSliderMenu = ({ selectedRoom, color }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -30,7 +31,7 @@ const ChatSliderMenu = ({ selectedRoom }) => {
         height={24}
         strokeWidth={3}
         rotate={0}
-        color="black"
+        color={color}
         borderRadius={0}
         animationDuration={0.5}
       />

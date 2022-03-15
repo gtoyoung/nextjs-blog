@@ -20,6 +20,7 @@ import {
 import { onValue } from "firebase/database";
 import ChatRoom from "./chatRoom";
 import { GoogleApi } from "services/google";
+import "./style.css";
 
 const easeSlow = css`
   transition: all 450ms ease-in-out;
