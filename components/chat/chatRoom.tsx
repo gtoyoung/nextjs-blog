@@ -191,22 +191,24 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
               uid={user.uid}
               nickName={user.displayName}
               roomId={room.roomId}
-            />
-            <div
-              style={{
-                width: "15%",
-                padding: "15px",
-                background: "dodgerblue",
-              }}
             >
               <button
                 onClick={() => {
                   setIsOpen(true);
                 }}
               >
-                gif 첨부
+                gif
               </button>
-            </div>
+            </MessageForm>
+            {/* <div
+              style={{
+                width: "15%",
+                padding: "15px",
+                background: "dodgerblue",
+              }}
+            >
+
+            </div> */}
           </div>
         )}
         {isOpen && (

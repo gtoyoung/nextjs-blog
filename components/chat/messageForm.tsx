@@ -2,7 +2,7 @@ import { useCallback, useContext, useState } from "react";
 import { SocketContext, SOCKET_EVENT } from "services/socket";
 import _ from "lodash";
 
-const MessageForm = ({ uid, nickName, roomId }) => {
+const MessageForm = ({ uid, nickName, roomId, children }) => {
   const [typingMessage, setTypingMessage] = useState("");
   const socket = useContext(SocketContext);
 
@@ -48,7 +48,7 @@ const MessageForm = ({ uid, nickName, roomId }) => {
 
   return (
     <form className="card">
-      <div className="d-flex align-items-center">
+      <div className="d-flex align-items-center" style={{ display: "flex" }}>
         <textarea
           className="large-input"
           maxLength={400}
@@ -63,6 +63,7 @@ const MessageForm = ({ uid, nickName, roomId }) => {
             }
           }}
         />
+        {children}
       </div>
     </form>
   );
