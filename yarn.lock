@@ -3395,6 +3395,15 @@ character-reference-invalid@^1.0.0:
   resolved "https://registry.npmjs.org/character-reference-invalid/-/character-reference-invalid-1.1.4.tgz"
   integrity sha512-mKKUkUbhPpQlCOfIuZkvSEgktjPFIsZKRRbC6KWVEMvlzblj3i3asQv5ODsrwt0N3pHAEvjP8KTQPHkp0+6jOg==
 
+cheeseburger-menu@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/cheeseburger-menu/-/cheeseburger-menu-0.0.13.tgz#733ccdfeb729c666c3fe0d18fd650c7d62fcfbdc"
+  integrity sha512-6kXrfUGmDpjPK5btog45+u2Pph6Hcdd4c+BqpJQIOCG95Odh9/n8TojlZ4O40Yjk7fpToGuOgh6i645RvoVmyw==
+  dependencies:
+    classnames "^2.2.6"
+    prop-types "^15.6.2"
+    react-easy-swipe "^0.0.17"
+
 chokidar@3.4.3, chokidar@^3.4.1:
   version "3.4.3"
   resolved "https://registry.npmjs.org/chokidar/-/chokidar-3.4.3.tgz"
@@ -3463,6 +3472,11 @@ classnames@2.2.6, classnames@^2.2.3:
   version "2.2.6"
   resolved "https://registry.npmjs.org/classnames/-/classnames-2.2.6.tgz"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
+
+classnames@^2.2.6:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
+  integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
 
 clean-webpack-plugin@^4.0.0:
   version "4.0.0"
@@ -7724,6 +7738,13 @@ react-dropzone@^12.0.4:
     file-selector "^0.4.0"
     prop-types "^15.8.1"
 
+react-easy-swipe@^0.0.17:
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/react-easy-swipe/-/react-easy-swipe-0.0.17.tgz#029aae58c7f0ebe0056f19b8da3ee6e63c863055"
+  integrity sha512-+4486duR/1Gq16o4+eRkDLG/uKWur+aZ6TOLq4p8GvdHmQblZLbgEaN+Cr6U8P7Dcnou5gA3shMr9B3gq+AD7w==
+  dependencies:
+    prop-types "^15.5.8"
+
 react-flexible-sliding-menu@^0.1.9:
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/react-flexible-sliding-menu/-/react-flexible-sliding-menu-0.1.9.tgz#fd87b4beb17f4841a10eff0b321e67f0db8fb825"
@@ -7762,6 +7783,11 @@ react-full-screen@^1.0.1:
   integrity sha512-ivL/HrcfHhEUJWmgoiDKP7Xfy127LGz9x3VnwVxljJ0ky1D1YqJmXjhxnuEhfqT3yociJy/HCk9/yyJ3HEAjaw==
   dependencies:
     fscreen "^1.0.2"
+
+react-hamburger-menu@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-hamburger-menu/-/react-hamburger-menu-1.2.1.tgz#bcaca08bf7d1ae96aa97553828765dce8f912eeb"
+  integrity sha512-It5Jque8bx9lYn8q/NFtu9Ci20fBMsyunFSp06ZGgWXbMZlTFrN0IxKguGZ0igYQr6RvJ3S9CN3rTjrObmq/Cw==
 
 react-image-gallery@^1.2.7:
   version "1.2.7"

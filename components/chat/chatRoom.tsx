@@ -15,12 +15,20 @@ type ChatRoomType = {
 const ChatRoom = ({ room }: { room: ChatRoomType }) => {
   const { user } = useAuth();
 
+  // 메시지 내용
   const [messages, setMessages] = useState([] as any[]);
+  // 채팅 윈도우에 대한 참조
   const chatWindow = useRef(null);
+  // 소켓 컨텍스트
   const socket = useContext(SocketContext);
+  // 이전 접속한 방에 대한 정보
   const [prevRoom, setPrevRoom] = useState(null as ChatRoomType);
+  // 현재 타이핑 중인 내용이 있는지 확인
   const [messageTyping, setMessageTyping] = useState([] as any[]);
+  // gif 첨부창 열림 여부
   const [isOpen, setIsOpen] = useState(false);
+  // 현재 접속자수
+  const [participants, setParticipants] = useState(0);
 
   const moveScrollToReceiveMessage = useCallback(() => {
     if (chatWindow.current) {
@@ -49,6 +57,7 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
           setMessageTyping((messages) => [...messages, newMessage]);
         }
       } else {
+        setParticipants(newMessage.connectedClients);
         //채팅이 입력되었을 경우에는 typing 입력창은 비워주도록 한다.
         setMessages((messages) => [...messages, newMessage]);
         setMessageTyping([]);
@@ -87,7 +96,14 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
     socket.on(SOCKET_EVENT.LEAVE_ROOM, handleChangeMessage);
     socket.on(SOCKET_EVENT.TYPING_MESSAGE, handleChangeMessage);
     return () => {
-      //TODO: 페이지 이동이나 새로고침 페이지가 꺼졌을 때 방을 떠났다는 메시지를 보내도록 해야한다.(해당 시점을 찾는게 중요)
+      //TODO: 페이지 이동이나 새로고침 페이지가 꺼졌을 때 방을 떠났다는 메시지를 보낸다.
+      socket.emit(SOCKET_EVENT.LEAVE_ROOM, {
+        uid: user.uid,
+        nickName: user.displayName,
+        roomId: room.roomId,
+      });
+      socket.disconnect();
+
       socket.on(SOCKET_EVENT.RECEIVE_MESSAGE, handleChangeMessage);
       socket.on(SOCKET_EVENT.LEAVE_ROOM, handleChangeMessage);
       socket.on(SOCKET_EVENT.TYPING_MESSAGE, handleChangeMessage);
@@ -99,6 +115,8 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
       <h5>
         <span style={{ fontWeight: "bold" }}>{room.roomName}</span> 채팅방에
         오신걸 환영합니다.
+        <br />
+        <span>현재 접속자수: {participants}명</span>
       </h5>
       <div className="d-flex flex-column">
         <div className="chat-window card" ref={chatWindow}>
@@ -174,15 +192,21 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
               nickName={user.displayName}
               roomId={room.roomId}
             />
-            <button
-              onClick={() => {
-                setIsOpen(true);
+            <div
+              style={{
+                width: "15%",
+                padding: "15px",
+                background: "dodgerblue",
               }}
             >
-              gif
-              <br />
-              첨부
-            </button>
+              <button
+                onClick={() => {
+                  setIsOpen(true);
+                }}
+              >
+                gif 첨부
+              </button>
+            </div>
           </div>
         )}
         {isOpen && (

@@ -1,26 +1,28 @@
-import ChatRoomList from "components/chat/chatRoomList";
+import ChatRoom from "components/chat/chatRoom";
+import ChatSliderMenu from "components/chat/chatSliderMenu";
 import { Layout } from "components/layout";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "services/authprovider";
 import { socket, SocketContext } from "services/socket";
 import "./style.css";
 
 const ChatPage = () => {
   const { user } = useAuth();
-
+  const [selectRoom, setSelectRoom] = useState(null as any);
   useEffect(() => {
-    //채팅페이지를 나갔을 경우 소켓 연결을 끊음
-    return () => {
-      socket.disconnect();
-    };
+    socket.connect();
   }, []);
-
   return (
     <Layout>
       {user ? (
         <>
           <SocketContext.Provider value={socket}>
-            <ChatRoomList />
+            <ChatSliderMenu
+              selectedRoom={(room) => {
+                setSelectRoom(room);
+              }}
+            />
+            {selectRoom && <ChatRoom room={selectRoom} />}
           </SocketContext.Provider>
         </>
       ) : (

@@ -25,7 +25,16 @@ socket.on("disconnect", () => {
 });
 
 export const makeMessage = (pongData) => {
-  const { uid, nickName, content, type, time, roomId, typing } = pongData;
+  const {
+    uid,
+    nickName,
+    content,
+    type,
+    time,
+    roomId,
+    typing,
+    connectedClients,
+  } = pongData;
 
   // 사용자 닉네임
   let nickNameLabel;
@@ -80,5 +89,6 @@ export const makeMessage = (pongData) => {
     nickName: nickNameLabel,
     content: contentLabel,
     time: time,
+    connectedClients,
   };
 };
