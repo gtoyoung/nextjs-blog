@@ -48,20 +48,24 @@ const ChatRoomListRenew = ({ selectedRoom, closedMenu }) => {
     onValue(roomsRef, () => {
       var convertRooms = [] as ChatRoomType[];
       db.getChatRooms().then((rooms) => {
+        const promiseArr = [] as Promise<any>[];
         rooms.forEach((room) => {
-          // 닉네임 가져오기
-          convertName(room.participants).then((displayNames) => {
-            convertRooms.push({
-              roomName: room.roomName,
-              roomId: room.roomId,
-              created: room.created,
-              participants: room.participants,
-              displayNames: displayNames,
-              owner: room.owner,
-            });
-          });
+          promiseArr.push(
+            convertName(room.participants).then((displayNames) => {
+              convertRooms.push({
+                roomName: room.roomName,
+                roomId: room.roomId,
+                created: room.created,
+                participants: room.participants,
+                displayNames: displayNames,
+                owner: room.owner,
+              });
+            })
+          );
         });
-        setChatRooms(convertRooms);
+        Promise.all(promiseArr).then(() => {
+          setChatRooms(convertRooms);
+        });
       });
     });
   }, []);
@@ -71,20 +75,24 @@ const ChatRoomListRenew = ({ selectedRoom, closedMenu }) => {
     if (user) {
       var convertRooms = [] as ChatRoomType[];
       db.getChatRooms().then((rooms) => {
+        const promiseArr = [] as Promise<any>[];
         rooms.forEach((room) => {
-          // 닉네임 가져오기
-          convertName(room.participants).then((displayNames) => {
-            convertRooms.push({
-              roomName: room.roomName,
-              roomId: room.roomId,
-              created: room.created,
-              participants: room.participants,
-              displayNames: displayNames,
-              owner: room.owner,
-            });
-          });
+          promiseArr.push(
+            convertName(room.participants).then((displayNames) => {
+              convertRooms.push({
+                roomName: room.roomName,
+                roomId: room.roomId,
+                created: room.created,
+                participants: room.participants,
+                displayNames: displayNames,
+                owner: room.owner,
+              });
+            })
+          );
         });
-        setChatRooms(convertRooms);
+        Promise.all(promiseArr).then(() => {
+          setChatRooms(convertRooms);
+        });
       });
     }
   }, [user]);

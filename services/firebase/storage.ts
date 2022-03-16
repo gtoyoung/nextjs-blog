@@ -61,18 +61,24 @@ class FbStorage {
   getUserFileList(uid: string): Promise<any[]> {
     const storageRef = ref(this.storage, `/images/${uid}`);
     const fileList = [] as any[];
+
     return listAll(storageRef)
       .then((result) => {
+        const promiseArr = [] as Promise<any>[];
         result.items.forEach((item) => {
-          getDownloadURL(ref(this.storage, item.fullPath)).then((url) => {
-            fileList.push({
-              url: url,
-              fileName: item.name,
-              status: "loading",
-            });
-          });
+          promiseArr.push(
+            getDownloadURL(ref(this.storage, item.fullPath)).then((url) => {
+              fileList.push({
+                url: url,
+                fileName: item.name,
+                status: "loading",
+              });
+            })
+          );
         });
-        return fileList;
+        return Promise.all(promiseArr).then(() => {
+          return fileList;
+        });
       })
       .catch(() => {
         return fileList;

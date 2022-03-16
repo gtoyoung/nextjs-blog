@@ -1,7 +1,7 @@
 import { Layout } from "components/layout";
 import { Balloon } from "components/todo";
 import FormDialog from "components/todo/dialog";
-import { getRedirectResult, onAuthStateChanged } from "firebase/auth";
+import { getRedirectResult } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import AuthService from "services/firebase/auth";
 import FbDatabase from "services/firebase/database";
@@ -14,6 +14,7 @@ import { useAuth } from "services/authprovider";
 import Pagination from "@mui/material/Pagination";
 import usePagination from "services/pagination";
 import "./style.css";
+import { onValue } from "firebase/database";
 
 const Todo = () => {
   const { user } = useAuth();
@@ -45,19 +46,18 @@ const Todo = () => {
     });
   }, []);
 
-  // 실시간 포스트 정보 갱신 및 관리자 여부 확인(추후에 onValue 함수로 이관하도록 해야할듯하다)
   useEffect(() => {
-    onAuthStateChanged(authService.auth(), (user) => {
-      if (user) {
-        // setUser(authService.getProfile(user));
+    if (user) {
+      user.getIdTokenResult().then((result) => {
+        if (result.claims.admin) {
+          db = new FbDatabase(true);
+          setIsAdmin(true);
+        }
+      });
 
-        user.getIdTokenResult().then((result) => {
-          if (result.claims.admin) {
-            db = new FbDatabase(true);
-            setIsAdmin(true);
-          }
-        });
-
+      // 프로필 이미지 변경사항 실시간 감시
+      var profileRef = db.getRef("/users/" + user.uid + "/profileImg");
+      onValue(profileRef, () => {
         db.getProfileImg(user.uid).then((result) => {
           if (result === "") {
             setProfile(user.photoURL);
@@ -65,7 +65,11 @@ const Todo = () => {
             setProfile(result);
           }
         });
+      });
 
+      // 요구사항 변경사항 실시간 감시
+      var postRef = db.getRef("/users/" + user.uid + "/posts");
+      onValue(postRef, () => {
         db.getPosts(user.uid)
           .then((result) => {
             const userPost = [] as Post[];
@@ -87,9 +91,11 @@ const Todo = () => {
           .catch((err) => {
             console.log(err);
           });
-      }
-    });
+      });
+    }
+  }, [user]);
 
+  useEffect(() => {
     setCount(Math.ceil(posts.length / PER_PAGE));
   }, [posts]);
 
@@ -232,13 +238,6 @@ const Todo = () => {
       ) : (
         <>
           <h3>로그인이 필요한 페이지 입니다.</h3>
-          <button
-            onClick={() => {
-              authService.login("google");
-            }}
-          >
-            로그인하기
-          </button>
         </>
       )}
     </Layout>

@@ -25,11 +25,9 @@ const ImgList = ({ items, uid }: { items: any[]; uid: string }) => {
           {items.map((item, index) => (
             <ImageListItem key={index} id={item.fileName}>
               {item.status === "loading" && (
-                <>
-                  <div>
-                    <CircularProgress color="secondary" />
-                  </div>
-                </>
+                <div id={"myImg_" + index}>
+                  <CircularProgress color="secondary" />
+                </div>
               )}
               <img
                 src={item.url}
@@ -38,6 +36,9 @@ const ImgList = ({ items, uid }: { items: any[]; uid: string }) => {
                 loading="lazy"
                 onLoad={() => {
                   item.status = "loaded";
+                  document
+                    .getElementById("myImg_" + index)
+                    .setAttribute("style", "display:none");
                 }}
                 onClick={() => {
                   if (confirm("프로필 사진을 변경하시겠습니까?"))

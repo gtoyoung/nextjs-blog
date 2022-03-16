@@ -1,7 +1,7 @@
 import ChatRoom from "components/chat/chatRoom";
 import ChatSliderMenu from "components/chat/chatSliderMenu";
 import { Layout } from "components/layout";
-import useTheme from "hook/useTheme";
+// import useTheme from "hook/useTheme";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "services/authprovider";
 import { socket, SocketContext } from "services/socket";
@@ -9,10 +9,11 @@ import { socket, SocketContext } from "services/socket";
 const ChatPage = () => {
   const { user } = useAuth();
   const [selectRoom, setSelectRoom] = useState(null as any);
-  const [theme] = useTheme();
+  // const [theme] = useTheme();
   useEffect(() => {
     socket.connect();
   }, []);
+
   return (
     <Layout>
       {user ? (
@@ -22,7 +23,7 @@ const ChatPage = () => {
               selectedRoom={(room) => {
                 setSelectRoom(room);
               }}
-              color={theme === "light" ? "black" : "white"}
+              color={"yellow"}
             />
             {selectRoom && <ChatRoom room={selectRoom} />}
           </SocketContext.Provider>
