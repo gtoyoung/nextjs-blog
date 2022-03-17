@@ -83,8 +83,18 @@ const PokePage = ({ result, nameList }: { result: any; nameList: any[] }) => {
   return (
     <Layout isMax={true}>
       <div>
-        <div>
-          <h1>Poke Page</h1>
+        <div style={{ textAlign: "center" }}>
+          <img
+            src="./img/poketMain.png"
+            alt="poketMain"
+            style={{
+              border: "0px",
+              marginTop: "50px",
+              marginBottom: "20px",
+              alignSelf: "center",
+              display: "inline",
+            }}
+          />
           <PokeSearchBox
             nameList={nameList}
             changePokemon={async (pokemon) => {
