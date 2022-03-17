@@ -127,6 +127,11 @@ export const CustomHeader = () => {
                 <a>Space</a>
               </Link>
             </li>
+            <li>
+              <Link href="/poke">
+                <a>Pokemon</a>
+              </Link>
+            </li>
             {user && (
               <>
                 <li>

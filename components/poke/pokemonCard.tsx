@@ -8,9 +8,22 @@ import {
   PokemonType,
 } from "./style";
 
-const PokemonCard = ({ poke, koName }: { poke: PoketInfo; koName: string }) => {
+const PokemonCard = ({
+  poke,
+  koName,
+  onClick,
+}: {
+  poke: PoketInfo;
+  koName: string;
+  onClick: any;
+}) => {
   return (
-    <Container color={poke.color}>
+    <Container
+      color={poke.color}
+      onClick={() => {
+        onClick(poke);
+      }}
+    >
       <Pokemon>
         <PokemonNumber>#{poke.id}</PokemonNumber>
         <PokemonName>{koName}</PokemonName>
