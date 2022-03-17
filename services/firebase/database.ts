@@ -29,6 +29,7 @@ const TABLE = {
   CHAT_ROOM: "chatrooms",
   TOKEN: "token",
   PROFILE_IMG: "profileImg",
+  POKE_NAME: "poketmon",
 };
 
 class FbDatabase {
@@ -279,6 +280,22 @@ class FbDatabase {
       .catch(() => {
         return false;
       });
+  }
+
+  getPokeNameList(): Promise<string[]> {
+    return get(ref(this.db, `/${TABLE.POKE_NAME}`)).then(
+      (data: DataSnapshot) => {
+        const resultList = [] as string[];
+        if (data.size === 0) {
+          return [];
+        } else {
+          data.forEach((name: DataSnapshot) => {
+            resultList.push(name.val());
+          });
+          return resultList;
+        }
+      }
+    );
   }
 }
 

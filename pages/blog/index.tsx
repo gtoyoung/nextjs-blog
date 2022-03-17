@@ -94,7 +94,7 @@ const BlogPage = ({ entries }) => {
           </div>
         </div>
       </div>
-      <div className="row mt-3">
+      <div className="row flex-center child-borders">
         {bloglist.length > 0 && renderBlogList(bloglist)}
         {bloglist.length == 0 && (
           <div>

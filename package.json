@@ -53,12 +53,14 @@
     "react-paper-css": "^0.0.4",
     "react-photo-gallery": "^8.0.0",
     "react-resize-observer": "^1.1.1",
+    "react-router-dom": "^6.2.2",
     "react-switch": "^6.0.0",
     "react-xml-parser": "^1.1.8",
     "reactstrap": "^8.8.1",
     "recoil": "^0.6.1",
     "socket.io-client": "^4.4.1",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "styled-media-query": "^2.1.2"
   },
   "devDependencies": {
     "@types/node": "^14.14.19",

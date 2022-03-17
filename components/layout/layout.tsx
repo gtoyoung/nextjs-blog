@@ -7,7 +7,11 @@ export const Layout = (props) => {
     <>
       <CustomHeader />
       <ErrorBoundary>
-        <main className="container mt-3">{props.children}</main>
+        {props.isMax ? (
+          <main>{props.children}</main>
+        ) : (
+          <main className={"container mt-3"}>{props.children}</main>
+        )}
       </ErrorBoundary>
       {/* <Footer /> */}
     </>

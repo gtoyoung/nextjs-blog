@@ -26,44 +26,39 @@ export const BlogBox = (props: BlogBoxProps) => {
   };
 
   return (
-    <div className="row flex-right child-borders">
-      <div className="card">
+    <div className="card">
+      <Link href="/blog/[slug]" as={`/blog/${props.slug}`} passHref>
+        <a>
+          <img src={props.imageUrl} style={{ width: "auto", height: "auto" }} />
+        </a>
+      </Link>
+
+      <div className="card-body">
         <Link href="/blog/[slug]" as={`/blog/${props.slug}`} passHref>
           <a>
-            <img
-              src={props.imageUrl}
-              style={{ width: "auto", height: "auto" }}
-            />
+            <h3 className="card-title">{props.title}</h3>
           </a>
         </Link>
-
-        <div className="card-body">
-          <Link href="/blog/[slug]" as={`/blog/${props.slug}`} passHref>
-            <a>
-              <h3 className="card-title">{props.title}</h3>
-            </a>
-          </Link>
-          <h4 className="card-subtitle">
-            by {props.author === "" ? "DOVB" : props.author}
-          </h4>
-          <p className="card-text">{props.description}</p>
-          <ul className="breadcrumb">
-            {props.tags.map((tag, i) => {
-              return (
-                <li>
-                  <button
-                    className="btn-small"
-                    key={i}
-                    value={tag}
-                    onClick={onTrigger}
-                  >
-                    {tag}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <h4 className="card-subtitle">
+          by {props.author === "" ? "DOVB" : props.author}
+        </h4>
+        <p className="card-text">{props.description}</p>
+        <ul className="breadcrumb">
+          {props.tags.map((tag, i) => {
+            return (
+              <li>
+                <button
+                  className="btn-small"
+                  key={i}
+                  value={tag}
+                  onClick={onTrigger}
+                >
+                  {tag}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );
