@@ -59,7 +59,10 @@ const PokePage = ({ result, nameList }: { result: any; nameList: any[] }) => {
   };
   // 초기데이터 셋팅
   useEffect(() => {
-    const observer = new IntersectionObserver(onIntersect, { threshold: 0.5 });
+    const observer = new IntersectionObserver(onIntersect, {
+      threshold: 0.5,
+      rootMargin: "0px 0px 800px 0px",
+    });
     observer.observe(cardListRef.current);
     setPokemons(pokeList);
     return () => observer.disconnect();
