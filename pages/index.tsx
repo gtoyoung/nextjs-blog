@@ -2,6 +2,7 @@ import { Layout } from "components/layout";
 import { Switch } from "@material-ui/core";
 import { GoogleApi } from "services/google";
 import React, { useEffect, useState } from "react";
+import { Totoro } from "components/web3D/Totoro";
 const Index = () => {
   const [token, setToken] = useState("");
   const [noti, setNoti] = useState(false);
@@ -43,6 +44,7 @@ const Index = () => {
               기존 Gatsby + Contentful로 구성되어있던 블로그를 Nextjs +
               Contentful로 개편을 진행중입니다.
             </p>
+            <Totoro />
           </div>
         </div>
       </div>
