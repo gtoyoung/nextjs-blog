@@ -6,8 +6,8 @@ import { useEffect } from "react";
 import * as ga from "../services/ga";
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
-import { GoogleApi } from "services/google";
 import { AuthProvider } from "services/authprovider";
+import FbDatabase from "services/firebase/database";
 
 const DEFAULT_SEO = {
   title: "Dovb`s Blog",
@@ -43,10 +43,11 @@ const firebaseConfig = {
 };
 
 const CustomApp = ({ Component, pageProps }) => {
+  let db = new FbDatabase(false);
   // 구글 firebase 초기화
   useEffect(() => {
     initializeApp(firebaseConfig);
-    const googleApi = new GoogleApi();
+
     const messaging = getMessaging();
 
     getToken(messaging, {
@@ -54,17 +55,17 @@ const CustomApp = ({ Component, pageProps }) => {
     })
       .then((currentToken) => {
         if (currentToken) {
-          // 토큰 저장
-          googleApi
-            .insertToken(currentToken)
-            .then((res) => {
-              // 전역 상태값 업데이트
+          db.getToken(currentToken).then((res) => {
+            console.log(res);
+            if (res === null) {
+              db.insertToken(currentToken);
               localStorage.setItem("token", currentToken);
+              localStorage.setItem("noti", "false");
+            } else {
+              localStorage.setItem("token", res.token);
               localStorage.setItem("noti", res.notification + "");
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+            }
+          });
         } else {
           // Show permission request UI
           console.log(

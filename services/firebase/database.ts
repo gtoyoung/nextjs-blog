@@ -30,6 +30,7 @@ const TABLE = {
   TOKEN: "token",
   PROFILE_IMG: "profileImg",
   POKE_NAME: "poketmon",
+  FCM_TOKEN: "fcmToken",
 };
 
 class FbDatabase {
@@ -296,6 +297,49 @@ class FbDatabase {
         }
       }
     );
+  }
+
+  insertToken(token: string): Promise<boolean> {
+    return set(ref(this.db, `/${TABLE.FCM_TOKEN}/${token}`), {
+      notification: false,
+    })
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
+  }
+
+  getToken(token): Promise<any> {
+    const tokenRef = ref(this.db, `/${TABLE.FCM_TOKEN}/${token}`);
+    return get(tokenRef)
+      .then((data: DataSnapshot) => {
+        if (data.size === 0) {
+          return null;
+        } else {
+          return {
+            token,
+            notification: data.val().notification,
+          };
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        return null;
+      });
+  }
+
+  updateToken(token: string, notification: boolean): Promise<boolean> {
+    return update(ref(this.db, `/${TABLE.FCM_TOKEN}/${token}`), {
+      notification,
+    })
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
   }
 }
 

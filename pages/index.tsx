@@ -1,13 +1,12 @@
 import { Layout } from "components/layout";
 import { Switch } from "@material-ui/core";
-import { GoogleApi } from "services/google";
 import React, { useEffect, useState } from "react";
 import { Totoro } from "components/web3D/Totoro";
+import FbDatabase from "services/firebase/database";
 const Index = () => {
   const [token, setToken] = useState("");
   const [noti, setNoti] = useState(false);
-  const googleApi = new GoogleApi();
-
+  const db = new FbDatabase(false);
   // 우선 임시방편
   useEffect(() => {
     localStorage.getItem("token") && setToken(localStorage.getItem("token"));
@@ -19,14 +18,13 @@ const Index = () => {
   }, []);
 
   const toggle = () => {
-    googleApi
-      .updateToken(token, !noti)
+    db.updateToken(token, !noti)
       .then(() => {
         setNoti(!noti);
         localStorage.setItem("noti", !noti + "");
       })
-      .catch((e) => {
-        console.log(e);
+      .catch((err) => {
+        console.log(err);
       });
   };
   return (
