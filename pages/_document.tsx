@@ -52,6 +52,7 @@ export default class CustomDocument extends Document {
             property="og:image"
             content="https://dovb.vercel.app/icon/icon-192x192.png"
           />
+
           <meta property="og:description" content="Dovb`s Blog 입니다." />
           <meta property="og:type" content="website" />
           <meta property="og:site_name" content="Dovb`s Blog" />
@@ -60,7 +61,14 @@ export default class CustomDocument extends Document {
           <meta property="og:image:width" content="1200" />
           <meta property="og:image:height" content="630" />
           <meta name="keywords" content="Keywords" />
-
+          <meta
+            name="naver-site-verification"
+            content="f7c66ccf4e04864281cf64ac9f9feb1ac605dd18"
+          />
+          <meta
+            name="google-site-verification"
+            content="l03SA7WGDws0CNyptdJre-Eqe3qgLhC6TAfveZgJzlg"
+          />
           <title>Next.js PWA Example</title>
           <script
             type="text/javascript"
