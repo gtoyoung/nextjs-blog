@@ -120,7 +120,7 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
         <span>현재 접속자수: {participants}명</span>
       </h5>
       <div className="d-flex flex-column">
-        <div className="chat-window card" ref={chatWindow}>
+        <div className="chat-window card_msg" ref={chatWindow}>
           {messages.map((message, index) => {
             const { uid, nickName, content, time, roomId } = message;
             // messages 배열을 map함수로 돌려 각 원소마다 item을 렌더링 해줍니다.

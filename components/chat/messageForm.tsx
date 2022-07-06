@@ -48,7 +48,7 @@ const MessageForm = ({ uid, nickName, roomId, children }) => {
   }, [socket, typingMessage]);
 
   return (
-    <form className="card">
+    <form className="card_msg">
       <div className="d-flex align-items-center" style={{ display: "flex" }}>
         <textarea
           className="large-input"
