@@ -134,7 +134,7 @@ const NasaGallery = (props: NasaGalleryProps) => {
 
   return (
     <>
-      <div className="row">
+      <div className="row_nasa">
         <div className="column">
           <InfiniteScroll
             dataLength={photos.length}
