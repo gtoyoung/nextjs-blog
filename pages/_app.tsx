@@ -14,10 +14,17 @@ const DEFAULT_SEO = {
   description: "개발 공부 중",
   openGraph: {
     type: "website",
-    locale: "en",
+    url: "https://dovb.vercel.app",
     title: "Dovb`s Blog",
     description: "개발 공부 중",
     site_name: "Dovb`s Blog",
+    images: [
+      {
+        url: "https://dovb.vercel.app/icon/icon-192x192.png",
+        width: 192,
+        height: 192,
+      },
+    ],
   },
 };
 

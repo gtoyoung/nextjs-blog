@@ -46,20 +46,6 @@ export default class CustomDocument extends Document {
             content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
           />
           <meta name="description" content="Dovb`s Blog 입니다." />
-          <meta property="og:url" content="https://dovb.vercel.app" />
-          <meta property="og:title" content="Dovb`s Blog" />
-          <meta
-            property="og:image"
-            content="https://dovb.vercel.app/icon/icon-192x192.png"
-          />
-
-          <meta property="og:description" content="Dovb`s Blog 입니다." />
-          <meta property="og:type" content="website" />
-          <meta property="og:site_name" content="Dovb`s Blog" />
-          <meta property="og:locale" content="ko_KR" />
-          <meta property="og:locale:alternate" content="en_US" />
-          <meta property="og:image:width" content="1200" />
-          <meta property="og:image:height" content="630" />
           <meta name="keywords" content="Keywords" />
           <meta
             name="naver-site-verification"
