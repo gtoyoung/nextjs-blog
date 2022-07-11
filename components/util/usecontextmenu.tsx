@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-
 export const useContextMenu = () => {
   const [xPos, setXPos] = useState("0px");
   const [yPos, setYPos] = useState("0px");
@@ -54,10 +53,12 @@ export const useContextMenu = () => {
   useEffect(() => {
     document.addEventListener("click", handleClick);
     document.addEventListener("contextmenu", handleContextMenu);
+    document.addEventListener("touchstart", handleContextMenu);
 
     return () => {
       document.removeEventListener("click", handleClick);
       document.removeEventListener("contextmenu", handleContextMenu);
+      document.removeEventListener("touchstart", handleContextMenu);
     };
   });
 

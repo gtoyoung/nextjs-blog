@@ -10,6 +10,10 @@ import ContextMenu from "components/util/contextmenu";
 
 const Container = styled.div`
   display: flex;
+  @media screen and (max-width: 900px) {
+    width: 100%;
+    flex-direction: column;
+  }
 `;
 
 const TaskPage = () => {
@@ -17,6 +21,7 @@ const TaskPage = () => {
   const db = new FbDatabase(false);
 
   const [data, setData] = useState<IData>();
+  const [width, setWidth] = useState(0);
 
   useEffect(() => {
     if (user) {
@@ -24,6 +29,22 @@ const TaskPage = () => {
         setData(result);
       });
     }
+    setWidth(window.innerWidth);
+
+    // 반응형 크기에 따라 drag의 방향을 수정하기 위한 처리
+    window.addEventListener("resize", () => {
+      if (width > 900 && window.innerWidth < 900) {
+        setWidth(window.innerWidth);
+        location.href = location.href;
+      } else if (width <= 900 && window.innerWidth > 900) {
+        setWidth(window.innerWidth);
+        location.href = location.href;
+      }
+    });
+
+    return () => {
+      window.removeEventListener("resize", () => {});
+    };
   }, [user]);
 
   const createTask = (targetColumn) => {
@@ -249,8 +270,8 @@ const TaskPage = () => {
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable
           droppableId="all-columns"
-          direction="horizontal"
           type="column"
+          direction={width >= 1000 ? "horizontal" : "vertical"}
         >
           {(provided) => (
             <Container {...provided.droppableProps} ref={provided.innerRef}>

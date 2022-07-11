@@ -15,6 +15,9 @@ const Container = styled.div`
   width: 220px;
   display: flex;
   flex-direction: column;
+  @media screen and (max-width: 900px) {
+    width: 100%;
+  }
 `;
 
 const Title = styled.h3`
