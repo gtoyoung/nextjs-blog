@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { PoketInfo } from "./poke.types";
+import { PoketInfo } from "../type/poke.types";
 
 export class PokeApi {
   client: AxiosInstance;

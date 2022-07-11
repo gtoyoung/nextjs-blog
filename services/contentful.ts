@@ -6,7 +6,7 @@ import {
   Photo,
   PhotoPost,
   Slug,
-} from "./contentful.types";
+} from "../type/contentful.types";
 import moment from "moment";
 
 export class ContentApi {

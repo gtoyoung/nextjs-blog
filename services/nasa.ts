@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { NasaPicture } from "./nasa.types";
+import { NasaPicture } from "../type/nasa.types";
 
 const apiKey = process.env.NEXT_PUBLIC_NASA_APIKEY;
 

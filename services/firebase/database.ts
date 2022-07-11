@@ -12,7 +12,8 @@ import {
   update,
   DatabaseReference,
 } from "firebase/database";
-import { Post } from "../google.types";
+import { IData } from "type/task.types";
+import { Post } from "../../type/google.types";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FB_API_KEY,
@@ -31,6 +32,7 @@ const TABLE = {
   PROFILE_IMG: "profileImg",
   POKE_NAME: "poketmon",
   FCM_TOKEN: "fcmToken",
+  TASK_DATA: "taskData",
 };
 
 class FbDatabase {
@@ -59,6 +61,242 @@ class FbDatabase {
         return datas.length;
       }
     );
+  }
+
+  getTaskAllData(userId: string): Promise<IData> {
+    return get(ref(this.db, `/users/${userId}/${TABLE.TASK_DATA}`))
+      .then((datas: DataSnapshot) => {
+        if (datas.val()) {
+          const result: IData = {
+            tasks: null,
+            columnOrder: [...datas.val().columnOrder],
+            columns: null,
+          };
+
+          if (datas.val().columns) {
+            result.columns = {};
+            for (const [key, value] of Object.entries<any>(
+              datas.val().columns
+            )) {
+              result.columns[key] = {
+                id: value.id,
+                title: value.title,
+                taskIds: value.taskIds ? [...value.taskIds] : [],
+              };
+            }
+          }
+
+          if (datas.val().tasks) {
+            result.tasks = {};
+            for (const [key, value] of Object.entries<any>(datas.val().tasks)) {
+              result.tasks[key] = {
+                id: value.id,
+                content: value.content,
+                index: value.index,
+              };
+            }
+          }
+
+          return result;
+        }
+      })
+      .catch(() => {
+        return null;
+      });
+  }
+
+  createColumn(
+    userId: string,
+    columnId: string,
+    title: string
+  ): Promise<boolean> {
+    const taskDataRef = this.getRef(`/users/${userId}/${TABLE.TASK_DATA}`);
+
+    return get(taskDataRef)
+      .then((data: DataSnapshot) => {
+        if (data.val()?.columnOrder) {
+          update(taskDataRef, {
+            columnOrder: [...data.val().columnOrder, columnId],
+          }).then(() => {
+            update(taskDataRef, {
+              columns: {
+                ...data.val().columns,
+                [columnId]: {
+                  id: columnId,
+                  title,
+                  taskIds: [],
+                },
+              },
+            });
+          });
+        } else {
+          update(taskDataRef, {
+            columnOrder: [columnId],
+          })
+            .then(() => {
+              return true;
+            })
+            .then((result) => {
+              if (result) {
+                update(taskDataRef, {
+                  columns: {
+                    [columnId]: {
+                      id: columnId,
+                      title,
+                      taskIds: [],
+                    },
+                  },
+                });
+              }
+            });
+        }
+      })
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
+  }
+
+  updateColumn(
+    userId: string,
+    columnId: string,
+    taskIds: string[]
+  ): Promise<boolean> {
+    return update(
+      ref(this.db, `/users/${userId}/${TABLE.TASK_DATA}/columns/${columnId}`),
+      {
+        taskIds,
+      }
+    )
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
+  }
+
+  createTask(
+    userId: string,
+    targetColumnId: string,
+    taskIds: string[],
+    content: string
+  ): Promise<boolean> {
+    let taskId = "task-1";
+    return get(ref(this.db, `/users/${userId}/${TABLE.TASK_DATA}/tasks`)).then(
+      (datas: DataSnapshot) => {
+        if (datas.val()) {
+          const tasks = datas.val();
+          if (tasks) {
+            taskId = `task-${Object.keys(tasks).length + 1}`;
+          }
+        }
+        return set(
+          ref(this.db, `/users/${userId}/${TABLE.TASK_DATA}/tasks/${taskId}`),
+          {
+            id: taskId,
+            content,
+          }
+        )
+          .then(() => {
+            return this.updateColumn(userId, targetColumnId, taskIds);
+          })
+          .catch(() => {
+            return false;
+          });
+      }
+    );
+  }
+
+  updateTaskIndex(
+    userId: string,
+    targetColumnId: string,
+    destinationColumnId: string,
+    targetTaskIds: string[],
+    destinationTaskIds: string[]
+  ): Promise<boolean> {
+    if (targetColumnId === destinationColumnId) {
+      return update(
+        ref(
+          this.db,
+          `/users/${userId}/${TABLE.TASK_DATA}/columns/${targetColumnId}`
+        ),
+        {
+          taskIds: targetTaskIds,
+        }
+      )
+        .then(() => {
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
+    } else {
+      return update(
+        ref(
+          this.db,
+          `/users/${userId}/${TABLE.TASK_DATA}/columns/${targetColumnId}`
+        ),
+        {
+          taskIds: targetTaskIds,
+        }
+      )
+        .then(() => {
+          return update(
+            ref(
+              this.db,
+              `/users/${userId}/${TABLE.TASK_DATA}/columns/${destinationColumnId}`
+            ),
+            {
+              taskIds: destinationTaskIds,
+            }
+          )
+            .then(() => {
+              return true;
+            })
+            .catch(() => {
+              return false;
+            });
+        })
+        .catch(() => {
+          return false;
+        });
+    }
+  }
+
+  updateTask(
+    userId: string,
+    taskId: string,
+    content: string,
+    index: number
+  ): Promise<boolean> {
+    return update(
+      ref(this.db, `/users/${userId}/${TABLE.TASK_DATA}/tasks/${taskId}`),
+      {
+        content,
+        index,
+      }
+    )
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
+  }
+
+  updateColumnIndex(userId: string, columnOrders: string[]): Promise<boolean> {
+    return update(ref(this.db, `/users/${userId}/${TABLE.TASK_DATA}`), {
+      columnOrder: columnOrders,
+    })
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
   }
 
   // 게시글 작성

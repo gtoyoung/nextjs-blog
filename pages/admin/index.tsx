@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import AuthService from "services/firebase/auth";
 import FbDatabase from "services/firebase/database";
 import { GoogleApi } from "services/google";
-import { GoogleUser, Post, PostDetail } from "services/google.types";
+import { GoogleUser, Post, PostDetail } from "type/google.types";
 
 // 관리자만 접근할수있는 페이지
 const AdminPage = () => {

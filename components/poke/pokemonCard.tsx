@@ -1,5 +1,5 @@
 import React from "react";
-import { PoketInfo } from "services/poke.types";
+import { PoketInfo } from "type/poke.types";
 import {
   Container,
   Pokemon,

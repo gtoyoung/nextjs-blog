@@ -1,4 +1,4 @@
-import { NasaPicture } from "services/nasa.types";
+import { NasaPicture } from "type/nasa.types";
 import React, { useEffect, useState } from "react";
 import { useImgIObserver } from "hook/useImgIObserver";
 import Lightbox from "react-image-lightbox";

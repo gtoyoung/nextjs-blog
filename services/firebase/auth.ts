@@ -8,7 +8,7 @@ import {
   browserLocalPersistence,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { GoogleUser } from "../google.types";
+import { GoogleUser } from "../../type/google.types";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FB_API_KEY,

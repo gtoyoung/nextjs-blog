@@ -2,7 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import { GoogleUser } from "services/google.types";
+import { GoogleUser } from "type/google.types";
 
 export default function UserSelectBox({
   users,

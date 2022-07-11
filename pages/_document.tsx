@@ -6,6 +6,7 @@ import Document, {
   DocumentContext,
 } from "next/document";
 import { ServerStyleSheet } from "styled-components";
+import { resetServerContext } from "react-beautiful-dnd";
 
 export default class CustomDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -15,8 +16,10 @@ export default class CustomDocument extends Document {
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: (App) => (props) =>
-            sheet.collectStyles(<App {...props} />),
+          enhanceApp: (App) => (props) => {
+            resetServerContext();
+            return sheet.collectStyles(<App {...props} />);
+          },
         });
 
       const initialProps = await Document.getInitialProps(ctx);
@@ -39,6 +42,7 @@ export default class CustomDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <title></title>
           <meta charSet="utf-8" />
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta

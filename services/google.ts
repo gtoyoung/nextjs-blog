@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { FcmToken, GoogleUser } from "./google.types";
+import { FcmToken, GoogleUser } from "../type/google.types";
 
 export class GoogleApi {
   client: AxiosInstance;

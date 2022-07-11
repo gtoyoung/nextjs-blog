@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Layout } from "components/layout";
 import { GetStaticProps } from "next";
 import { PokeApi } from "services/poke";
-import { PoketInfo } from "services/poke.types";
+import { PoketInfo } from "type/poke.types";
 import FbDatabase from "services/firebase/database";
 import PokemonCard from "components/poke/pokemonCard";
 import { Pokemons } from "../../components/poke/indexStyle";

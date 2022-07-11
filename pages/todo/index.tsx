@@ -5,7 +5,7 @@ import { getRedirectResult } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import AuthService from "services/firebase/auth";
 import FbDatabase from "services/firebase/database";
-import { Post, PostDetail } from "services/google.types";
+import { Post, PostDetail } from "type/google.types";
 import { Board } from "components/todo/board";
 import { StorageToggle } from "components/util/storagetoggle";
 import FileModal from "components/util/filemodal";
@@ -32,7 +32,7 @@ const Todo = () => {
   // 페이지 상태
   let [page, setPage] = useState(1);
   // 한페이지당 보여지는 게시물 수
-  const PER_PAGE = 4;
+  const PER_PAGE = 6;
 
   const _DATA = usePagination(posts, PER_PAGE);
 

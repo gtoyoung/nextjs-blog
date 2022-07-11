@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { Hospital } from "./nara.types";
+import { Hospital } from "../type/nara.types";
 // import XMLParser from "react-xml-parser";
 
 const apiKey = process.env.NEXT_PUBLIC_NARA_APIKEY;

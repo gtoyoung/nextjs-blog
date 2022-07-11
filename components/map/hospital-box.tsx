@@ -1,5 +1,5 @@
 import React from "react";
-import { Hospital } from "services/nara.types";
+import { Hospital } from "type/nara.types";
 import styled from "styled-components";
 
 const HospDiv = styled.div`
