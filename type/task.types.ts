@@ -1,6 +1,6 @@
 export type IData = {
   tasks: {
-    [key: string]: { id: string; content: string; index: number };
+    [key: string]: { id: string; content: string };
   };
   columns: {
     [key: string]: { id: string; title: string; taskIds: string[] };
@@ -13,7 +13,6 @@ export type IColumnProps = {
   tasks: {
     id: string;
     content: string;
-    index: number;
   }[];
   index: number;
 };

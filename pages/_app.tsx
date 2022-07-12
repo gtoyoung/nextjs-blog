@@ -8,7 +8,8 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, getToken } from "firebase/messaging";
 import { AuthProvider } from "services/authprovider";
 import FbDatabase from "services/firebase/database";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const DEFAULT_SEO = {
   title: "Dovb`s Blog",
   description: "개발 공부 중",
@@ -112,6 +113,15 @@ const CustomApp = ({ Component, pageProps }) => {
       <DefaultSeo {...DEFAULT_SEO} />
       <AuthProvider>
         <Component {...pageProps} />
+        <ToastContainer
+          position="top-right"
+          autoClose={8000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          draggable={false}
+          closeOnClick
+          pauseOnHover
+        />
       </AuthProvider>
     </>
   );

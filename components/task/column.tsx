@@ -12,21 +12,34 @@ const Container = styled.div`
   margin: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
-  width: 220px;
+  width: 33%;
   display: flex;
   flex-direction: column;
   @media screen and (max-width: 900px) {
-    width: 100%;
+    width: 98%;
   }
 `;
 
-const Title = styled.h3`
+const Title = styled.h5`
   padding: 8px;
+  text-align: center;
+  margin-top: 0px;
+  position: absolute;
+`;
+
+const MoveDiv = styled.div`
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  postion: relative;
 `;
 
 const TaskList = styled.div<ITaskList>`
   padding: 8px;
-  background-color: ${(props) => (props.isDraggingOver ? "skyblue" : "white")};
+  background-color: ${(props) =>
+    props.isDraggingOver ? "skyblue" : "ghostwhite"};
   flex-grow: 1;
 `;
 
@@ -37,7 +50,22 @@ const Column = (props: IColumnProps) => {
       <Draggable draggableId={column.id} index={index}>
         {(provided) => (
           <Container ref={provided.innerRef} {...provided.draggableProps}>
-            <Title {...provided.dragHandleProps}>{column.title}</Title>
+            <MoveDiv {...provided.dragHandleProps} id={"columnMove"}/>
+            <Title
+              id={"columnTitle"}
+              onDragStart={(e) => {
+                e.dataTransfer.setData("columnId", column.id);
+                document.getElementById("trash-zone").style.display = "block";
+              }}
+              onDragEnd={(e) => {
+                e.preventDefault();
+                document.getElementById("trash-zone").style.display = "none";
+              }}
+              draggable={true}
+              style={{ cursor: "grabbing" }}
+            >
+              {column.title}
+            </Title>
             <Droppable droppableId={column.id} type="task">
               {(provided, snapshot) => (
                 <TaskList
@@ -46,9 +74,18 @@ const Column = (props: IColumnProps) => {
                   isDraggingOver={snapshot.isDraggingOver}
                 >
                   <>
-                    {tasks.map((task, idx) => (
-                      <Task key={task.id} task={task} index={idx} />
-                    ))}
+                    {tasks.length > 0 ? (
+                      tasks.map((task, idx) => (
+                        <Task key={task.id} task={task} index={idx} />
+                      ))
+                    ) : (
+                      <h5
+                        style={{ textAlign: "center", color: "gray" }}
+                        id={"dropCaption"}
+                      >
+                        Drop Here
+                      </h5>
+                    )}
                     {provided.placeholder}
                   </>
                 </TaskList>

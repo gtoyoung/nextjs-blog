@@ -44,6 +44,21 @@ const Experiment = () => {
               />
             </ol>
           </li>
+          <li>
+            Task 개발 페이지
+            <ol>
+              <LinkPreview
+                url="https://dovb.vercel.app/task"
+                backgroundColor="black"
+                primaryTextColor="white"
+                secondaryTextColor="#ccc"
+                borderColor="black"
+                width="40vw"
+                margin="30px auto"
+                openInNewTab={false}
+              />
+            </ol>
+          </li>
         </ol>
       </div>
       <div className="content" id="content2">

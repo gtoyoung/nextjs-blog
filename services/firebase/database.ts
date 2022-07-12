@@ -92,7 +92,6 @@ class FbDatabase {
               result.tasks[key] = {
                 id: value.id,
                 content: value.content,
-                index: value.index,
               };
             }
           }
@@ -115,39 +114,39 @@ class FbDatabase {
     return get(taskDataRef)
       .then((data: DataSnapshot) => {
         if (data.val()?.columnOrder) {
-          update(taskDataRef, {
-            columnOrder: [...data.val().columnOrder, columnId],
-          }).then(() => {
-            update(taskDataRef, {
-              columns: {
-                ...data.val().columns,
-                [columnId]: {
-                  id: columnId,
-                  title,
-                  taskIds: [],
-                },
+          return update(taskDataRef, {
+            columns: {
+              ...data.val().columns,
+              [columnId]: {
+                id: columnId,
+                title,
+                taskIds: [],
               },
+            },
+            columnOrder: [...data.val().columnOrder, columnId],
+          })
+            .then(() => {
+              return true;
+            })
+            .catch(() => {
+              return false;
             });
-          });
         } else {
-          update(taskDataRef, {
+          return update(taskDataRef, {
+            columns: {
+              [columnId]: {
+                id: columnId,
+                title,
+                taskIds: [],
+              },
+            },
             columnOrder: [columnId],
           })
             .then(() => {
               return true;
             })
-            .then((result) => {
-              if (result) {
-                update(taskDataRef, {
-                  columns: {
-                    [columnId]: {
-                      id: columnId,
-                      title,
-                      taskIds: [],
-                    },
-                  },
-                });
-              }
+            .catch(() => {
+              return false;
             });
         }
       })
@@ -290,6 +289,26 @@ class FbDatabase {
   updateColumnIndex(userId: string, columnOrders: string[]): Promise<boolean> {
     return update(ref(this.db, `/users/${userId}/${TABLE.TASK_DATA}`), {
       columnOrder: columnOrders,
+    })
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
+  }
+
+  deleteColumn(userId: string, data: IData): Promise<boolean> {
+    const taskDataRef = this.getRef(`/users/${userId}/${TABLE.TASK_DATA}`);
+
+    return update(taskDataRef, {
+      tasks: {
+        ...data.tasks,
+      },
+      columns: {
+        ...data.columns,
+      },
+      columnOrder: data.columnOrder,
     })
       .then(() => {
         return true;
