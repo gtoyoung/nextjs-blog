@@ -15,6 +15,9 @@ export type IColumnProps = {
     content: string;
   }[];
   index: number;
+  addTask: (columnId: string) => void;
+  deleteTask: (columnId: string, taskId: string) => void;
+  deleteColumn: (columnId: string) => void;
 };
 
 export type ITaskProps = {

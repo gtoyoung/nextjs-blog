@@ -6,7 +6,6 @@ import Column from "../../components/task/column";
 import { IData } from "type/task.types";
 import FbDatabase from "services/firebase/database";
 import { useAuth } from "services/authprovider";
-import ContextMenu from "components/util/contextmenu";
 import { onValue } from "firebase/database";
 import toast from "../../components/util/toast";
 
@@ -79,13 +78,18 @@ const TaskPage = () => {
   }, [user, width]);
 
   const createTask = (targetColumn) => {
-    if (data?.tasks) {
-      data.columnOrder.filter((column) => {
-        column.split("-")[1];
-      });
+    if (Object.keys(data.tasks).length > 0) {
+      const taskIdList = Object.keys(data.tasks)
+        .map((key) => {
+          return parseInt(key.split("-")[1]);
+        })
+        .filter((key) => {
+          return key;
+        });
+      const maxNumber = Math.max(...taskIdList);
       const newTask = {
-        id: `task-${Object.keys(data.tasks).length + 1}`,
-        content: `태스크 ${Object.keys(data.tasks).length + 1}`,
+        id: `task-${maxNumber + 1}`,
+        content: `태스크 ${maxNumber + 1}`,
         index: Object.keys(data.tasks).length + 1,
       };
 
@@ -110,16 +114,10 @@ const TaskPage = () => {
         },
       };
 
-      // 데이터 셋팅
-      setData(newData);
-
       // db 삽입
-      db.createTask(
-        user.uid,
-        targetColumn,
-        newColumns.taskIds,
-        newTask.content
-      );
+      db.updateTaskData(user.uid, newData).then(() => {
+        setData(newData);
+      });
     } else {
       const newTask = {
         id: `task-1`,
@@ -148,16 +146,9 @@ const TaskPage = () => {
         },
       };
 
-      // 데이터 셋팅
-      setData(newData);
-
-      // db 삽입
-      db.createTask(
-        user.uid,
-        targetColumn,
-        newColumns.taskIds,
-        newTask.content
-      );
+      db.updateTaskData(user.uid, newData).then(() => {
+        setData(newData);
+      });
     }
   };
 
@@ -193,10 +184,11 @@ const TaskPage = () => {
         columnOrder: [...data.columnOrder, newColumn.id],
         columns: newColumns,
       };
-      setData(newData);
 
       // db 삽입
-      db.createColumn(user.uid, newColumn.id, newColumn.title);
+      db.updateTaskData(user.uid, newData).then(() => {
+        setData(newData);
+      });
     } else {
       const newColumn = {
         id: "column-1",
@@ -213,8 +205,9 @@ const TaskPage = () => {
         columnOrder: ["column-1"],
       };
 
-      setData(newData);
-      db.createColumn(user.uid, newColumn.id, newColumn.title);
+      db.updateTaskData(user.uid, newData).then(() => {
+        setData(newData);
+      });
     }
   };
 
@@ -237,9 +230,10 @@ const TaskPage = () => {
           ...data,
           columnOrder: newColumnOrder,
         };
-        setData(newData);
-        //TODO: columnOrder 업데이트
-        db.updateColumnIndex(user.uid, newColumnOrder);
+
+        db.updateColumnIndex(user.uid, newColumnOrder).then(() => {
+          setData(newData);
+        });
         return;
       }
       const startColumn = data.columns[source.droppableId];
@@ -263,8 +257,6 @@ const TaskPage = () => {
           },
         };
 
-        setData(newData);
-
         //같은 컬럼 데이터에서 index 변경
         db.updateTaskIndex(
           user.uid,
@@ -272,7 +264,9 @@ const TaskPage = () => {
           finishColumn.id,
           newColumn.taskIds,
           null
-        );
+        ).then(() => {
+          setData(newData);
+        });
       } else {
         const startTaskIds = Array.from(startColumn.taskIds);
         startTaskIds.splice(source.index, 1);
@@ -297,15 +291,15 @@ const TaskPage = () => {
           },
         };
 
-        setData(newData);
-
         db.updateTaskIndex(
           user.uid,
           startColumn.id,
           finishColumn.id,
           newStartColumn.taskIds,
           newFinishColumn.taskIds
-        );
+        ).then(() => {
+          setData(newData);
+        });
       }
     },
     [data]
@@ -343,9 +337,9 @@ const TaskPage = () => {
       columnOrder: newColumnOrder,
     };
 
-    setData(newDatas);
-    db.deleteColumn(user.uid, newDatas)
+    db.updateTaskData(user.uid, newDatas)
       .then(() => {
+        setData(newDatas);
         notify("success", "컬럼이 삭제되었습니다.");
       })
       .catch(() => {
@@ -355,15 +349,45 @@ const TaskPage = () => {
         document.getElementById("trash-zone").style.display = "none";
       });
   };
+
+  const deleteTask = (columnId: string, taskId: string) => {
+    // 컬럼에서 데이터 제거
+    const newColumn = {
+      ...data.columns[columnId],
+      taskIds: data.columns[columnId].taskIds.filter((id) => id !== taskId),
+    };
+
+    // task 제거
+    delete data.tasks[taskId];
+
+    const newData: IData = {
+      ...data,
+      columns: {
+        ...data.columns,
+        [newColumn.id]: newColumn,
+      },
+    };
+
+    db.updateTaskData(user.uid, newData)
+      .then(() => {
+        setData(newData);
+        notify("success", "일정이 삭제되었습니다.");
+      })
+      .catch(() => {
+        notify("error", "일정 삭제에 실패했습니다.");
+      });
+  };
+
   return (
     <Layout isMax={true}>
       <h3>Task를 생성해보세요</h3>
-      <ContextMenu createTask={createTask} createColumn={createColumn} />
+      {/* <ContextMenu createTask={createTask} createColumn={createColumn} /> */}
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable
           droppableId="all-columns"
           type="column"
           direction={width >= 900 ? "horizontal" : "vertical"}
+          style={{ alignItems: "center" }}
         >
           {(provided) => (
             <Container {...provided.droppableProps} ref={provided.innerRef}>
@@ -380,6 +404,9 @@ const TaskPage = () => {
                         column={column}
                         tasks={tasks}
                         index={index}
+                        addTask={createTask}
+                        deleteColumn={deleteColumn}
+                        deleteTask={deleteTask}
                       />
                     </>
                   );
@@ -387,6 +414,33 @@ const TaskPage = () => {
               ) : (
                 <>Task Loading...</>
               )}
+              <div
+                id="columnAddBtn"
+                style={{
+                  margin: "8px",
+                  width: "33%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <a
+                  href={"javascript:void(0);"}
+                  onClick={createColumn}
+                  style={{
+                    margin: "auto",
+                    display: "block",
+                    backgroundImage: "none !important",
+                  }}
+                >
+                  <img
+                    src={"/img/plus.png"}
+                    style={{
+                      border: "transparent",
+                      width: "40%",
+                    }}
+                  />
+                </a>
+              </div>
               <div
                 style={{
                   position: "fixed",
@@ -418,7 +472,14 @@ const TaskPage = () => {
                 onDrop={(e) => {
                   e.preventDefault();
                   const columnId = e.dataTransfer.getData("columnId");
-                  deleteColumn(columnId);
+                  const taskId = e.dataTransfer.getData("taskId");
+                  if (columnId && taskId) {
+                    deleteTask(columnId, taskId);
+                  } else if (columnId) {
+                    deleteColumn(columnId);
+                  } else {
+                  }
+
                   return false;
                 }}
               ></div>

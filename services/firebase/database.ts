@@ -298,7 +298,7 @@ class FbDatabase {
       });
   }
 
-  deleteColumn(userId: string, data: IData): Promise<boolean> {
+  updateTaskData(userId: string, data: IData): Promise<boolean> {
     const taskDataRef = this.getRef(`/users/${userId}/${TABLE.TASK_DATA}`);
 
     return update(taskDataRef, {

@@ -20,6 +20,7 @@ const Container = styled.div<IContainer>`
       ? "lightgreen"
       : "white"};
   display: flex;
+  position: relative;
   gap: 8px;
 `;
 
