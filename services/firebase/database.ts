@@ -82,6 +82,7 @@ class FbDatabase {
                 id: value.id,
                 title: value.title,
                 taskIds: value.taskIds ? [...value.taskIds] : [],
+                type: value.type ? value.type : "",
               };
             }
           }
@@ -92,6 +93,7 @@ class FbDatabase {
               result.tasks[key] = {
                 id: value.id,
                 content: value.content,
+                alertDate: value.alertDate ? value.alertDate : null,
               };
             }
           }
@@ -158,6 +160,44 @@ class FbDatabase {
       });
   }
 
+  updateColumnTitle(
+    userId: string,
+    columnId: string,
+    title: string
+  ): Promise<boolean> {
+    return update(
+      ref(this.db, `/users/${userId}/${TABLE.TASK_DATA}/columns/${columnId}`),
+      {
+        title,
+      }
+    )
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
+  }
+
+  updateColumnType(
+    userId: string,
+    columnId: string,
+    type: string
+  ): Promise<boolean> {
+    return update(
+      ref(this.db, `/users/${userId}/${TABLE.TASK_DATA}/columns/${columnId}`),
+      {
+        type,
+      }
+    )
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
+  }
+
   updateColumn(
     userId: string,
     columnId: string,
@@ -181,7 +221,8 @@ class FbDatabase {
     userId: string,
     targetColumnId: string,
     taskIds: string[],
-    content: string
+    content: string,
+    alertDate: Date
   ): Promise<boolean> {
     let taskId = "task-1";
     return get(ref(this.db, `/users/${userId}/${TABLE.TASK_DATA}/tasks`)).then(
@@ -197,6 +238,7 @@ class FbDatabase {
           {
             id: taskId,
             content,
+            alertDate,
           }
         )
           .then(() => {
@@ -268,14 +310,31 @@ class FbDatabase {
   updateTask(
     userId: string,
     taskId: string,
-    content: string,
-    index: number
+    content: string
   ): Promise<boolean> {
     return update(
       ref(this.db, `/users/${userId}/${TABLE.TASK_DATA}/tasks/${taskId}`),
       {
         content,
-        index,
+      }
+    )
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return false;
+      });
+  }
+
+  updateTaskAlertDate(
+    userId: string,
+    taskId: string,
+    alertDate: Date
+  ): Promise<boolean> {
+    return update(
+      ref(this.db, `/users/${userId}/${TABLE.TASK_DATA}/tasks/${taskId}`),
+      {
+        alertDate,
       }
     )
       .then(() => {
@@ -400,21 +459,41 @@ class FbDatabase {
   //토큰 정보 삽입
   writeToken(userId: string, token: string): Promise<boolean> {
     const tokenRef = ref(this.db, `/users/${userId}/${TABLE.TOKEN}`);
-    const newTokenRef = push(tokenRef);
-    return set(newTokenRef, {
-      token,
-    })
-      .then(() => {
-        return true;
-      })
-      .catch(() => {
-        return false;
-      });
+    return get(tokenRef).then((data: DataSnapshot) => {
+      if (data.val()) {
+        const tokenList = data.val() as string[];
+        const findToken = tokenList.find((t) => {
+          if (t === token) {
+            return true;
+          }
+        });
+
+        if (findToken) {
+          return true;
+        } else {
+          return set(tokenRef, [...data.val(), token])
+            .then(() => {
+              return true;
+            })
+            .catch(() => {
+              return false;
+            });
+        }
+      } else {
+        return set(tokenRef, [token])
+          .then(() => {
+            return true;
+          })
+          .catch(() => {
+            return false;
+          });
+      }
+    });
   }
 
   // 토큰 리스트 조회
   getTokens(userId: string): Promise<string[]> {
-    return get(ref(this.db, `/users/${userId}/${TABLE.POST}`)).then(
+    return get(ref(this.db, `/users/${userId}/${TABLE.TOKEN}`)).then(
       (token: DataSnapshot) => {
         if (token.size === 0) {
           return [];

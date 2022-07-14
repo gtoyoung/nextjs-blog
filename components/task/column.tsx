@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import { BsFillXCircleFill } from "react-icons/bs";
 import { FcDeleteDatabase } from "react-icons/fc";
+import Select from "react-select";
 import { isMobile } from "react-device-detect";
-import { IColumnProps } from "type/task.types";
+import { IColumnProps, ColumnType } from "type/task.types";
 import Task from "./task";
+import FbDatabase from "services/firebase/database";
+import { useAuth } from "services/authprovider";
 
 type ITaskList = {
   isDraggingOver: boolean;
@@ -53,7 +56,6 @@ const DelButton = styled.a`
   position: absolute;
   top: 0;
   right: 0;
-  padding: 9px;
   background-image: none;
   cursor: pointer;
 `;
@@ -62,13 +64,30 @@ const ColDelutton = styled.a`
   position: absolute;
   top: 0;
   right: 0px;
-  padding: 16px;
+  padding: 12px;
   background-image: none;
   cursor: pointer;
 `;
 
 const Column = (props: IColumnProps) => {
   const { column, index, tasks, addTask, deleteColumn, deleteTask } = props;
+  const [edit, setEdit] = useState(false);
+  const [title, setTitle] = useState(column.title);
+  const { user } = useAuth();
+  const db = new FbDatabase(false);
+  const [type, setType] = useState(column.type);
+
+  const updateColumnTitle = () => {
+    if (title === column.title) {
+      setEdit(false);
+    } else {
+      db.updateColumnTitle(user.uid, column.id, title).then(() => {
+        setEdit(false);
+      });
+    }
+  };
+
+  const getOptionValue = (option) => option.value;
 
   return (
     <>
@@ -76,7 +95,42 @@ const Column = (props: IColumnProps) => {
         {(provided) => (
           <Container ref={provided.innerRef} {...provided.draggableProps}>
             <MoveDiv {...provided.dragHandleProps} id={"columnMove"}></MoveDiv>
-            <Title>{column.title}</Title>
+            {edit ? (
+              <input
+                id="column-title"
+                autoFocus
+                value={title}
+                style={{ left: "0px", width: "50%", position: "absolute" }}
+                onChange={(e) => setTitle(e.target.value)}
+                onBlur={() => {
+                  updateColumnTitle();
+                }}
+              />
+            ) : (
+              <Title onDoubleClick={() => setEdit(true)}>{column.title}</Title>
+            )}
+            <div
+              style={{
+                position: "absolute",
+                right: "50px",
+                padding: "7px",
+                width: "160px",
+              }}
+            >
+              <Select
+                getOptionValue={getOptionValue}
+                options={ColumnType}
+                value={
+                  ColumnType[ColumnType.findIndex((x) => x.value === type)]
+                }
+                isSearchable={false}
+                onChange={(e) => {
+                  db.updateColumnType(user.uid, column.id, e.value).then(() => {
+                    setType(e.value);
+                  });
+                }}
+              />
+            </div>
             <ColDelutton
               onTouchStart={(e) => {
                 e.preventDefault();
@@ -102,7 +156,7 @@ const Column = (props: IColumnProps) => {
               draggable={true}
               style={{ cursor: "grabbing" }}
             >
-              <FcDeleteDatabase />
+              <FcDeleteDatabase size={30} />
             </ColDelutton>
             <Droppable droppableId={column.id} type="task">
               {(provided, snapshot) => (
@@ -115,7 +169,12 @@ const Column = (props: IColumnProps) => {
                     {tasks.length > 0 ? (
                       tasks.map((task, idx) => (
                         <div style={{ position: "relative" }}>
-                          <Task key={task.id} task={task} index={idx} />
+                          <Task
+                            key={task.id}
+                            task={task}
+                            index={idx}
+                            parentType={type}
+                          />
                           <DelButton
                             onTouchStart={(e) => {
                               e.preventDefault();
@@ -149,7 +208,7 @@ const Column = (props: IColumnProps) => {
                             }}
                             draggable={"true"}
                           >
-                            <BsFillXCircleFill />
+                            <BsFillXCircleFill size={20} />
                           </DelButton>
                         </div>
                       ))

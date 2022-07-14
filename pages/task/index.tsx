@@ -90,7 +90,7 @@ const TaskPage = () => {
       const newTask = {
         id: `task-${maxNumber + 1}`,
         content: `태스크 ${maxNumber + 1}`,
-        index: Object.keys(data.tasks).length + 1,
+        alertDate: null,
       };
 
       const newTasks = {
@@ -122,7 +122,7 @@ const TaskPage = () => {
       const newTask = {
         id: `task-1`,
         content: "태스크 1",
-        index: 1,
+        alertDate: null,
       };
 
       const newTasks = {
@@ -171,6 +171,7 @@ const TaskPage = () => {
       const newColumn = {
         id: `column-${maxNumber + 1}`,
         title: `컬럼 ${maxNumber + 1}`,
+        type: "",
         taskIds: [],
       };
 
@@ -193,6 +194,7 @@ const TaskPage = () => {
       const newColumn = {
         id: "column-1",
         title: "컬럼 1",
+        type: "",
         taskIds: [],
       };
 
@@ -375,6 +377,9 @@ const TaskPage = () => {
       })
       .catch(() => {
         notify("error", "일정 삭제에 실패했습니다.");
+      })
+      .finally(() => {
+        document.getElementById("trash-zone").style.display = "none";
       });
   };
 
@@ -450,8 +455,8 @@ const TaskPage = () => {
                   left: "50%",
                   marginTop: "-50px",
                   marginLeft: "-50px",
-                  width: 70,
-                  height: 70,
+                  width: 150,
+                  height: 150,
                   display: "none",
                 }}
                 id="trash-zone"
