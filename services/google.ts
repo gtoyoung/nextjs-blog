@@ -120,4 +120,12 @@ export class GoogleApi {
         return false;
       });
   }
+
+  async pushMsgSchedule(): Promise<boolean> {
+    return await this.client.get("/api/google/pushMsg").then(()=>{
+      return true;
+    }).catch(()=>{
+      return false;
+    })
+  }
 }
