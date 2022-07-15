@@ -109,7 +109,12 @@ const Task = ({ task, index, parentType }: ITaskProps) => {
                 {task.content}
               </span>
               <p>
-                {task.alertDate && `Alert date :${new Date(date).toLocaleDateString()} ${new Date(date).toLocaleTimeString()}`}
+                {task.alertDate &&
+                  `Alert date :${new Date(
+                    date
+                  ).toLocaleDateString()} ${new Date(
+                    date
+                  ).toLocaleTimeString()}`}
               </p>
               <MdScheduleSend
                 onClick={handleClick}
@@ -120,7 +125,9 @@ const Task = ({ task, index, parentType }: ITaskProps) => {
                 <DatePicker
                   selected={date}
                   onChange={handleChange}
-                  showTimeSelect
+                  timeInputLabel="Time:"
+                  dateFormat="MM/dd/yyyy h:mm aa"
+                  showTimeInput
                   inline
                 />
               )}
