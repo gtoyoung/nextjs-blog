@@ -63,10 +63,12 @@ button.with-icon {
 
 .otherUser .message-nickname {
   float: right;
+  clear: both;
 }
 
 .otherUser .message-content {
   float: right;
+  clear: both;
 }
 
 .otherUser .message-time {
@@ -75,4 +77,5 @@ button.with-icon {
   font-size: 13px;
   line-height: 2;
   float: right;
+  clear: both;
 }

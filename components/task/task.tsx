@@ -125,7 +125,9 @@ const Task = ({ task, index, parentType }: ITaskProps) => {
                 <DatePicker
                   selected={date}
                   onChange={handleChange}
-                  showTimeSelect
+                  timeInputLabel="Time:"
+                  dateFormat="MM/dd/yyyy h:mm aa"
+                  showTimeInput
                   inline
                 />
               )}

@@ -44,10 +44,7 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
     (pongData) => {
       const newMessage = makeMessage(pongData);
       // 채팅방을 떠났다는 메시지는 현재의 사용자에게서는 제외
-      if (
-        newMessage.type === SOCKET_EVENT.LEAVE_ROOM &&
-        newMessage.nickName === user.displayName
-      ) {
+      if (newMessage.type === SOCKET_EVENT.LEAVE_ROOM && newMessage.nickName === user.displayName) {
         return;
         // 채팅을 typing 중인 상태일 경우 처리
       } else if (newMessage.type === SOCKET_EVENT.TYPING_MESSAGE) {
@@ -114,8 +111,7 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
   return (
     <>
       <h5>
-        <span style={{ fontWeight: "bold" }}>{room.roomName}</span> 채팅방에
-        오신걸 환영합니다.
+        <span style={{ fontWeight: "bold" }}>{room.roomName}</span> 채팅방에 오신걸 환영합니다.
         <br />
         <span>현재 접속자수: {participants}명</span>
       </h5>
@@ -127,23 +123,17 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
             return (
               <div
                 key={index}
-                className={
-                  uid && user.uid !== uid ? "otherUser" : "d-flex flex-row"
-                }
+                className={uid && user.uid !== uid ? "otherUser" : "d-flex flex-row"}
+                style={{ clear: "both" }}
               >
                 {uid && user.uid === uid && (
                   //본인 채팅
                   <>
                     <div className="message-nickname">{nickName}</div>
-                    <div
-                      className="message-content"
-                      style={{ background: "yellow", color: "black" }}
-                    >
+                    <div className="message-content" style={{ background: "yellow", color: "black" }}>
                       <div dangerouslySetInnerHTML={{ __html: content }}></div>
                     </div>
-                    <div className="message-time">
-                      {new Date(time).toLocaleString()}
-                    </div>
+                    <div className="message-time">{new Date(time).toLocaleString()}</div>
                   </>
                 )}
 
@@ -153,16 +143,11 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
                   <>
                     <div className="message-nickname">{nickName}</div>
                     <br />
-                    <div
-                      className="message-content"
-                      style={{ background: "gray", color: "white" }}
-                    >
+                    <div className="message-content" style={{ background: "gray", color: "white" }}>
                       <div dangerouslySetInnerHTML={{ __html: content }}></div>
                     </div>
                     <br />
-                    <div className="message-time">
-                      {new Date(time).toLocaleString()}
-                    </div>
+                    <div className="message-time">{new Date(time).toLocaleString()}</div>
                   </>
                 )}
               </div>
@@ -173,11 +158,7 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
             return (
               <>
                 {user.uid !== uid && (
-                  <div
-                    key={index}
-                    className={"otherUser"}
-                    style={{ width: "20%" }}
-                  >
+                  <div key={index} className={"otherUser"} style={{ width: "20%" }}>
                     <div className="message-nickname">{nickName}</div>
                     <img src="./img/keyboard.gif" />
                   </div>
@@ -188,11 +169,7 @@ const ChatRoom = ({ room }: { room: ChatRoomType }) => {
         </div>
         {user && (
           <div style={{ display: "flex", flexDirection: "row" }}>
-            <MessageForm
-              uid={user.uid}
-              nickName={user.displayName}
-              roomId={room.roomId}
-            >
+            <MessageForm uid={user.uid} nickName={user.displayName} roomId={room.roomId}>
               <button
                 onClick={(e) => {
                   e.preventDefault();

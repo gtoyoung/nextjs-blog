@@ -65,9 +65,9 @@ const TaskPage = () => {
 
     // 반응형 크기에 따라 drag의 방향을 수정하기 위한 처리
     window.addEventListener("resize", () => {
-      if (width > 1330 && window.innerWidth < 1330) {
+      if (width > 900 && window.innerWidth < 900) {
         setWidth(window.innerWidth);
-      } else if (width < 1330 && window.innerWidth > 1330) {
+      } else if (width < 900 && window.innerWidth > 900) {
         setWidth(window.innerWidth);
       }
     });
@@ -391,7 +391,7 @@ const TaskPage = () => {
         <Droppable
           droppableId="all-columns"
           type="column"
-          direction={width >= 1330 ? "horizontal" : "vertical"}
+          direction={width >= 900 ? "horizontal" : "vertical"}
           style={{ alignItems: "center" }}
         >
           {(provided) => (
