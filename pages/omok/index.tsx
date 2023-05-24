@@ -16,6 +16,7 @@ export const OMOK_EVENT = {
   PLAYER_SELECTED: "player_selected",
   PLAYER_READY: "player_ready",
   MESSAGE: "message",
+  SEND_MESSAGE: "send_message",
 };
 
 const OmokPage = () => {

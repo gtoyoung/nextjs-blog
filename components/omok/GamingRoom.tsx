@@ -138,6 +138,10 @@ const GamePanel = ({ roomName, blackPlayer, whitePlayer }) => {
     socket.on(OMOK_EVENT.MESSAGE, (msg) => {
       setMessage((value) => [...value, msg]);
     });
+
+    socket.on(OMOK_EVENT.SEND_MESSAGE, (msg) => {
+      setMessage((value) => [...value, msg]);
+    });
   }, []);
 
   const Player = ({ name, onClick }) => {
@@ -188,6 +192,17 @@ const GamePanel = ({ roomName, blackPlayer, whitePlayer }) => {
         <div className="game-panel__message">
           <p>{message?.map(MessageLine)}</p>
         </div>
+        <input
+          type="text"
+          onKeyPress={(event) => {
+            if (event.key === "Enter") {
+              var text = event.currentTarget.value;
+              socket.emit(OMOK_EVENT.SEND_MESSAGE, text);
+              event.currentTarget.value = "";
+            }
+          }}
+          style={{ width: "100%" }}
+        />
       </div>
       <div className="game-panel__buttons">
         <button className="game-panel__button" onClick={() => socket.emit("player_change", "spectator")}>
