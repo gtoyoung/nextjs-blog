@@ -30,33 +30,18 @@ const Experiment = () => {
             </ol>
           </li> */}
           <li>
-            나무 생성기 - velog 참조
             <ol>
-              <LinkPreview
-                url="https://dovb.vercel.app/trees/index.html"
-                backgroundColor="black"
-                primaryTextColor="white"
-                secondaryTextColor="#ccc"
-                borderColor="black"
-                width="40vw"
-                margin="30px auto"
-                openInNewTab={false}
-              />
+              <a href="/trees">나무 생성기 - velog 참조</a>
             </ol>
           </li>
           <li>
-            Task 개발 페이지
             <ol>
-              <LinkPreview
-                url="https://dovb.vercel.app/task"
-                backgroundColor="black"
-                primaryTextColor="white"
-                secondaryTextColor="#ccc"
-                borderColor="black"
-                width="40vw"
-                margin="30px auto"
-                openInNewTab={false}
-              />
+              <a href="/task">Task 개발 페이지</a>
+            </ol>
+          </li>
+          <li>
+            <ol>
+              <a href="/omok">오목 게임</a>
             </ol>
           </li>
         </ol>

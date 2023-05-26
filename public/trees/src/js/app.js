@@ -5,14 +5,12 @@ class App {
     // 첫번째 레이어
     this.backCanvas = document.createElement("canvas");
     this.backCanvas.classList.add("snowBack");
-    this.backCanvas.style =
-      "position: absolute; top: 0; left: 0; z-index: 0; display: none;";
+    this.backCanvas.style = "position: absolute; top: 0; left: 0; z-index: 0; display: none;";
     document.body.appendChild(this.backCanvas);
     // 두번째 레이어
     this.backCanvas2 = document.createElement("canvas");
     this.backCanvas2.classList.add("rainBack");
-    this.backCanvas2.style =
-      "position: absolute; top: 0; left: 0; z-index: 0; display: none;";
+    this.backCanvas2.style = "position: absolute; top: 0; left: 0; z-index: 0; display: none;";
     document.body.appendChild(this.backCanvas2);
 
     // 세번째 레이어
@@ -80,7 +78,7 @@ class App {
       var top = "20" - (i % 2) * 18 + "px";
       var left = -70 + i * 230 + "px";
       cloud_gif.style = `position: absolute; top: ${top}; left: ${left};`;
-      cloud_gif.src = "./src/img/cloud.gif";
+      cloud_gif.src = "../trees/src/img/cloud.gif";
       this.container.appendChild(cloud_gif);
     }
   }
@@ -118,8 +116,7 @@ class App {
         this.depth + "반복되는 나무가 생성될 예정입니다.";
       this.depth = this.depth + 1;
     } else {
-      document.body.getElementsByClassName("treeCnt")[0].textContent =
-        this.depth + "초과는 생성되지 않습니다.";
+      document.body.getElementsByClassName("treeCnt")[0].textContent = this.depth + "초과는 생성되지 않습니다.";
     }
   }
 
@@ -138,11 +135,7 @@ class App {
 
     this.day = true;
 
-    this.nightBtn.addEventListener(
-      "click",
-      this.nightBtnHandler.bind(this),
-      false
-    );
+    this.nightBtn.addEventListener("click", this.nightBtnHandler.bind(this), false);
     this.dayBtn.addEventListener("click", this.dayBtnHandler.bind(this), false);
   }
 

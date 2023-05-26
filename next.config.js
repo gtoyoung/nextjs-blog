@@ -35,8 +35,12 @@ const nextConfig = {
   rewrites: async () => {
     return [
       {
-        source: "/:trees",
+        source: "/trees",
         destination: "/trees/index.html",
+      },
+      {
+        source: "/soccer",
+        destination: "/soccer/index.html",
       },
     ];
   },

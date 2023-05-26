@@ -1,11 +1,8 @@
 <html>
   <head>
     <title>나무 생성기</title>
-    <link rel="stylesheet" href="./src/css/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/papercss@1.8.3/dist/paper.min.css"
-    />
+    <link rel="stylesheet" href="../trees/src/css/style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/papercss@1.8.3/dist/paper.min.css" />
     <script>
       function backgroundChange(type) {
         if (type === "G") {
@@ -13,18 +10,16 @@
           document.getElementsByClassName("rainBack")[0].style = "display:none";
         } else if (type === "R") {
           document.getElementsByClassName("snowBack")[0].style = "display:none";
-          document.getElementsByClassName("rainBack")[0].style =
-            "display:block";
+          document.getElementsByClassName("rainBack")[0].style = "display:block";
         } else if (type === "S") {
-          document.getElementsByClassName("snowBack")[0].style =
-            "display:block";
+          document.getElementsByClassName("snowBack")[0].style = "display:block";
           document.getElementsByClassName("rainBack")[0].style = "display:none";
         }
       }
     </script>
   </head>
   <body>
-    <script src="./src/js/app.js" type="module"></script>
+    <script src="../trees/src/js/app.js" type="module"></script>
     <nav class="border fixed split-nav">
       <div class="nav-brand">
         <h3><a href="#" class="treeCnt">화면을 지속적으로 클릭해주세요.</a></h3>
