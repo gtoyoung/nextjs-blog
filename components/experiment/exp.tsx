@@ -1,5 +1,4 @@
 import React from "react";
-import { LinkPreview } from "@dhaiwat10/react-link-preview";
 import "./style.css";
 
 const Experiment = () => {
