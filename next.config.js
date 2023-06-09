@@ -42,6 +42,10 @@ const nextConfig = {
         source: "/soccer",
         destination: "/soccer/index.html",
       },
+      {
+        source: "/cloud",
+        destination: "/cloud/index.html",
+      },
     ];
   },
   headers: async () => {
