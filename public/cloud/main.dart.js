@@ -161787,14 +161787,14 @@
     B.ke = new A.oe(1, "topRight");
     B.fV = new A.oe(2, "bottomLeft");
     B.AJ = new A.r9(
-      "%NEXT_PUBLIC_FB_API_KEY_CLOUD%",
-      "%NEXT_PUBLIC_FB_APP_ID_CLOUD%",
-      "%NEXT_PUBLIC_FB_SENDER_ID_CLOUD%",
-      "%NEXT_PUBLIC_FB_PROJECT_ID_CLOUD%",
-      "%NEXT_PUBLIC_FB_AUTH_DOMAIN_CLOUD%",
-      "%NEXT_PUBLIC_FB_DB_URL_CLOUD%",
-      "%NEXT_PUBLIC_FB_STORAGE_BUCKET_CLOUD%",
-      "%NEXT_PUBLIC_FB_MEASURE_ID_CLOUD%",
+      "AIzaSyDED2fYBgPXszBE8K-iRdkW2NUx7VM_CNM",
+      "1:487590574701:web:69f4df7f78b5bf9ad31d64",
+      "864189308133",
+      "flutter-69334",
+      "flutter-69334.firebaseapp.com",
+      "https://flutter-69334-default-rtdb.firebaseio.com",
+      "flutter-69334.appspot.com",
+      "G-C1YN3KSQ63",
       null,
       null,
       null,
