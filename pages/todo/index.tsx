@@ -13,7 +13,6 @@ import { Box, CircularProgress, Stack } from "@mui/material";
 import { useAuth } from "services/authprovider";
 import Pagination from "@mui/material/Pagination";
 import usePagination from "services/pagination";
-import "./style.css";
 import { onValue } from "firebase/database";
 
 const Todo = () => {

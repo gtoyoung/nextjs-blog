@@ -4,7 +4,6 @@ import { useImgIObserver } from "hook/useImgIObserver";
 import Lightbox from "react-image-lightbox";
 import InfiniteScroll from "react-infinite-scroll-component";
 import "react-image-lightbox/style.css";
-import "./style.css";
 import { NasaApi } from "services/nasa";
 import { PapagoApi } from "services/papago";
 

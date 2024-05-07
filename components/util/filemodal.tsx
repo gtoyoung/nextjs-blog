@@ -81,37 +81,21 @@ const FileModal = ({ uid, onClose, customClick }) => {
       <Box sx={{ ...style, width: 450 }}>
         <TabContext value={value + ""}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList
-              onChange={handleChange}
-              aria-label="lab API tabs example"
-              centered
-            >
+            <TabList onChange={handleChange} aria-label="lab API tabs example" centered>
               <Tab
                 label="이미지 직접 선택"
                 value="1"
-                style={
-                  theme === "dark" ? { color: "white" } : { color: "black" }
-                }
+                style={theme === "dark" ? { color: "white" } : { color: "black" }}
                 disabled={customClick}
               />
-              <Tab
-                label="GIPHY"
-                value="2"
-                style={
-                  theme === "dark" ? { color: "white" } : { color: "black" }
-                }
-              />
+              <Tab label="GIPHY" value="2" style={theme === "dark" ? { color: "white" } : { color: "black" }} />
             </TabList>
           </Box>
           <TabPanel value="1">
             <div className="imgDiv">
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
-                {isDragActive ? (
-                  <p>등록합니다.</p>
-                ) : (
-                  <p>이미지 파일만 올려주세요(ex).jpg, .gif etc...)</p>
-                )}
+                {isDragActive ? <p>등록합니다.</p> : <p>이미지 파일만 올려주세요(ex).jpg, .gif etc...)</p>}
               </div>
             </div>
             <ImgList items={pictures} uid={uid} />

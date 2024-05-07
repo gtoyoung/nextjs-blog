@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./style.css";
 
 export const Balloon = ({ position, title, clickPost }) => {
   const [left, setLeft] = useState(0);

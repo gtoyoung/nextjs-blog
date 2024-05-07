@@ -1,7 +1,6 @@
 import React from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import "./style.css";
 import FbStorage from "services/firebase/storage";
 import FbDatabase from "services/firebase/database";
 import { CircularProgress } from "@material-ui/core";

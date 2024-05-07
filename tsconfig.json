@@ -3,7 +3,10 @@
     "target": "esnext",
     "module": "esnext",
     "jsx": "preserve",
-    "lib": ["dom", "es2017"],
+    "lib": [
+      "dom",
+      "es2017"
+    ],
     "moduleResolution": "node",
     "allowJs": true,
     "noEmit": true,
@@ -21,7 +24,8 @@
     "isolatedModules": true,
     "noImplicitAny": false,
     "strictNullChecks": false,
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "incremental": true
   },
   "exclude": [
     "node_modules",
@@ -30,5 +34,11 @@
     "**/*.test.ts",
     "**/*.test.tsx"
   ],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/web3D/*.jsx", "pages/task/index.tsx"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "components/web3D/*.jsx",
+    "pages/task/index.tsx"
+  ]
 }

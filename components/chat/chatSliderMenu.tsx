@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import CheeseburgerMenu from "cheeseburger-menu";
+// import CheeseburgerMenu from "cheeseburger-menu";
 import HamburgerMenu from "react-hamburger-menu";
-import ChatRoomListRenew from "./chatRoomListRenew";
-import "./style.css";
 
-const ChatSliderMenu = ({ selectedRoom, color }) => {
+const ChatSliderMenu = ({ color }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
       <br />
-      <CheeseburgerMenu isOpen={isOpen} closeCallback={() => setIsOpen(false)}>
+      {/* <CheeseburgerMenu isOpen={isOpen} closeCallback={() => setIsOpen(false)}>
         <ChatRoomListRenew
           selectedRoom={(room) => {
             selectedRoom(room);
@@ -20,7 +18,7 @@ const ChatSliderMenu = ({ selectedRoom, color }) => {
             setIsOpen(false);
           }}
         />
-      </CheeseburgerMenu>
+      </CheeseburgerMenu> */}
 
       <HamburgerMenu
         isOpen={isOpen}

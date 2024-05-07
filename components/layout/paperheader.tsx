@@ -113,47 +113,47 @@ export const CustomHeader = () => {
               </a>
             </li>
             <li>
-              <Link href="/">
+              <Link href="/" legacyBehavior>
                 <a>Home</a>
               </Link>
             </li>
             <li>
-              <Link href="/blog">
+              <Link href="/blog" legacyBehavior>
                 <a>Blog</a>
               </Link>
             </li>
             <li>
-              <Link href="/space">
+              <Link href="/space" legacyBehavior>
                 <a>Space</a>
               </Link>
             </li>
             <li>
-              <Link href="/poke">
+              <Link href="/poke" legacyBehavior>
                 <a>Pokemon</a>
               </Link>
             </li>
             {user && (
               <>
                 <li>
-                  <Link href="/todo">
+                  <Link href="/todo" legacyBehavior>
                     <a>Todo</a>
                   </Link>
                 </li>
-                <li>
-                  <Link href="/chat">
+                {/* <li>
+                  <Link href="/chat" legacyBehavior>
                     <a>Chat</a>
                   </Link>
-                </li>
+                </li> */}
               </>
             )}
             <li>
-              <Link href="/experiment">
+              <Link href="/experiment" legacyBehavior>
                 <a>Exp</a>
               </Link>
             </li>
             {isAdmin && (
               <li>
-                <Link href="/admin">
+                <Link href="/admin" legacyBehavior>
                   <a>Admin</a>
                 </Link>
               </li>

@@ -3,7 +3,6 @@ import { BlogPost } from "services";
 import styled from "styled-components";
 import { Toc } from "components/util/toc";
 import { MarkDown } from "components/util/markdown";
-import "./style.css";
 
 const TocDiv = styled.div`
   position: fixed;
@@ -26,9 +25,9 @@ export const BlogDetail = (props: BlogDetailProps) => {
           Written by {post.author?.name ? "DOVB" : post.author?.name} on{" "}
           {`${post.publishedDate}   realted tag ${mainTag}`}
         </p>
-        <p className="text-lead">
+        <div className="text-lead">
           <MarkDown source={post.body} />
-        </p>
+        </div>
         <TocDiv>
           <Toc content={post.body} />
         </TocDiv>

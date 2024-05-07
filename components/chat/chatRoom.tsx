@@ -3,7 +3,6 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useAuth } from "services/authprovider";
 import { SocketContext, SOCKET_EVENT, makeMessage } from "services/socket";
 import MessageForm from "./messageForm";
-import "./style.css";
 
 type ChatRoomType = {
   roomName: string;

@@ -20,7 +20,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useAuth } from "services/authprovider";
 import FbDatabase from "services/firebase/database";
 import { GoogleApi } from "services/google";
-import "./style.css";
 
 const db = new FbDatabase(false);
 const googleApi = new GoogleApi();
@@ -172,19 +171,12 @@ const ChatRoomListRenew = ({ selectedRoom, closedMenu }) => {
           <Chip label="방 목록" />
         </Divider>
         <br />
-        <List
-          sx={{ width: 500, bgcolor: "Background.paper" }}
-          aria-labelledby="nested-list-subheader"
-          component="div"
-        >
+        <List sx={{ width: 500, bgcolor: "Background.paper" }} aria-labelledby="nested-list-subheader" component="div">
           {chatRooms.map((room) => {
             return (
               <>
                 <a href="#javascript">
-                  <ListItem
-                    alignItems="flex-start"
-                    style={{ border: "1px solid black" }}
-                  >
+                  <ListItem alignItems="flex-start" style={{ border: "1px solid black" }}>
                     <ListItemAvatar>
                       <Avatar
                         alt=""

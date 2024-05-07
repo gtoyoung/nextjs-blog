@@ -1,5 +1,5 @@
 import React from "react";
-import "./style.css";
+// import "./style.css";
 import Link from "next/link";
 
 const defaultProps = {
@@ -27,14 +27,14 @@ export const BlogBox = (props: BlogBoxProps) => {
 
   return (
     <div className="card">
-      <Link href="/blog/[slug]" as={`/blog/${props.slug}`} passHref>
+      <Link href="/blog/[slug]" as={`/blog/${props.slug}`} passHref legacyBehavior>
         <a>
           <img src={props.imageUrl} style={{ width: "auto", height: "auto" }} />
         </a>
       </Link>
 
       <div className="card-body">
-        <Link href="/blog/[slug]" as={`/blog/${props.slug}`} passHref>
+        <Link href="/blog/[slug]" as={`/blog/${props.slug}`} passHref legacyBehavior>
           <a>
             <h3 className="card-title">{props.title}</h3>
           </a>

@@ -4,7 +4,7 @@ import { WatingRoom } from "components/omok/WaitingRoom";
 import { useEffect, useState } from "react";
 import { SocketContext, socket } from "services/socket";
 import { OmokRoom } from "type/omok.types";
-import "./style.css";
+// import "./style.css";
 
 export const OMOK_EVENT = {
   ROOM_LIST: "room_list",

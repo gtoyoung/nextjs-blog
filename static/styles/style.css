@@ -287,3 +287,352 @@ body {
     transform: rotate(35deg);
   }
 }
+
+
+/*블로그 영역*/
+.row .child-borders {
+  margin-left: auto;
+}
+.card {
+  --primary: none;
+}
+
+.card {
+  width: 15rem;
+}
+
+.card a {
+  background-image: none;
+}
+
+.card img {
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+}
+
+.card .cardBody {
+  padding: 0.25rem;
+}
+
+.cardBody h3 {
+  font-size: 1rem;
+}
+
+.card-body h4 {
+  font-size: 0.9rem;
+}
+
+.article nav {
+  display: block;
+}
+
+.article hr:after {
+  content: "";
+}
+
+.breadcrumb a {
+  font-size: 0.8rem;
+}
+
+ul.breadcrumb li {
+  display: inline;
+  font-size: 13px;
+}
+
+ul.breadcrumb li + li:before {
+  content: "\A0\A0\A0,";
+  /* padding: 8px; */
+}
+
+.paper-btn.btn-small,
+[type="button"].btn-small,
+button.btn-small {
+  padding: 0.25rem;
+}
+
+@media screen and (max-width: 767px) {
+  article .article-title {
+    font-size: 2rem;
+  }
+  article h2 {
+    font-size: 1.5rem;
+  }
+
+  article h3 {
+    font-size: 1.2rem;
+  }
+
+  article ol li {
+    font-size: 1rem;
+  }
+
+  article .text-lead p {
+    font-size: 1rem;
+  }
+}
+
+/*채팅영역*/
+#root {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+button.with-icon {
+  display: flex;
+}
+
+.w300 {
+  width: 300px;
+}
+
+.message-nickname {
+  display: flex;
+  font-weight: bold;
+  margin-right: 4px;
+}
+
+.message-content {
+  border-radius: 50px;
+  border-style: 1px solid;
+  border: 1px solid black;
+  margin: 5px;
+  padding: 10px;
+  width: fit-content;
+}
+
+.send-btn {
+  height: 38px;
+  margin-left: 6px;
+}
+
+.card_msg {
+  padding: 14px;
+  width: 100%;
+}
+
+.text-box {
+  padding: 6px;
+}
+
+.message-time {
+  margin-left: 4px;
+  color: #aaa;
+  font-size: 13px;
+  line-height: 2;
+}
+
+.chat-window {
+  height: 400px;
+  width: 100%;
+  overflow-y: auto;
+}
+.chat-window::-webkit-scrollbar {
+  display: none;
+}
+
+.otherUser {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.otherUser .message-nickname {
+  float: right;
+  clear: both;
+}
+
+.otherUser .message-content {
+  float: right;
+  clear: both;
+}
+
+.otherUser .message-time {
+  margin-left: 4px;
+  color: #aaa;
+  font-size: 13px;
+  line-height: 2;
+  float: right;
+  clear: both;
+}
+
+/* Space 영역 */
+.row_nasa {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create two equal columns that sits next to each other */
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+}
+
+img {
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  border: 2px solid #41403e;
+  border-color: var(--primary);
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+/* 포켓몬 영역 */
+.MuiAutocomplete-endAdornment button {
+  border: 0px !important;
+  padding: 0px !important;
+}
+
+.MuiAutocomplete-root {
+  width: 100% !important;
+  padding-bottom: 50px;
+}
+
+.drawer-modal {
+  margin-top: 10px;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+  height: 80%;
+  border-radius: 10%;
+}
+
+@media screen and (max-width: 867px) {
+  .drawer-modal {
+    width: 100%;
+  }
+}
+
+/* TODO 영역 */
+.balloon {
+  position: absolute;
+  left: 0;
+  bottom: -120px;
+  height: 120px;
+  width: 100px;
+
+  line-height: 115px;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  border-radius: 80%;
+  animation: move 6s infinite linear;
+  display: block;
+}
+.stick {
+  content: "";
+  width: 0.1rem;
+  height: 50%;
+  background: rgba(50, 50, 50, 0.8);
+  display: inline-block;
+  position: absolute;
+  overflow: visible;
+}
+/* .balloon:nth-child(even) {
+  left: 120px;
+  animation-delay: 2s;
+}
+.balloon:nth-child(odd) {
+  left: 240px;
+  animation-delay: 4s;
+} */
+@keyframes move {
+  0% {
+    bottom: -120px;
+  }
+  100% {
+    bottom: 100%;
+  }
+}
+
+.postMain {
+  height: 100px;
+  width: 100% !important;
+}
+
+.postCard {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block;
+}
+
+.postContent {
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.MuiPagination-ul li:before {
+  content: "" !important;
+}
+
+.MuiPagination-ul li button {
+  border-radius: 50px;
+}
+
+.MuiPagination-root {
+  display: flex;
+  justify-content: center;
+}
+
+
+
+/* glyphy영역*/
+
+.close {
+  position: absolute;
+  float: left;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  margin-right: 20px;
+}
+
+.close:after {
+  content: "\00d7";
+  font-size: 15pt;
+  line-height: 50px;
+}
+
+.giphyDiv {
+  height: 380px;
+  overflow: scroll;
+}
+
+.giphyDiv::-webkit-scrollbar {
+  display: none;
+}
+
+.imgDiv {
+  border-style: dotted;
+  text-align: center;
+}
+
+.imageListDiv {
+  height: 380px;
+}
+
+.imageListDiv::-webkit-scrollbar {
+  display: none;
+}
+
+div #searchInput {
+  width: 100%;
+}
+
+div .imgLoadingDiv {
+  text-align: center;
+}
+
+.imgLoadingDiv h4 {
+  margin-top: 150px;
+}

@@ -8,7 +8,6 @@ import PokemonCard from "components/poke/pokemonCard";
 import { Pokemons } from "../../components/poke/indexStyle";
 import { PokeSearchBox } from "components/poke/pokeSearchbox";
 import Drawer from "react-drag-drawer";
-import "./style.css";
 
 const db = new FbDatabase(false);
 const pokeApi = new PokeApi();

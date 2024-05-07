@@ -10,6 +10,8 @@ import { AuthProvider } from "services/authprovider";
 import FbDatabase from "services/firebase/database";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../static/styles/style.css"
+
 const DEFAULT_SEO = {
   title: "Dovb`s Blog",
   description: "개발 공부 중",
